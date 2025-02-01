@@ -16,8 +16,8 @@ import frc.robot.Configs;
 import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
-  private final SparkMax leftShooterMotor = new SparkMax(ShooterConstants.kLeftMotorCanId, MotorType.kBrushless);
-  private final SparkMax rightShooterMotor = new SparkMax(ShooterConstants.kRightMotorCanId, MotorType.kBrushless);
+  private final SparkMax leftShooterMotor = new SparkMax(ShooterConstants.kLeftShooterCanId, MotorType.kBrushless);
+  private final SparkMax rightShooterMotor = new SparkMax(ShooterConstants.kRightShooterCanId, MotorType.kBrushless);
   private final SparkClosedLoopController leftPIDController = leftShooterMotor.getClosedLoopController();
   private final SparkClosedLoopController rightPIDController = rightShooterMotor.getClosedLoopController();
 

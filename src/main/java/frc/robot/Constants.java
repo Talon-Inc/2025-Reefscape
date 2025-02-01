@@ -36,25 +36,30 @@ public final class Constants {
   }
 
   public static final class AlgaeConstants {
-    
+    // SPARK MAX CAN IDs
+
   }
 
   public static final class ClimberConstants {
-    
+    // SPARK MAX CAN IDs
+    public static final int kLeftMotorCanId = 17;
   }
 
   public static final class ElevatorConstants {
-
+    // SPARK MAX CAN IDs
+    public static final int kLeftElevatorCanId = 11;
+    public static final int kRightElevatorCanId = 12;
   }
 
   public static final class IntakeConstants {
-
+    // SPARK MAX CAN IDs
+    
   }
 
   public static final class ShooterConstants {
     // SPARK MAX CAN IDs
-    public static final int kLeftMotorCanId = 13;
-    public static final int kRightMotorCanId = 14;
+    public static final int kLeftShooterCanId = 13;
+    public static final int kRightShooterCanId = 14;
   }
 
   public static final class OIConstants {
