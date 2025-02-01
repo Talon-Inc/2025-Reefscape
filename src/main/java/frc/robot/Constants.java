@@ -34,4 +34,30 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+
+  public static final class AlgaeConstants {
+    
+  }
+
+  public static final class ClimberConstants {
+    
+  }
+
+  public static final class ElevatorConstants {
+
+  }
+
+  public static final class IntakeConstants {
+
+  }
+
+  public static final class ShooterConstants {
+
+  }
+
+  public static final class OIConstants {
+    public static final int kDriverControllerPort = 0;
+    public static final double kDriveDeadband = 0.1;
+    public static final double kTriggerButtonThreshold = 0.2;
+  }
 }
