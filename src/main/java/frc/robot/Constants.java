@@ -52,7 +52,9 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-
+    // SPARK MAX CAN IDs
+    public static final int kLeftMotorCanId = 13;
+    public static final int kRightMotorCanId = 14;
   }
 
   public static final class OIConstants {
