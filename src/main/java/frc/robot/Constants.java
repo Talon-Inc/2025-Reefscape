@@ -34,4 +34,37 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+
+  public static final class AlgaeConstants {
+    // SPARK MAX CAN IDs
+
+  }
+
+  public static final class ClimberConstants {
+    // SPARK MAX CAN IDs
+    public static final int kLeftMotorCanId = 17;
+  }
+
+  public static final class ElevatorConstants {
+    // SPARK MAX CAN IDs
+    public static final int kLeftElevatorCanId = 11;
+    public static final int kRightElevatorCanId = 12;
+  }
+
+  public static final class IntakeConstants {
+    // SPARK MAX CAN IDs
+    
+  }
+
+  public static final class ShooterConstants {
+    // SPARK MAX CAN IDs
+    public static final int kLeftShooterCanId = 13;
+    public static final int kRightShooterCanId = 14;
+  }
+
+  public static final class OIConstants {
+    public static final int kDriverControllerPort = 0;
+    public static final double kDriveDeadband = 0.1;
+    public static final double kTriggerButtonThreshold = 0.2;
+  }
 }
