@@ -47,13 +47,13 @@ public final class Constants {
 
   public static final class ElevatorConstants {
     // SPARK MAX CAN IDs
-    public static final int kLeftElevatorCanId = 11;
-    public static final int kRightElevatorCanId = 12;
+    public static final int kLeadElevatorCanId = 11;
+    public static final int kFollowerElevatorCanId = 12;
   }
 
   public static final class IntakeConstants {
     // SPARK MAX CAN IDs
-    
+
   }
 
   public static final class ShooterConstants {
