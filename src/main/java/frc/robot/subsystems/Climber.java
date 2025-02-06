@@ -3,17 +3,17 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 
 public class Climber extends SubsystemBase {
   private final SparkMax climberMotor =
-    new SparkMax(ClimberConstants.kClimberCanId, MotorType.kBrushless);
+      new SparkMax(ClimberConstants.kClimberCanId, MotorType.kBrushless);
   private final RelativeEncoder encoder = climberMotor.getEncoder();
   private final DigitalInput topLimitSwitch = new DigitalInput(0);
   private final DigitalInput bottomLimitSwitch = new DigitalInput(1);
@@ -36,7 +36,11 @@ public class Climber extends SubsystemBase {
   public boolean getLimitSwitchTop() {
     return topLimitSwitch.get();
   }
-  
+
+  public boolean getLimitSwitchBottom() {
+    return bottomLimitSwitch.get();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

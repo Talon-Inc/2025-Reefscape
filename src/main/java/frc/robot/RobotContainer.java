@@ -21,13 +21,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.DriveCommands;
-import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.drive.GyroIO;
-import frc.robot.subsystems.drive.GyroIONavX;
-import frc.robot.subsystems.drive.ModuleIO;
-import frc.robot.subsystems.drive.ModuleIOSim;
-import frc.robot.subsystems.drive.ModuleIOSpark;
+import frc.robot.Constants.OIConstants;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+import frc.robot.subsystems.drive.*;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -39,9 +36,15 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Algae algae = new Algae();
+  private final Climber climber = new Climber();
+  private final Elevator elevator = new Elevator();
+  private final Intake intake = new Intake();
+  private final Shooter shooter = new Shooter();
 
   // Controller
-  private final CommandPS5Controller controller = new CommandPS5Controller(0);
+  private final CommandPS5Controller controller =
+      new CommandPS5Controller(OIConstants.kDriverControllerPort);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -144,6 +147,24 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
                 .ignoringDisable(true));
+
+    // Intake
+    controller.PS().whileTrue(null);
+
+    // Elevator Up
+    controller.L1().whileTrue(null);
+
+    // Elevator Down
+    controller.R1().whileTrue(null);
+
+    // Shooter
+    controller.triangle().whileTrue(null);
+
+    // Climber down when triangle button is pressed
+    controller.create().whileTrue(new ClimbUp(climber));
+
+    // Climber up when x button is pressed
+    controller.options().whileTrue(new ClimbDown(climber));
   }
 
   /**
