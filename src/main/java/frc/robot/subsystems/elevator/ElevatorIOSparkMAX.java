@@ -12,6 +12,8 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
+
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.Constants.ElevatorConstants;
 
 /** Add your docs here. */
@@ -61,6 +63,11 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     SparkMaxConfig pidConfig = new SparkMaxConfig();
     // Set PID Gains
     pidConfig.closedLoop.p(0).i(0).d(0).outputRange(0, 0);
+
+    leadMotor.configure(
+      maxMotionConfig, null, null);
+    leadMotor.configure(
+      pidConfig, null, null);
   }
 
   @Override
@@ -89,7 +96,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
 
   @Override
   public void setPosition(double position) {
-    leadMotor.getClosedLoopController().setReference(position, ControlType.kPosition);
+    leadMotor.getClosedLoopController().setReference(position, ControlType.kMAXMotionPositionControl);
   }
 
   @Override
