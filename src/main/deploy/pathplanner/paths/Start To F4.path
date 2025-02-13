@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.202663934426229,
-        "y": 2.832223360655737
+        "x": 5.203,
+        "y": 2.832
       },
       "prevControl": {
-        "x": 5.684674062337553,
-        "y": 2.8209449583788984
+        "x": 5.685010206875024,
+        "y": 2.8207249729354404
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 119.05460409907708
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Bottom 4 Piece Coral",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

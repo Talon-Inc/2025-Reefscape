@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.214651639344262,
-        "y": 2.748309426229507
+        "x": 5.203,
+        "y": 2.832
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.473095911312858,
-        "y": 2.870627953096632
+        "x": 4.9171494199423575,
+        "y": 2.8386865244357895
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.4145491803278687,
-        "y": 0.9261782786885238
+        "x": 1.415,
+        "y": 0.926
       },
       "prevControl": {
-        "x": 2.700406034254236,
-        "y": 1.5345098049694816
+        "x": 2.70085221903071,
+        "y": 1.5343413231653216
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 53.31027716752414
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Bottom 4 Piece Coral",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 117.21912453454433
