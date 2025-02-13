@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.223,
-        "y": 7.109
+        "x": 1.415,
+        "y": 1.022
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6881014096138476,
-        "y": 6.636778102690164
+        "x": 1.0429303278688524,
+        "y": 1.2018954918032796
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.602,
-        "y": 4.984
+        "x": 4.9868852459016395,
+        "y": 2.7602971311475404
       },
       "prevControl": {
-        "x": 2.768007479249046,
-        "y": 5.680391771240464
+        "x": 5.33452868852459,
+        "y": 2.7722848360655736
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.70355182376157
+    "rotation": 118.88658176691074
   },
   "reversed": false,
-  "folder": "4 Piece Coral",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -55.44222018908904
+    "rotation": 44.99999999999995
   },
   "useDefaultConstraints": true
 }
