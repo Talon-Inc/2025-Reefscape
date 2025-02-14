@@ -5,17 +5,23 @@
 package frc.robot.commands.elevatorCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.ElevatorIOSparkMAX;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class elevatorToL4 extends Command {
+  private final Elevator elevator;
   /** Creates a new elevatorToL4. */
   public elevatorToL4() {
+    elevator = new Elevator(new ElevatorIOSparkMAX());
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    elevator.setPosition(0);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

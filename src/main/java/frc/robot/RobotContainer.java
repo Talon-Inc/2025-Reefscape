@@ -18,14 +18,13 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS5Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 // import frc.robot.Configs.Elevator;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.elevatorCommands.*;
 import frc.robot.commands.elevatorCommands.elevatorToL1;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -35,7 +34,6 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSpark;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.elevator.ElevatorIOSparkMAX;
-import frc.robot.commands.elevatorCommands.*;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -161,11 +159,7 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Move Elevator to Level 1
-    controller
-        .L1()
-        .onTrue(elevatorL1);
-
-
+    controller.L1().onTrue(elevatorL1);
   }
 
   /**
