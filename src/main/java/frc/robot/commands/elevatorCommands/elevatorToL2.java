@@ -2,14 +2,14 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.elevatorCommands;
+package frc.robot.commands.ElevatorCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class elevatorToL2 extends Command {
+public class ElevatorToL2 extends Command {
   /** Creates a new elevatorToL2. */
-  public elevatorToL2() {
+  public ElevatorToL2() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
