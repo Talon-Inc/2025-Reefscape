@@ -24,16 +24,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 // import frc.robot.Configs.Elevator;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.elevatorCommands.*;
-import frc.robot.commands.elevatorCommands.elevatorToL1;
+import frc.robot.commands.ElevatorCommands.ElevatorToL3;
+import frc.robot.subsystems.Elevator.Elevator;
+import frc.robot.subsystems.Elevator.ElevatorIOSparkMAX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIONavX;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSpark;
-import frc.robot.subsystems.elevator.Elevator;
-import frc.robot.subsystems.elevator.ElevatorIOSparkMAX;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -46,7 +45,8 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Elevator elevator;
-  private final elevatorToL1 elevatorL1;
+  // private final ElevatorToL1 elevatorL1;
+  private final ElevatorToL3 elevatorL3;
 
   // Commands
   // private final elevatorToL1 L1;
@@ -60,7 +60,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     elevator = new Elevator(new ElevatorIOSparkMAX());
-    elevatorL1 = new elevatorToL1();
+    elevatorL3 = new ElevatorToL3(elevator);
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
@@ -159,7 +159,7 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Move Elevator to Level 1
-    controller.L1().onTrue(elevatorL1);
+    controller.L1().onTrue(elevatorL3);
   }
 
   /**
