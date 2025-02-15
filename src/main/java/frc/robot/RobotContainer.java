@@ -159,7 +159,7 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Move Elevator to Level 1
-    controller.L1().onTrue(elevatorL3);
+    controller.L1().whileTrue(elevatorL3);
   }
 
   /**

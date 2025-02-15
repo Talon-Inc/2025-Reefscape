@@ -2,18 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.elevator;
+package frc.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
-  private final ElevatorIO io;
+  private final ElevatorIOSparkMAX io;
 
   private final ElevatorIOInputsAutoLogged inputs = new ElevatorIOInputsAutoLogged();
 
   // Constructor
-  public Elevator(ElevatorIO io) {
+  public Elevator(ElevatorIOSparkMAX io) {
     this.io = io;
   }
 
@@ -30,7 +30,7 @@ public class Elevator extends SubsystemBase {
 
   // Set the elevatorto a specific position
   public void setPosition(double position) {
-    io.setPosition(position);
+    io.goToPosition(position);
   }
 
   @Override
