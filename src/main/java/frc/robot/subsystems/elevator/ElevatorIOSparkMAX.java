@@ -86,6 +86,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
         leadMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // m_encoder.setPosition(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
+
   }
 
   @Override
@@ -117,14 +118,15 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     // leadMotor
     //     .getClosedLoopController()
     //     .setReference(position, ControlType.kMAXMotionPositionControl);
+    double linearDist = m_encoder.getPosition();
+    double linearDistance = linearDist / 360 * 2.0 * Math.PI * 1.5;
     m_controller.setGoal(goalPosition);
-    double pidVal = m_controller.calculate(m_encoder.getPosition(), goalPosition);
+    double pidVal = m_controller.calculate(linearDistance, goalPosition);
     double acceleration =
-        (m_controller.calculate(m_encoder.getPosition()) - lastSpeed)
-            / (Timer.getFPGATimestamp() - lastTime);
+        (m_controller.getSetpoint().velocity - lastSpeed) / (Timer.getFPGATimestamp() - lastTime);
     leadMotor.setVoltage(
         pidVal + m_feedforward.calculate(m_controller.getSetpoint().velocity, acceleration));
-    lastSpeed = m_controller.getGoal().velocity;
+    lastSpeed = m_controller.getSetpoint().velocity;
     lastTime = Timer.getFPGATimestamp();
   }
 
