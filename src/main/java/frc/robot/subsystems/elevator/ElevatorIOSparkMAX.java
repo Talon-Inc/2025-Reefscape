@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.elevator;
+package frc.robot.subsystems.Elevator;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -41,10 +41,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
 
     // Invert follower
     SparkMaxConfig followerConfig = new SparkMaxConfig();
-    followerConfig.follow(11, true);
-
-    leadMotor.configure(
-        followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    followerConfig.follow(ElevatorConstants.kLeadElevatorCanId, true);
 
     followerMotor.configure(
         followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -53,17 +50,17 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     // Set MAX Motion parameters
     maxMotionConfig
         .closedLoop
+        .p(0)
+        .i(0)
+        .d(0)
+        .outputRange(0, 0) // set PID gains
         .maxMotion
-        .maxVelocity(0)
-        .maxAcceleration(0)
+        .maxVelocity(0.3)
+        .maxAcceleration(0.3)
         .allowedClosedLoopError(0);
 
-    SparkMaxConfig pidConfig = new SparkMaxConfig();
-    // Set PID Gains
-    pidConfig.closedLoop.p(0).i(0).d(0).outputRange(0, 0);
-
-    leadMotor.configure(maxMotionConfig, null, null);
-    leadMotor.configure(pidConfig, null, null);
+    leadMotor.configure(
+        maxMotionConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   @Override
@@ -97,8 +94,16 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
         .setReference(position, ControlType.kMAXMotionPositionControl);
   }
 
+  public void moveUp() {
+    leadMotor.set(.15);
+  }
+
+  public void moveDown() {
+    leadMotor.set(-.15);
+  }
+
   @Override
   public void stop() {
-    leadMotor.setVoltage(0);
+    leadMotor.set(0);
   }
 }
