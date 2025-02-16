@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.Elevator;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Elevator extends SubsystemBase {
@@ -36,6 +37,12 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Encoder", io.getPosition());
+    SmartDashboard.putNumber("Elevator Velocity", io.getVelocity());
+    // SmartDashboard.putNumber("Encoder Linear Distance", io.getPosition() * 2 * Math.PI *
+    // .472441);
+    SmartDashboard.putNumber("Desired Position", io.getSetpoint());
+    SmartDashboard.putNumber("Desired Velocity", io.getDesiredVeloicty());
   }
 
   public double getPosition() {
@@ -49,4 +56,8 @@ public class Elevator extends SubsystemBase {
   public void resetPosition() {
     io.resetPosition();
   }
+
+  // public void setGoal(double goal) {
+  //   io.setGoal(goal);
+  // }
 }

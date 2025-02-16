@@ -10,7 +10,7 @@ import frc.robot.subsystems.Elevator.Elevator;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorToL3 extends Command {
   private final Elevator elevator;
-  private final double position = .05;
+  private final double position = 3;
 
   /** Creates a new elevatorToL3. */
   public ElevatorToL3(Elevator elevator) {
@@ -21,12 +21,14 @@ public class ElevatorToL3 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    elevator.setPosition(position);
+    // elevator.setGoal(position);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    elevator.setPosition(position);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

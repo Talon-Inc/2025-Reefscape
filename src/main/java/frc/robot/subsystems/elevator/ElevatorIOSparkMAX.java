@@ -20,14 +20,15 @@ import frc.robot.Constants.ElevatorConstants;
 /** Add your docs here. */
 public class ElevatorIOSparkMAX implements ElevatorIO {
   private static double kDt = 0.02;
-  private static double kMaxVelocity = .05;
-  private static double kMaxAccerlation = .05;
-  private static double kP = 1.3;
+  private static double kMaxVelocity = 1.5;
+  private static double kMaxAccerlation = 1.5;
+  private static double kP = 1.5;
   private static double kI = 0;
-  private static double kD = 0.7;
-  private static double kS = 1.1;
-  private static double kG = 1.0;
-  private static double kV = 1.3;
+  private static double kD = 0.0;
+  private static double kS = 0;
+  private static double kG = .58;
+  private static double kV = .671;
+  private static double ka = 0.0301;
   private static double lastSpeed = 0;
   private static double lastTime = Timer.getFPGATimestamp();
 
@@ -39,7 +40,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
       new SparkMax(ElevatorConstants.kFollowerElevatorCanId, MotorType.kBrushless);
 
   // private final SparkClosedLoopController m_controller = leadMotor.getClosedLoopController();
-  private final RelativeEncoder encoder = leadMotor.getEncoder();
+  // private final RelativeEncoder encoder = leadMotor.getEncoder();
 
   // Creates Profile Constraints
   private final TrapezoidProfile.Constraints m_constraints =
@@ -50,7 +51,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
       new ProfiledPIDController(kP, kI, kD, m_constraints);
 
   // Elevator Feedforward
-  private final ElevatorFeedforward m_feedforward = new ElevatorFeedforward(kS, kG, kV);
+  private final ElevatorFeedforward m_feedforward = new ElevatorFeedforward(kS, kG, kV, ka);
 
   private final RelativeEncoder m_encoder = leadMotor.getEncoder();
 
@@ -86,7 +87,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
         leadMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // m_encoder.setPosition(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
-
+    org.littletonrobotics.junction.Logger.recordOutput("Encoder", m_encoder.getPosition());
   }
 
   @Override
@@ -98,36 +99,60 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
   @Override
   public double getPosition() {
     // Get the position from the encoder
-    return encoder.getPosition();
+    return m_encoder.getPosition();
   }
 
   @Override
   public double getVelocity() {
     // Get the Velocity fromt the motor
-    return encoder.getVelocity();
+    return m_encoder.getVelocity();
   }
 
   @Override
   public void resetPosition() {
     // Reset the encoder to the specificed position
-    encoder.setPosition(0);
+    m_encoder.setPosition(0);
   }
+
+  public double getSetpoint() {
+    return m_controller.getSetpoint().position;
+  }
+
+  public double getDesiredVeloicty() {
+    return m_controller.getSetpoint().velocity;
+  }
+
+  // public void setGoal(double goal) {
+  //   m_controller.setGoal(goal);
+  // }
 
   @Override
   public void goToPosition(double goalPosition) {
     // leadMotor
     //     .getClosedLoopController()
     //     .setReference(position, ControlType.kMAXMotionPositionControl);
-    double linearDist = m_encoder.getPosition();
-    double linearDistance = linearDist / 360 * 2.0 * Math.PI * 1.5;
+    // double linearDistance = m_encoder.getPosition() * 2 * Math.PI;
     m_controller.setGoal(goalPosition);
-    double pidVal = m_controller.calculate(linearDistance, goalPosition);
+
+    double pidVal = m_controller.calculate(m_encoder.getPosition(), goalPosition);
     double acceleration =
         (m_controller.getSetpoint().velocity - lastSpeed) / (Timer.getFPGATimestamp() - lastTime);
     leadMotor.setVoltage(
         pidVal + m_feedforward.calculate(m_controller.getSetpoint().velocity, acceleration));
     lastSpeed = m_controller.getSetpoint().velocity;
     lastTime = Timer.getFPGATimestamp();
+
+    // leadMotor.setVoltage(
+    //     m_controller.calculate(m_encoder.getPosition())
+    //         + m_feedforward.calculateWithVelocities(
+    //             m_encoder.getVelocity() / 60 * 2 * Math.PI * 0.012,
+    //             m_controller.getSetpoint().velocity));
+
+    // m_controller.setReference(
+    //     goalPosition,
+    //     ControlType.kPosition,
+    //     ClosedLoopSlot.kSlot0,
+    //     m_feedforward.calculate(m_encoder.getVelocity() / 60 * 2 * Math.PI * .012));
   }
 
   @Override
