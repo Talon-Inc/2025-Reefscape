@@ -4,6 +4,7 @@
 
 package frc.robot.commands.ElevatorCommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator.Elevator;
 
@@ -22,6 +23,8 @@ public class ElevatorToL3 extends Command {
   @Override
   public void initialize() {
     // elevator.setGoal(position);
+    System.out.print("Command Has Started");
+    SmartDashboard.putString("Title", "Command Has Started");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,6 +37,8 @@ public class ElevatorToL3 extends Command {
   @Override
   public void end(boolean interrupted) {
     elevator.stop();
+    System.out.print("Command Has Finished");
+    SmartDashboard.putString("Title", "Command Has Ended");
   }
 
   // Returns true when the command should end.

@@ -43,6 +43,7 @@ public class Elevator extends SubsystemBase {
     // .472441);
     SmartDashboard.putNumber("Desired Position", io.getSetpoint());
     SmartDashboard.putNumber("Desired Velocity", io.getDesiredVeloicty());
+    SmartDashboard.putBoolean("L1 Reached Position", io.getPosition() == 3);
   }
 
   public double getPosition() {

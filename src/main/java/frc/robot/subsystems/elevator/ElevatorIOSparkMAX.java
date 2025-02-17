@@ -20,12 +20,12 @@ import frc.robot.Constants.ElevatorConstants;
 /** Add your docs here. */
 public class ElevatorIOSparkMAX implements ElevatorIO {
   private static double kDt = 0.02;
-  private static double kMaxVelocity = .5;
-  private static double kMaxAccerlation = 2;
+  private static double kMaxVelocity = 1.5;
+  private static double kMaxAccerlation = 1.5;
   private static double kP = 1.5;
   private static double kI = 0;
   private static double kD = 0.0;
-  private static double kS = 0.2;
+  private static double kS = 0;
   private static double kG = .58;
   private static double kV = .671;
   private static double ka = 0.0301;
@@ -141,7 +141,6 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
         pidVal + m_feedforward.calculate(m_controller.getSetpoint().velocity, acceleration));
     lastSpeed = m_controller.getSetpoint().velocity;
     lastTime = Timer.getFPGATimestamp();
-
     // leadMotor.setVoltage(
     //     m_controller.calculate(m_encoder.getPosition())
     //         + m_feedforward.calculateWithVelocities(
