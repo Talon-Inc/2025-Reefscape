@@ -39,11 +39,13 @@ public class ElevatorToL3 extends Command {
     elevator.stop();
     System.out.print("Command Has Finished");
     SmartDashboard.putString("Title", "Command Has Ended");
+    SmartDashboard.putBoolean("3 FInished", elevator.checkGoal());
+    elevator.resetPosition();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return position == elevator.getPosition();
+    return elevator.checkGoal();
   }
 }

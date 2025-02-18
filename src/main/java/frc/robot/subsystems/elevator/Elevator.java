@@ -58,6 +58,10 @@ public class Elevator extends SubsystemBase {
     io.resetPosition();
   }
 
+  public boolean checkGoal() {
+    return io.checkGoal();
+  }
+
   // public void setGoal(double goal) {
   //   io.setGoal(goal);
   // }

@@ -88,6 +88,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
 
     // m_encoder.setPosition(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
     org.littletonrobotics.junction.Logger.recordOutput("Encoder", m_encoder.getPosition());
+    m_controller.setTolerance(.5);
   }
 
   @Override
@@ -111,7 +112,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
   @Override
   public void resetPosition() {
     // Reset the encoder to the specificed position
-    m_encoder.setPosition(0);
+    m_controller.reset(0);
   }
 
   public double getSetpoint() {
@@ -120,6 +121,10 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
 
   public double getDesiredVeloicty() {
     return m_controller.getSetpoint().velocity;
+  }
+
+  public boolean checkGoal() {
+    return m_controller.atGoal();
   }
 
   // public void setGoal(double goal) {
