@@ -164,9 +164,9 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Move Elevator to Level 1
-    controller.povLeft().whileTrue(elevatorL3);
+    controller.povLeft().onTrue(elevatorL3);
     controller.povRight().whileTrue(elevatorL1);
-    controller.povDown().whileTrue(setHome);
+    controller.povDown().onTrue(setHome);
   }
 
   /**
