@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 // import frc.robot.Configs.Elevator;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.ElevatorCommands.ElevatorToL1;
+import frc.robot.commands.ElevatorCommands.ElevatorToL2;
 import frc.robot.commands.ElevatorCommands.ElevatorToL3;
 import frc.robot.commands.ElevatorCommands.setHome;
 import frc.robot.subsystems.Elevator.Elevator;
@@ -53,6 +54,7 @@ public class RobotContainer {
   // Commands
   // private final elevatorToL1 L1;
   private final setHome setHome;
+  private final ElevatorToL2 elevatorL2;
 
   // Controller
   private final CommandPS5Controller controller = new CommandPS5Controller(0);
@@ -64,6 +66,7 @@ public class RobotContainer {
   public RobotContainer() {
     elevator = new Elevator(new ElevatorIOSparkMAX());
     elevatorL3 = new ElevatorToL3(elevator);
+    elevatorL2 = new ElevatorToL2(elevator);
     elevatorL1 = new ElevatorToL1(elevator);
     setHome = new setHome(elevator);
     switch (Constants.currentMode) {
@@ -164,9 +167,10 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Move Elevator to Level 1
-    controller.povLeft().onTrue(elevatorL3);
-    controller.povRight().whileTrue(elevatorL1);
-    controller.povDown().whileTrue(setHome);
+    controller.povLeft().onTrue(elevatorL1);
+    controller.povRight().onTrue(elevatorL2);
+    controller.povUp().onTrue(elevatorL3);
+    controller.povDown().onTrue(setHome);
   }
 
   /**

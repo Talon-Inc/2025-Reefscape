@@ -44,6 +44,7 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("Desired Position", io.getSetpoint());
     SmartDashboard.putNumber("Desired Velocity", io.getDesiredVeloicty());
     SmartDashboard.putBoolean("L1 Reached Position", io.getPosition() == 3);
+    SmartDashboard.putNumber("Position Error", io.getPositionError());
   }
 
   public double getPosition() {
@@ -54,12 +55,16 @@ public class Elevator extends SubsystemBase {
     return io.getVelocity();
   }
 
-  public void resetPosition() {
-    io.resetPosition();
+  public void resetPosition(double newPosition) {
+    io.resetPosition(newPosition);
   }
 
   public boolean checkGoal() {
     return io.checkGoal();
+  }
+
+  public double getPositionError() {
+    return io.getPositionError();
   }
 
   // public void setGoal(double goal) {

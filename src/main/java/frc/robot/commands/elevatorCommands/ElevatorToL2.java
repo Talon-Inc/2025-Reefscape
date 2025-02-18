@@ -4,30 +4,43 @@
 
 package frc.robot.commands.ElevatorCommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Elevator.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorToL2 extends Command {
+  private final Elevator elevator;
+  private double position = 2.6;
+
   /** Creates a new elevatorToL2. */
-  public ElevatorToL2() {
+  public ElevatorToL2(Elevator elevator) {
+    this.elevator = elevator;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    elevator.resetPosition(elevator.getPosition());
+    SmartDashboard.putBoolean("L2 Finished", elevator.checkGoal());
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    elevator.setPosition(position);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    SmartDashboard.putBoolean("L2 Finished", elevator.checkGoal());
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return elevator.checkGoal();
   }
 }

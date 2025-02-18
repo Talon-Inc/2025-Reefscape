@@ -11,7 +11,7 @@ import frc.robot.subsystems.Elevator.Elevator;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorToL3 extends Command {
   private final Elevator elevator;
-  private final double position = 3;
+  private final double position = 5.1;
 
   /** Creates a new elevatorToL3. */
   public ElevatorToL3(Elevator elevator) {
@@ -22,25 +22,26 @@ public class ElevatorToL3 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // elevator.setGoal(position);
+    elevator.resetPosition(elevator.getPosition());
     System.out.print("Command Has Started");
-    SmartDashboard.putString("Title", "Command Has Started");
+    SmartDashboard.putBoolean("L3 Finished", elevator.checkGoal());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // elevator.resetPosition(elevator.getPosition());
     elevator.setPosition(position);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    elevator.stop();
+    // elevator.stop();
     System.out.print("Command Has Finished");
     SmartDashboard.putString("Title", "Command Has Ended");
-    SmartDashboard.putBoolean("3 FInished", elevator.checkGoal());
-    elevator.resetPosition();
+    SmartDashboard.putBoolean("L3 Finished", elevator.checkGoal());
+    // elevator.resetPosition();
   }
 
   // Returns true when the command should end.

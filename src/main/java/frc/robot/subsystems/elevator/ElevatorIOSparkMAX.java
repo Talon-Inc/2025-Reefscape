@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.Elevator;
 
+import java.io.ObjectInputFilter.Config;
+
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -20,8 +22,8 @@ import frc.robot.Constants.ElevatorConstants;
 /** Add your docs here. */
 public class ElevatorIOSparkMAX implements ElevatorIO {
   private static double kDt = 0.02;
-  private static double kMaxVelocity = 1.75;
-  private static double kMaxAccerlation = 2;
+  private static double kMaxVelocity = 2;
+  private static double kMaxAccerlation = 2.25;
   private static double kP = 0.4;
   private static double kI = 0;
   private static double kD = 0.0;
@@ -82,13 +84,15 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     SparkMaxConfig leadMotorConfig = new SparkMaxConfig();
     // Set MAX Motion parameters
     leadMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(50).voltageCompensation(12);
+    leadMotorConfig.softLimit.forwardSoftLimit(6).reverseSoftLimit(.25).forwardSoftLimitEnabled(true).reverseSoftLimitEnabled(true);
 
     leadMotor.configure(
         leadMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // m_encoder.setPosition(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
     org.littletonrobotics.junction.Logger.recordOutput("Encoder", m_encoder.getPosition());
-    m_controller.setTolerance(.5);
+    m_controller.setTolerance(.8);
+    
   }
 
   @Override
@@ -109,10 +113,9 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     return m_encoder.getVelocity();
   }
 
-  @Override
-  public void resetPosition() {
+  public void resetPosition(double newPosition) {
     // Reset the encoder to the specificed position
-    m_controller.reset(0);
+    m_controller.reset(newPosition);
   }
 
   public double getSetpoint() {
@@ -127,6 +130,10 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     return m_controller.atGoal();
   }
 
+  public double getPositionError() {
+    return m_controller.getPositionError();
+  }
+
   // public void setGoal(double goal) {
   //   m_controller.setGoal(goal);
   // }
@@ -138,7 +145,6 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     //     .setReference(position, ControlType.kMAXMotionPositionControl);
     // double linearDistance = m_encoder.getPosition() * 2 * Math.PI;
     m_controller.setGoal(goalPosition);
-
     double pidVal = m_controller.calculate(m_encoder.getPosition(), goalPosition);
     double acceleration =
         (m_controller.getSetpoint().velocity - lastSpeed) / (Timer.getFPGATimestamp() - lastTime);
