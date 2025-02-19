@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems.Elevator;
 
-import java.io.ObjectInputFilter.Config;
-
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -84,7 +82,12 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     SparkMaxConfig leadMotorConfig = new SparkMaxConfig();
     // Set MAX Motion parameters
     leadMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(50).voltageCompensation(12);
-    leadMotorConfig.softLimit.forwardSoftLimit(6).reverseSoftLimit(.25).forwardSoftLimitEnabled(true).reverseSoftLimitEnabled(true);
+    leadMotorConfig
+        .softLimit
+        .forwardSoftLimit(6)
+        .reverseSoftLimit(.25)
+        .forwardSoftLimitEnabled(true)
+        .reverseSoftLimitEnabled(true);
 
     leadMotor.configure(
         leadMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -92,7 +95,6 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     // m_encoder.setPosition(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
     org.littletonrobotics.junction.Logger.recordOutput("Encoder", m_encoder.getPosition());
     m_controller.setTolerance(.8);
-    
   }
 
   @Override

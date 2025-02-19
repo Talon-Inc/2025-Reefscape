@@ -12,6 +12,7 @@ import frc.robot.subsystems.Elevator.Elevator;
 public class ElevatorToL2 extends Command {
   private final Elevator elevator;
   private double position = 2.6;
+  // private LoggedTunableNumber KG = new LoggedTunableNumber("Elevator/kG", 0.0);
 
   /** Creates a new elevatorToL2. */
   public ElevatorToL2(Elevator elevator) {

@@ -6,6 +6,7 @@ package frc.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
 
 public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
@@ -37,11 +38,13 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Encoder", io.getPosition());
+    Logger.recordOutput("Encoder", io.getPosition());
+    // SmartDashboard.putNumber("Encoder", io.getPosition());
     SmartDashboard.putNumber("Elevator Velocity", io.getVelocity());
     // SmartDashboard.putNumber("Encoder Linear Distance", io.getPosition() * 2 * Math.PI *
     // .472441);
-    SmartDashboard.putNumber("Desired Position", io.getSetpoint());
+    // SmartDashboard.putNumber("Desired Position", io.getSetpoint());
+    Logger.recordOutput("Desired motion", io.getSetpoint());
     SmartDashboard.putNumber("Desired Velocity", io.getDesiredVeloicty());
     SmartDashboard.putBoolean("L1 Reached Position", io.getPosition() == 3);
     SmartDashboard.putNumber("Position Error", io.getPositionError());
