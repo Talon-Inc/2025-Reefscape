@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.Elevator;
 
+import edu.wpi.first.cscore.CameraServerJNI.LoggerFunction;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
@@ -40,14 +42,18 @@ public class Elevator extends SubsystemBase {
     // This method will be called once per scheduler run
     Logger.recordOutput("Encoder", io.getPosition());
     // SmartDashboard.putNumber("Encoder", io.getPosition());
-    SmartDashboard.putNumber("Elevator Velocity", io.getVelocity());
+    // SmartDashboard.putNumber("Elevator Velocity", io.getVelocity());
     // SmartDashboard.putNumber("Encoder Linear Distance", io.getPosition() * 2 * Math.PI *
     // .472441);
     // SmartDashboard.putNumber("Desired Position", io.getSetpoint());
-    Logger.recordOutput("Desired motion", io.getSetpoint());
-    SmartDashboard.putNumber("Desired Velocity", io.getDesiredVeloicty());
-    SmartDashboard.putBoolean("L1 Reached Position", io.getPosition() == 3);
-    SmartDashboard.putNumber("Position Error", io.getPositionError());
+    Logger.recordOutput("Desired Motion", io.getSetpoint());
+    Logger.recordOutput("Setpoint Velocity", io.getDesiredVeloicty());
+    Logger.recordOutput("Real Velocity", io.getVelocity());
+    Logger.recordOutput("L1 Reached Position", io.getPosition() == 3);
+    Logger.recordOutput("Position Error", io.getPositionError());
+    // SmartDashboard.putNumber("Desired Velocity", io.getDesiredVeloicty());
+    // SmartDashboard.putBoolean("L1 Reached Position", io.getPosition() == 3);
+    // SmartDashboard.putNumber("Position Error", io.getPositionError());
   }
 
   public double getPosition() {
