@@ -21,7 +21,7 @@ public class setHome extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    elevator.resetPosition(elevator.getPosition());
+    elevator.resetPosition(elevator.getPosition(), 0);
     SmartDashboard.putBoolean("Set Home Finished", elevator.checkGoal());
   }
 

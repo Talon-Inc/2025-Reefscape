@@ -22,11 +22,9 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
   private static double kDt = 0.02;
   private static double kMaxVelocity = .5;
   private static double kMaxAccerlation = .5;
-  private static double kP = 1;
   private static double kI = 0;
   private static double kD = 0.0;
   private static double kS = 0.2;
-  private static double kG = 0.752;
   private static double kV = 0.39;
   private static double ka = 0.165;
   private static double lastSpeed = 0;
@@ -115,9 +113,9 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     return m_encoder.getVelocity();
   }
 
-  public void resetPosition(double newPosition) {
+  public void resetPosition(double newPosition, double newVelocity) {
     // Reset the encoder to the specificed position
-    m_controller.reset(newPosition);
+    m_controller.reset(newPosition, newVelocity);
   }
 
   public double getSetpoint() {

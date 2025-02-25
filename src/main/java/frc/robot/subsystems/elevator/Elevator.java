@@ -4,9 +4,6 @@
 
 package frc.robot.subsystems.Elevator;
 
-import edu.wpi.first.cscore.CameraServerJNI.LoggerFunction;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -64,8 +61,8 @@ public class Elevator extends SubsystemBase {
     return io.getVelocity();
   }
 
-  public void resetPosition(double newPosition) {
-    io.resetPosition(newPosition);
+  public void resetPosition(double newPosition, double newVelocity) {
+    io.resetPosition(newPosition, newVelocity);
   }
 
   public boolean checkGoal() {

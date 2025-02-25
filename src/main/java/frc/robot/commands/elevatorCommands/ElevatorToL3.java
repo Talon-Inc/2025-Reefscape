@@ -22,7 +22,7 @@ public class ElevatorToL3 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    elevator.resetPosition(elevator.getPosition());
+    elevator.resetPosition(elevator.getPosition(), 0);
     System.out.print("Command Has Started");
     SmartDashboard.putBoolean("L3 Finished", elevator.checkGoal());
   }
