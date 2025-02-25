@@ -22,11 +22,13 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
   private static double kDt = 0.02;
   private static double kMaxVelocity = .5;
   private static double kMaxAccerlation = .5;
+  private static double kP = 0;
   private static double kI = 0;
   private static double kD = 0.0;
-  private static double kS = 0.2;
-  private static double kV = 0.39;
-  private static double ka = 0.165;
+  private static double kS = 0.25;
+  private static double kG = .85;
+  private static double kV = 0.315;
+  private static double ka = 0;
   private static double lastSpeed = 0;
   private static double lastTime = Timer.getFPGATimestamp();
 
@@ -80,12 +82,6 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     SparkMaxConfig leadMotorConfig = new SparkMaxConfig();
     // Set MAX Motion parameters
     leadMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(50).voltageCompensation(12);
-    leadMotorConfig
-        .softLimit
-        .forwardSoftLimit(6)
-        .reverseSoftLimit(.25)
-        .forwardSoftLimitEnabled(true)
-        .reverseSoftLimitEnabled(true);
 
     leadMotor.configure(
         leadMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -116,6 +112,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
   public void resetPosition(double newPosition, double newVelocity) {
     // Reset the encoder to the specificed position
     m_controller.reset(newPosition, newVelocity);
+    lastSpeed = m_encoder.getVelocity();
   }
 
   public double getSetpoint() {

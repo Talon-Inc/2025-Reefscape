@@ -11,7 +11,7 @@ import frc.robot.subsystems.Elevator.Elevator;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorToL2 extends Command {
   private final Elevator elevator;
-  private double position = 2.6;
+  private final double position = 2.6;
   // private LoggedTunableNumber KG = new LoggedTunableNumber("Elevator/kG", 0.0);
 
   /** Creates a new elevatorToL2. */
