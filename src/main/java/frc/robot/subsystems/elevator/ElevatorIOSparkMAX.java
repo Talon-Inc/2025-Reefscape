@@ -27,7 +27,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
   private static double kD = 0.0;
   private static double kS = 0.2;
   private static double kG = .85;
-  private static double kV = 0.4903125;
+  private static double kV = 0.49046875;
   private static double ka = 0;
   private static double lastSpeed = 0;
   private static double lastTime = Timer.getFPGATimestamp();
