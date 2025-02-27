@@ -28,14 +28,14 @@ import frc.robot.commands.ElevatorCommands.ElevatorToL1;
 import frc.robot.commands.ElevatorCommands.ElevatorToL2;
 import frc.robot.commands.ElevatorCommands.ElevatorToL3;
 import frc.robot.commands.ElevatorCommands.setHome;
-import frc.robot.subsystems.Elevator.Elevator;
-import frc.robot.subsystems.Elevator.ElevatorIOSparkMAX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIONavX;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSpark;
+import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.ElevatorIOSparkMAX;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
