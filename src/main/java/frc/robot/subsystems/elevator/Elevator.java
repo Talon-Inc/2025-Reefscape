@@ -51,6 +51,10 @@ public class Elevator extends SubsystemBase {
     // SmartDashboard.putNumber("Desired Velocity", io.getDesiredVeloicty());
     // SmartDashboard.putBoolean("L1 Reached Position", io.getPosition() == 3);
     // SmartDashboard.putNumber("Position Error", io.getPositionError());
+    Logger.recordOutput("Motor 11 Voltage", io.get11Voltage());
+    Logger.recordOutput("Motor 11 Current", io.get11Current());
+    Logger.recordOutput("Motor 12 Voltage", io.get12Voltage());
+    Logger.recordOutput("Motor 12 Current", io.get12Current());
   }
 
   public double getPosition() {
