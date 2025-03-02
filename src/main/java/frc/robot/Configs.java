@@ -110,45 +110,8 @@ public final class Configs {
       // Configure basic settings of the left shooter motor
       leftShooter.idleMode(IdleMode.kBrake).smartCurrentLimit(20).voltageCompensation(12);
 
-      /*
-       * Configure the closed loop controller. We want to make sure we set the
-       * feedback sensor as the primary encoder.
-       */
-      leftShooter
-          .closedLoop
-          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          // Set PID values for position control
-          .p(0.1)
-          .i(0)
-          .d(0)
-          .outputRange(-1, 1)
-          .maxMotion
-          // Set MAXMotion parameters for position control
-          .maxVelocity(2000)
-          .maxAcceleration(10000)
-          .allowedClosedLoopError(0.25);
-
       // Configure basic settings of the right shooter motor
-      rightShooter.idleMode(IdleMode.kBrake).smartCurrentLimit(20).voltageCompensation(12);
-
-      /*
-       * Configure the closed loop controller. We want to make sure we set the
-       * feedback sensor as the primary encoder.
-       */
-      rightShooter
-          .inverted(true)
-          .closedLoop
-          .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-          // Set PID values for position control
-          .p(0.1)
-          .i(0)
-          .d(0)
-          .outputRange(-1, 1)
-          .maxMotion
-          // Set MAXMotion parameters for position control
-          .maxVelocity(2000)
-          .maxAcceleration(10000)
-          .allowedClosedLoopError(0.25);
+      rightShooter.idleMode(IdleMode.kBrake).smartCurrentLimit(20).voltageCompensation(12).follow(13, true);
     }
   }
 }

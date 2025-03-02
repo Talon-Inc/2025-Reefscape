@@ -9,6 +9,8 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants.ShooterConstants;
@@ -20,8 +22,7 @@ public class Shooter extends SubsystemBase {
       new SparkMax(ShooterConstants.kRightShooterCanId, MotorType.kBrushless);
   private final SparkClosedLoopController leftPIDController =
       leftShooterMotor.getClosedLoopController();
-  private final SparkClosedLoopController rightPIDController =
-      rightShooterMotor.getClosedLoopController();
+  private final AnalogInput intakeSensor = new AnalogInput(1);
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -44,6 +45,14 @@ public class Shooter extends SubsystemBase {
         Configs.Shooter.rightShooter,
         ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
+  }
+  public void intakeCoral() {
+    leftShooterMotor.set(.2);
+    rightShooterMotor.set(.2);
+  }
+
+  public boolean isCoralLoaded() {
+    return intakeSensor.getVoltage() > 1;
   }
 
   public void shoot() {
