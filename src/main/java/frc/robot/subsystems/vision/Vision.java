@@ -191,6 +191,10 @@ public class Vision extends SubsystemBase {
     Logger.recordOutput(
         "Vision/Summary/RobotPosesRejected",
         allRobotPosesRejected.toArray(new Pose3d[allRobotPosesRejected.size()]));
+
+    // Test Data
+    Logger.recordOutput("Has Targets", hasTargets());
+    Logger.recordOutput("Best Target ID", bestTarget());
   }
 
   @FunctionalInterface
