@@ -111,7 +111,11 @@ public final class Configs {
       leftShooter.idleMode(IdleMode.kBrake).smartCurrentLimit(20).voltageCompensation(12);
 
       // Configure basic settings of the right shooter motor
-      rightShooter.idleMode(IdleMode.kBrake).smartCurrentLimit(20).voltageCompensation(12).follow(13, true);
+      rightShooter
+          .idleMode(IdleMode.kBrake)
+          .smartCurrentLimit(20)
+          .voltageCompensation(12)
+          .follow(13, true);
     }
   }
 }

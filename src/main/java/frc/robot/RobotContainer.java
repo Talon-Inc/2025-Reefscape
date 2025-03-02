@@ -22,12 +22,12 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 // import frc.robot.Configs.Elevator;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.intakeCoral;
-import frc.robot.commands.shootCoral;
 import frc.robot.commands.ElevatorCommands.ElevatorToL1;
 import frc.robot.commands.ElevatorCommands.ElevatorToL2;
 import frc.robot.commands.ElevatorCommands.ElevatorToL3;
 import frc.robot.commands.ElevatorCommands.setHome;
+import frc.robot.commands.intakeCoral;
+import frc.robot.commands.shootCoral;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -37,7 +37,9 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSpark;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.elevator.ElevatorIOSparkMAX;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Climber;
+import frc.robot.commands.deployClimb;
+import frc.robot.commands.climb;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -50,6 +52,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Elevator elevator;
   private final Shooter shooter;
+  private final Climber climber;
 
   private final ElevatorToL1 elevatorL1;
   private final ElevatorToL3 elevatorL3;
@@ -60,6 +63,8 @@ public class RobotContainer {
   private final ElevatorToL2 elevatorL2;
   private final intakeCoral intake;
   private final shootCoral shoot;
+  private final climb climb;
+  private final deployClimb deployClimb;
 
   // Controller
   private final CommandPS5Controller controller = new CommandPS5Controller(0);
@@ -72,6 +77,7 @@ public class RobotContainer {
     // Subsystems
     elevator = new Elevator(new ElevatorIOSparkMAX());
     shooter = new Shooter();
+    climber = new Climber();
 
     // Commands
     elevatorL3 = new ElevatorToL3(elevator);
@@ -80,6 +86,8 @@ public class RobotContainer {
     setHome = new setHome(elevator);
     intake = new intakeCoral(shooter);
     shoot = new shootCoral(shooter);
+    climb = new climb(climber);
+    deployClimb = new deployClimb(climber);
 
     switch (Constants.currentMode) {
       case REAL:
@@ -185,6 +193,8 @@ public class RobotContainer {
     controller.povDown().onTrue(setHome);
     controller.L1().whileTrue(intake);
     controller.R1().whileTrue(shoot);
+    controller.create().whileTrue(deployClimb);
+    controller.create().whileTrue(climb);
   }
 
   /**

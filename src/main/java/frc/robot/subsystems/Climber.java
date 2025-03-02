@@ -4,11 +4,51 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.servohub.ServoHub.ResetMode;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Configs;
+import frc.robot.Constants.ClimberConstants;
 
 public class Climber extends SubsystemBase {
+  private final SparkMax climberMotor =
+      new SparkMax(ClimberConstants.kLeftMotorCanId, MotorType.kBrushless);
+  private final DigitalInput limitSwitchTop = new DigitalInput(2);
+  private final DigitalInput limitSwitchBottom = new DigitalInput(3);
+  
+
   /** Creates a new Climber. */
-  public Climber() {}
+  public Climber() {
+    climberMotor.configure(
+        Configs.Climber.climberConfig,
+        com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters,
+        PersistMode.kPersistParameters);
+  }
+
+  public void deployClimb() {
+    climberMotor.set(-.2);
+  }
+
+  public void climb() {
+    climberMotor.set(.2);
+  }
+
+  public void stopClimber() {
+    climberMotor.stopMotor();
+  }
+
+  public boolean getLimitSwitchTop() {
+    return limitSwitchTop.get();
+  }
+
+  public boolean getLimitSwitchBottom() {
+    return limitSwitchBottom.get();
+  }
+
 
   @Override
   public void periodic() {
