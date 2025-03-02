@@ -173,7 +173,7 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.circle().onTrue(leftAuto);
+    controller.L1().onTrue(leftAuto);
   }
 
   /**
