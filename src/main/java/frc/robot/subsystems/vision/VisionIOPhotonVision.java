@@ -23,6 +23,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 /** IO implementation for real PhotonVision hardware. */
 public class VisionIOPhotonVision implements VisionIO {
@@ -57,7 +59,6 @@ public class VisionIOPhotonVision implements VisionIO {
       } else {
         inputs.latestTargetObservation = new TargetObservation(new Rotation2d(), new Rotation2d());
       }
-
       // Add pose observation
       if (result.multitagResult.isPresent()) { // Multitag result
         var multitagResult = result.multitagResult.get();
@@ -127,5 +128,23 @@ public class VisionIOPhotonVision implements VisionIO {
     for (int id : tagIds) {
       inputs.tagIds[i++] = id;
     }
+  }
+
+  public int getTargetInt() {
+    PhotonPipelineResult target = new PhotonPipelineResult();
+    int bestTarget = target.getBestTarget().getFiducialId();
+    return bestTarget;
+  }
+
+  public PhotonTrackedTarget getTrackedTarget() {
+    PhotonPipelineResult target = new PhotonPipelineResult();
+    PhotonTrackedTarget trackedTarget = target.getBestTarget();
+    return trackedTarget;
+  }
+
+  public boolean hasTargets() {
+    PhotonPipelineResult target = new PhotonPipelineResult();
+    boolean hasTarget = target.hasTargets();
+    return hasTarget;
   }
 }

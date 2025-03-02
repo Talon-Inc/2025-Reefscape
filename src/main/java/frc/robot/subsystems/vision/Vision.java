@@ -29,16 +29,19 @@ import frc.robot.subsystems.vision.VisionIO.PoseObservationType;
 import java.util.LinkedList;
 import java.util.List;
 import org.littletonrobotics.junction.Logger;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class Vision extends SubsystemBase {
   private final VisionConsumer consumer;
   private final VisionIO[] io;
   private final VisionIOInputsAutoLogged[] inputs;
   private final Alert[] disconnectedAlerts;
+  private final VisionIOPhotonVision photonIO;
 
-  public Vision(VisionConsumer consumer, VisionIO... io) {
+  public Vision(VisionConsumer consumer, VisionIOPhotonVision photonIO, VisionIO... io) {
     this.consumer = consumer;
     this.io = io;
+    this.photonIO = photonIO;
 
     // Initialize inputs
     this.inputs = new VisionIOInputsAutoLogged[io.length];
@@ -62,6 +65,18 @@ public class Vision extends SubsystemBase {
    */
   public Rotation2d getTargetX(int cameraIndex) {
     return inputs[cameraIndex].latestTargetObservation.tx();
+  }
+
+  public int bestTarget() {
+    return photonIO.getTargetInt();
+  }
+
+  public boolean hasTargets() {
+    return photonIO.hasTargets();
+  }
+
+  public PhotonTrackedTarget getTrackedTarget() {
+    return photonIO.getTrackedTarget();
   }
 
   @Override

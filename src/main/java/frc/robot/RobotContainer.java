@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.VisionCommands.leftAutoAlign;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIONavX;
@@ -48,6 +49,9 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
 
+  // Commands
+  private final leftAutoAlign leftAuto;
+
   // Controller
   private final CommandPS5Controller controller = new CommandPS5Controller(0);
 
@@ -56,6 +60,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    // leftAuto = new leftAutoAlign(drive, vision);
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
@@ -69,6 +74,7 @@ public class RobotContainer {
         vision =
             new Vision(
                 drive::addVisionMeasurement, new VisionIOPhotonVision(camera0Name, robotToCamera0));
+        leftAuto = new leftAutoAlign(drive, vision);
         break;
 
       case SIM:
@@ -84,6 +90,7 @@ public class RobotContainer {
             new Vision(
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose));
+        leftAuto = new leftAutoAlign(drive, vision);
         break;
 
       default:
@@ -95,7 +102,12 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
-        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {}) {};
+        vision =
+            new Vision(
+                drive::addVisionMeasurement,
+                new VisionIOPhotonVision(camera0Name, robotToCamera0) {},
+                new VisionIO() {}) {};
+        leftAuto = new leftAutoAlign(drive, vision);
         break;
     }
 
@@ -160,6 +172,8 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
                 .ignoringDisable(true));
+
+    controller.circle().onTrue(leftAuto);
   }
 
   /**

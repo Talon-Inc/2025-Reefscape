@@ -4,26 +4,134 @@
 
 package frc.robot.commands.VisionCommands;
 
+import static frc.robot.subsystems.vision.VisionConstants.aprilTagLayout;
+
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.drive.*;
+import frc.robot.subsystems.vision.Vision;
+import java.util.Arrays;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class leftAutoAlign extends Command {
+
+  private static final TrapezoidProfile.Constraints X_CONSTRAINTS =
+      new TrapezoidProfile.Constraints(3, 2);
+  private static final TrapezoidProfile.Constraints Y_CONSTRAINTS =
+      new TrapezoidProfile.Constraints(3, 2);
+  private static final TrapezoidProfile.Constraints OMEGA_CONSTRAINTS =
+      new TrapezoidProfile.Constraints(0, 8);
+
+  private static final int[] REEF_TAGS = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
+  private static final Transform3d TAG_TO_GOAL =
+      new Transform3d(new Translation3d(1.5, 0, 0), new Rotation3d(0, 0, Math.PI));
+  private static Pose2d robotPose;
+
+  private final Drive drive;
+  private final Vision vision;
+
+  private final ProfiledPIDController xController =
+      new ProfiledPIDController(3, 0, 0, X_CONSTRAINTS);
+  private final ProfiledPIDController yController =
+      new ProfiledPIDController(3, 0, 0, Y_CONSTRAINTS);
+  private final ProfiledPIDController omegaController =
+      new ProfiledPIDController(2, 0, 0, OMEGA_CONSTRAINTS);
+
+  private PhotonTrackedTarget lasTarget;
+
   /** Creates a new leftAutoAlign. */
-  public leftAutoAlign() {
+  public leftAutoAlign(Drive drive, Vision vision) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.drive = drive;
+    this.vision = vision;
+
+    xController.setTolerance(.2);
+    yController.setTolerance(.2);
+    omegaController.setTolerance(Units.degreesToRadians(3));
+    omegaController.enableContinuousInput(-Math.PI, Math.PI);
+
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    lasTarget = null;
+    robotPose = drive.getPose();
+    omegaController.reset(robotPose.getRotation().getRadians());
+    xController.reset(robotPose.getX());
+    yController.reset(robotPose.getY());
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    robotPose = drive.getPose();
+    var robotPose3D =
+        new Pose3d(
+            robotPose.getX(),
+            robotPose.getY(),
+            0,
+            new Rotation3d(0, 0, robotPose.getRotation().getRadians()));
+
+    if (vision.hasTargets()) {
+      if (Arrays.stream(REEF_TAGS).anyMatch(n -> n == vision.bestTarget())) {
+        lasTarget = vision.getTrackedTarget();
+        var targetPose = aprilTagLayout.getTagPose(vision.bestTarget());
+        Pose3d targetPose3D =
+            new Pose3d(
+                targetPose.get().getX(),
+                targetPose.get().getY(),
+                targetPose.get().getZ(),
+                targetPose.get().getRotation());
+
+        var goalPose = targetPose3D.transformBy(TAG_TO_GOAL).toPose2d();
+
+        xController.setGoal(goalPose.getX());
+        yController.setGoal(goalPose.getY());
+        omegaController.setGoal(goalPose.getRotation().getRadians());
+      }
+    }
+
+    if (lasTarget == null) {
+      drive.stop();
+    } else {
+      // Drive to the Target
+      var xSpeed = xController.calculate(robotPose3D.getX());
+      if (xController.atGoal()) {
+        xSpeed = 0;
+      }
+
+      var ySpeed = yController.calculate(robotPose3D.getY());
+      if (yController.atGoal()) {
+        ySpeed = 0;
+      }
+
+      var omegaSpeed = omegaController.calculate(robotPose.getRotation().getRadians());
+      if (omegaController.atGoal()) {
+        omegaSpeed = 0;
+      }
+
+      drive.runVelocity(
+          ChassisSpeeds.fromFieldRelativeSpeeds(
+              xSpeed, ySpeed, omegaSpeed, robotPose.getRotation()));
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    drive.stop();
+  }
 
   // Returns true when the command should end.
   @Override
