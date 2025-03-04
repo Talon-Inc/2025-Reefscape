@@ -26,8 +26,12 @@ import frc.robot.commands.ElevatorCommands.ElevatorToL1;
 import frc.robot.commands.ElevatorCommands.ElevatorToL2;
 import frc.robot.commands.ElevatorCommands.ElevatorToL3;
 import frc.robot.commands.ElevatorCommands.setHome;
+import frc.robot.commands.climb;
+import frc.robot.commands.deployClimb;
 import frc.robot.commands.intakeCoral;
 import frc.robot.commands.shootCoral;
+import frc.robot.commands.shootCoralSidways;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -37,9 +41,6 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSpark;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.elevator.ElevatorIOSparkMAX;
-import frc.robot.subsystems.Climber;
-import frc.robot.commands.deployClimb;
-import frc.robot.commands.climb;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -65,6 +66,7 @@ public class RobotContainer {
   private final shootCoral shoot;
   private final climb climb;
   private final deployClimb deployClimb;
+  private final shootCoralSidways shootSideways;
 
   // Controller
   private final CommandPS5Controller controller = new CommandPS5Controller(0);
@@ -88,6 +90,7 @@ public class RobotContainer {
     shoot = new shootCoral(shooter);
     climb = new climb(climber);
     deployClimb = new deployClimb(climber);
+    shootSideways = new shootCoralSidways(shooter);
 
     switch (Constants.currentMode) {
       case REAL:
@@ -187,14 +190,15 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Move Elevator to Level 1
-    controller.povLeft().onTrue(elevatorL1);
-    controller.povRight().onTrue(elevatorL2);
-    controller.povUp().onTrue(elevatorL3);
-    controller.povDown().onTrue(setHome);
+    // controller.povLeft().onTrue(elevatorL1);
+    // controller.povRight().onTrue(elevatorL2);
+    // controller.povUp().onTrue(elevatorL3);
+    // controller.povDown().onTrue(setHome);
     controller.L1().whileTrue(intake);
     controller.R1().whileTrue(shoot);
-    controller.create().whileTrue(deployClimb);
-    controller.create().whileTrue(climb);
+    controller.R3().whileTrue(shootSideways);
+    // controller.create().whileTrue(deployClimb);
+    // controller.create().whileTrue(climb);
   }
 
   /**

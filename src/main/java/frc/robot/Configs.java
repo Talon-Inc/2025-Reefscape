@@ -115,7 +115,7 @@ public final class Configs {
           .idleMode(IdleMode.kBrake)
           .smartCurrentLimit(20)
           .voltageCompensation(12)
-          .follow(13, true);
+          .inverted(true);
     }
   }
 }
