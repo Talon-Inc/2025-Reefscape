@@ -16,6 +16,7 @@ package frc.robot.subsystems.vision;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.AutoLog;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 public interface VisionIO {
   @AutoLog
@@ -25,10 +26,15 @@ public interface VisionIO {
         new TargetObservation(new Rotation2d(), new Rotation2d());
     public PoseObservation[] poseObservations = new PoseObservation[0];
     public int[] tagIds = new int[0];
+    public boolean hasTargets = false;
+    public PhotonTrackedTarget bestTrackedTarget;
+    public int bestTargetID;
   }
 
   /** Represents the angle to a simple target, not used for pose estimation. */
   public static record TargetObservation(Rotation2d tx, Rotation2d ty) {}
+
+  public static record hasTargets() {}
 
   /** Represents a robot pose sample used for pose estimation. */
   public static record PoseObservation(

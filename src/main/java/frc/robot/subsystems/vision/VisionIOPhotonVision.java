@@ -23,8 +23,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import org.photonvision.PhotonCamera;
-import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
 
 /** IO implementation for real PhotonVision hardware. */
 public class VisionIOPhotonVision implements VisionIO {
@@ -58,6 +56,15 @@ public class VisionIOPhotonVision implements VisionIO {
                 Rotation2d.fromDegrees(result.getBestTarget().getPitch()));
       } else {
         inputs.latestTargetObservation = new TargetObservation(new Rotation2d(), new Rotation2d());
+      }
+      if (result.hasTargets()) {
+        inputs.hasTargets = true;
+        inputs.bestTrackedTarget = result.getBestTarget();
+        inputs.bestTargetID = result.getBestTarget().getFiducialId();
+      } else {
+        inputs.hasTargets = false;
+        inputs.bestTrackedTarget = null;
+        inputs.bestTargetID = -1;
       }
       // Add pose observation
       if (result.multitagResult.isPresent()) { // Multitag result
@@ -130,21 +137,21 @@ public class VisionIOPhotonVision implements VisionIO {
     }
   }
 
-  public int getTargetInt() {
-    PhotonPipelineResult target = new PhotonPipelineResult();
-    int bestTarget = target.getBestTarget().getFiducialId();
-    return bestTarget;
-  }
+  // public int getTargetInt() {
+  //   PhotonPipelineResult target = new PhotonPipelineResult();
+  //   int bestTarget = target.getBestTarget().getFiducialId();
+  //   return bestTarget;
+  // }
 
-  public PhotonTrackedTarget getTrackedTarget() {
-    PhotonPipelineResult target = new PhotonPipelineResult();
-    PhotonTrackedTarget trackedTarget = target.getBestTarget();
-    return trackedTarget;
-  }
+  // public PhotonTrackedTarget getTrackedTarget() {
+  //   PhotonPipelineResult target = new PhotonPipelineResult();
+  //   PhotonTrackedTarget trackedTarget = target.getBestTarget();
+  //   return trackedTarget;
+  // }
 
-  public boolean hasTargets() {
-    PhotonPipelineResult target = new PhotonPipelineResult();
-    boolean hasTarget = target.hasTargets();
-    return hasTarget;
-  }
+  // public boolean hasTargets() {
+  //   PhotonPipelineResult target = new PhotonPipelineResult();
+  //   boolean hasTarget = target.hasTargets();
+  //   return hasTarget;
+  // }
 }

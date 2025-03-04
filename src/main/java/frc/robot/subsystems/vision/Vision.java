@@ -36,12 +36,10 @@ public class Vision extends SubsystemBase {
   private final VisionIO[] io;
   private final VisionIOInputsAutoLogged[] inputs;
   private final Alert[] disconnectedAlerts;
-  private final VisionIOPhotonVision photonIO;
 
-  public Vision(VisionConsumer consumer, VisionIOPhotonVision photonIO, VisionIO... io) {
+  public Vision(VisionConsumer consumer, VisionIO... io) {
     this.consumer = consumer;
     this.io = io;
-    this.photonIO = photonIO;
 
     // Initialize inputs
     this.inputs = new VisionIOInputsAutoLogged[io.length];
@@ -67,17 +65,28 @@ public class Vision extends SubsystemBase {
     return inputs[cameraIndex].latestTargetObservation.tx();
   }
 
-  public int bestTarget() {
-    return photonIO.getTargetInt();
+  public boolean hasTargets(int cameraIndex) {
+    return inputs[cameraIndex].hasTargets;
   }
 
-  public boolean hasTargets() {
-    return photonIO.hasTargets();
+  public PhotonTrackedTarget bestTrackedTarget(int cameraIndex) {
+    return inputs[cameraIndex].bestTrackedTarget;
   }
 
-  public PhotonTrackedTarget getTrackedTarget() {
-    return photonIO.getTrackedTarget();
+  public int bestTargetID(int cameraIndex) {
+    return inputs[cameraIndex].bestTargetID;
   }
+  // public int bestTarget() {
+  //   return photonIO.getTargetInt();
+  // }
+
+  // public boolean hasTargets() {
+  //   return photonIO.hasTargets();
+  // }
+
+  // public PhotonTrackedTarget getTrackedTarget() {
+  //   return photonIO.getTrackedTarget();
+  // }
 
   @Override
   public void periodic() {
@@ -193,8 +202,8 @@ public class Vision extends SubsystemBase {
         allRobotPosesRejected.toArray(new Pose3d[allRobotPosesRejected.size()]));
 
     // Test Data
-    Logger.recordOutput("Has Targets", hasTargets());
-    Logger.recordOutput("Best Target ID", bestTarget());
+    // Logger.recordOutput("Has Targets", hasTargets());
+    // Logger.recordOutput("Best Target ID", bestTarget());
   }
 
   @FunctionalInterface

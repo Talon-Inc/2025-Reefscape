@@ -25,15 +25,15 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 public class leftAutoAlign extends Command {
 
   private static final TrapezoidProfile.Constraints X_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(3, 2);
+      new TrapezoidProfile.Constraints(1, 1);
   private static final TrapezoidProfile.Constraints Y_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(3, 2);
+      new TrapezoidProfile.Constraints(1, 1);
   private static final TrapezoidProfile.Constraints OMEGA_CONSTRAINTS =
       new TrapezoidProfile.Constraints(0, 8);
 
   private static final int[] REEF_TAGS = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
   private static final Transform3d TAG_TO_GOAL =
-      new Transform3d(new Translation3d(1.5, 0, 0), new Rotation3d(0, 0, Math.PI));
+      new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
   private static Pose2d robotPose;
 
   private final Drive drive;
@@ -44,7 +44,7 @@ public class leftAutoAlign extends Command {
   private final ProfiledPIDController yController =
       new ProfiledPIDController(3, 0, 0, Y_CONSTRAINTS);
   private final ProfiledPIDController omegaController =
-      new ProfiledPIDController(2, 0, 0, OMEGA_CONSTRAINTS);
+      new ProfiledPIDController(2.5, 0, 0, OMEGA_CONSTRAINTS);
 
   private PhotonTrackedTarget lasTarget;
 
@@ -59,7 +59,7 @@ public class leftAutoAlign extends Command {
     omegaController.setTolerance(Units.degreesToRadians(3));
     omegaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    addRequirements(drive);
+    addRequirements(drive, vision);
   }
 
   // Called when the command is initially scheduled.
@@ -83,17 +83,16 @@ public class leftAutoAlign extends Command {
             0,
             new Rotation3d(0, 0, robotPose.getRotation().getRadians()));
 
-    if (vision.hasTargets()) {
-      if (Arrays.stream(REEF_TAGS).anyMatch(n -> n == vision.bestTarget())) {
-        lasTarget = vision.getTrackedTarget();
-        var targetPose = aprilTagLayout.getTagPose(vision.bestTarget());
+    if (vision.hasTargets(0)) {
+      if (Arrays.stream(REEF_TAGS).anyMatch(n -> n == vision.bestTargetID(0))) {
+        lasTarget = vision.bestTrackedTarget(0);
+        var targetPose = aprilTagLayout.getTagPose(vision.bestTargetID(0));
         Pose3d targetPose3D =
             new Pose3d(
                 targetPose.get().getX(),
                 targetPose.get().getY(),
                 targetPose.get().getZ(),
                 targetPose.get().getRotation());
-
         var goalPose = targetPose3D.transformBy(TAG_TO_GOAL).toPose2d();
 
         xController.setGoal(goalPose.getX());
