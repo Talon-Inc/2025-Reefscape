@@ -19,11 +19,13 @@ import static frc.robot.subsystems.vision.VisionConstants.robotToCamera0;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.commands.DriveCommands;
 // import frc.robot.commands.VisionCommands.leftAutoAlign;
 import frc.robot.commands.VisionCommands.leftAutoAlign;
+import frc.robot.commands.VisionCommands.rightAutoAlign;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIONavX;
@@ -48,6 +50,7 @@ public class RobotContainer {
 
   // Commands
   private final leftAutoAlign leftAuto;
+  private final rightAutoAlign rightAuto;
 
   // Controller
   private final CommandPS5Controller controller = new CommandPS5Controller(0);
@@ -72,6 +75,7 @@ public class RobotContainer {
             new Vision(
                 drive::addVisionMeasurement, new VisionIOPhotonVision(camera0Name, robotToCamera0));
         leftAuto = new leftAutoAlign(drive, vision);
+        rightAuto = new rightAutoAlign(drive, vision);
         break;
 
       case SIM:
@@ -88,6 +92,7 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose));
         leftAuto = new leftAutoAlign(drive, vision);
+        rightAuto = new rightAutoAlign(drive, vision);
         break;
 
       default:
@@ -105,6 +110,7 @@ public class RobotContainer {
                 new VisionIOPhotonVision(camera0Name, robotToCamera0) {},
                 new VisionIO() {}) {};
         leftAuto = new leftAutoAlign(drive, vision);
+        rightAuto = new rightAutoAlign(drive, vision);
         break;
     }
 
@@ -171,6 +177,7 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     controller.L1().whileTrue(leftAuto);
+    controller.R1().whileTrue(rightAuto);
   }
 
   /**
