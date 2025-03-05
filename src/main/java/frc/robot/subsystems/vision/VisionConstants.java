@@ -25,14 +25,14 @@ public class VisionConstants {
 
   // Camera names, must match names configured on coprocessor
   public static String camera0Name = "Arducam_OV9281_USB_Camera";
-  public static String camera1Name = "camera_1";
+  public static String camera1Name = "Arducam_OV9281_USB_Camera (1)";
 
   // Robot to camera transforms
   // (Not used by Limelight, configure in web UI instead)
   public static Transform3d robotToCamera0 =
-      new Transform3d(-.182, .337, .21, new Rotation3d(0.0, 0.0, 0.0));
+      new Transform3d(.182, .337, .21, new Rotation3d(0.0, 0.0, 0.0));
   public static Transform3d robotToCamera1 =
-      new Transform3d(.337, -.182, .21, new Rotation3d(0.0, 0.0, 0.0));
+      new Transform3d(.305, -.0762, .127, new Rotation3d(0.0, 3 * Math.PI / 180, 0));
 
   // Basic filtering thresholds
   public static double maxAmbiguity = 0.3;

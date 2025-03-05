@@ -14,12 +14,13 @@
 package frc.robot;
 
 import static frc.robot.subsystems.vision.VisionConstants.camera0Name;
+import static frc.robot.subsystems.vision.VisionConstants.camera1Name;
 import static frc.robot.subsystems.vision.VisionConstants.robotToCamera0;
+import static frc.robot.subsystems.vision.VisionConstants.robotToCamera1;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.commands.DriveCommands;
@@ -27,15 +28,10 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.commands.VisionCommands.leftAutoAlign;
 import frc.robot.commands.VisionCommands.rightAutoAlign;
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIONavX;
-import frc.robot.subsystems.drive.ModuleIO;
-import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSpark;
 import frc.robot.subsystems.vision.Vision;
-import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
-import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -60,55 +56,68 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    drive =
+        new Drive(
+            new GyroIONavX(),
+            new ModuleIOSpark(0),
+            new ModuleIOSpark(1),
+            new ModuleIOSpark(2),
+            new ModuleIOSpark(3));
+    vision =
+        new Vision(
+            drive::addVisionMeasurement,
+            new VisionIOPhotonVision(camera0Name, robotToCamera0),
+            new VisionIOPhotonVision(camera1Name, robotToCamera1));
     // leftAuto = new leftAutoAlign(drive, vision);
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
-        drive =
-            new Drive(
-                new GyroIONavX(),
-                new ModuleIOSpark(0),
-                new ModuleIOSpark(1),
-                new ModuleIOSpark(2),
-                new ModuleIOSpark(3));
-        vision =
-            new Vision(
-                drive::addVisionMeasurement, new VisionIOPhotonVision(camera0Name, robotToCamera0));
+        // drive =
+        //     new Drive(
+        //         new GyroIONavX(),
+        //         new ModuleIOSpark(0),
+        //         new ModuleIOSpark(1),
+        //         new ModuleIOSpark(2),
+        //         new ModuleIOSpark(3));
+        // vision =
+        //     new Vision(
+        //         drive::addVisionMeasurement, new VisionIOPhotonVision(camera0Name,
+        // robotToCamera0));
         leftAuto = new leftAutoAlign(drive, vision);
         rightAuto = new rightAutoAlign(drive, vision);
         break;
 
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
-        drive =
-            new Drive(
-                new GyroIO() {},
-                new ModuleIOSim(),
-                new ModuleIOSim(),
-                new ModuleIOSim(),
-                new ModuleIOSim());
-        vision =
-            new Vision(
-                drive::addVisionMeasurement,
-                new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose));
+        // drive =
+        //     new Drive(
+        //         new GyroIO() {},
+        //         new ModuleIOSim(),
+        //         new ModuleIOSim(),
+        //         new ModuleIOSim(),
+        //         new ModuleIOSim());
+        // vision =
+        //     new Vision(
+        //         drive::addVisionMeasurement,
+        //         new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose));
         leftAuto = new leftAutoAlign(drive, vision);
         rightAuto = new rightAutoAlign(drive, vision);
         break;
 
       default:
         // Replayed robot, disable IO implementations
-        drive =
-            new Drive(
-                new GyroIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {});
-        vision =
-            new Vision(
-                drive::addVisionMeasurement,
-                new VisionIOPhotonVision(camera0Name, robotToCamera0) {},
-                new VisionIO() {}) {};
+        // drive =
+        //     new Drive(
+        //         new GyroIO() {},
+        //         new ModuleIO() {},
+        //         new ModuleIO() {},
+        //         new ModuleIO() {},
+        //         new ModuleIO() {});
+        // vision =
+        //     new Vision(
+        //         drive::addVisionMeasurement,
+        //         new VisionIOPhotonVision(camera0Name, robotToCamera0) {},
+        //         new VisionIO() {}) {};
         leftAuto = new leftAutoAlign(drive, vision);
         rightAuto = new rightAutoAlign(drive, vision);
         break;
