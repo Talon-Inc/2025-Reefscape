@@ -16,7 +16,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.drive.*;
+import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.vision.Vision;
 import java.util.Arrays;
 import org.photonvision.targeting.PhotonTrackedTarget;
@@ -46,7 +46,7 @@ public class leftAutoAlign extends Command {
   private final ProfiledPIDController omegaController =
       new ProfiledPIDController(2.5, 0, 0, OMEGA_CONSTRAINTS);
 
-  private PhotonTrackedTarget lasTarget;
+  private PhotonTrackedTarget lastTarget;
 
   /** Creates a new leftAutoAlign. */
   public leftAutoAlign(Drive drive, Vision vision) {
@@ -65,7 +65,7 @@ public class leftAutoAlign extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    lasTarget = null;
+    lastTarget = null;
     robotPose = drive.getPose();
     omegaController.reset(robotPose.getRotation().getRadians());
     xController.reset(robotPose.getX());
@@ -82,11 +82,18 @@ public class leftAutoAlign extends Command {
             robotPose.getY(),
             0,
             new Rotation3d(0, 0, robotPose.getRotation().getRadians()));
-
+    final int cameraIndex;
     if (vision.hasTargets(0)) {
-      if (Arrays.stream(REEF_TAGS).anyMatch(n -> n == vision.bestTargetID(0))) {
-        lasTarget = vision.bestTrackedTarget(0);
-        var targetPose = aprilTagLayout.getTagPose(vision.bestTargetID(0));
+      cameraIndex = 0;
+    } else if (vision.hasTargets(1)) {
+      cameraIndex = 1;
+    } else {
+      cameraIndex = 0;
+    }
+    if (vision.hasTargets(0) || vision.hasTargets(1)) {
+      if (Arrays.stream(REEF_TAGS).anyMatch(n -> n == vision.bestTargetID(cameraIndex))) {
+        lastTarget = vision.bestTrackedTarget(cameraIndex);
+        var targetPose = aprilTagLayout.getTagPose(vision.bestTargetID(cameraIndex));
         Pose3d targetPose3D =
             new Pose3d(
                 targetPose.get().getX(),
@@ -101,7 +108,7 @@ public class leftAutoAlign extends Command {
       }
     }
 
-    if (lasTarget == null) {
+    if (lastTarget == null) {
       drive.stop();
     } else {
       // Drive to the Target
