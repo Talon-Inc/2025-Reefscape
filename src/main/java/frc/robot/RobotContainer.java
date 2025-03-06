@@ -55,6 +55,7 @@ import frc.robot.subsystems.elevator.ElevatorIOSparkMAX;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -260,8 +261,8 @@ public class RobotContainer {
     driverController.L1().whileTrue(intake);
     driverController.R1().whileTrue(shootCoral);
     driverController.R2().whileTrue(shootSideways);
-    operatorController.povUp().whileTrue(setElevatorSpeed);
-    operatorController.povDown().whileTrue(elevatorDown);
+    driverController.povUp().whileTrue(setElevatorSpeed);
+    driverController.povDown().whileTrue(elevatorDown);
     // driverController.create().whileTrue(deployClimb);
     // driverController.create().whileTrue(climb);
 
