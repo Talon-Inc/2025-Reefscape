@@ -19,6 +19,7 @@ import static frc.robot.subsystems.vision.VisionConstants.robotToCamera0;
 import static frc.robot.subsystems.vision.VisionConstants.robotToCamera1;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -33,6 +34,7 @@ import frc.robot.commands.ElevatorCommands.ElevatorDown;
 import frc.robot.commands.ElevatorCommands.ElevatorToL1;
 import frc.robot.commands.ElevatorCommands.ElevatorToL2;
 import frc.robot.commands.ElevatorCommands.ElevatorToL3;
+import frc.robot.commands.ElevatorCommands.ElevatorToL4;
 import frc.robot.commands.ElevatorCommands.setElevatorSpeed;
 import frc.robot.commands.ElevatorCommands.setHome;
 import frc.robot.commands.VisionCommands.leftAutoAlign;
@@ -74,8 +76,9 @@ public class RobotContainer {
   // private final elevatorToL1 L1;
   private final setHome setHome;
   private final ElevatorToL2 elevatorL2;
+  private final ElevatorToL4 elevatorL4;
   private final intakeCoral intake;
-  private final shootCoral shoot;
+  private final shootCoral shootCoral;
   private final climb climb;
   private final deployClimb deployClimb;
   private final shootCoralSidways shootSideways;
@@ -101,12 +104,13 @@ public class RobotContainer {
     climber = new Climber();
 
     // Commands
+    elevatorL4 = new ElevatorToL4(elevator);
     elevatorL3 = new ElevatorToL3(elevator);
     elevatorL2 = new ElevatorToL2(elevator);
     elevatorL1 = new ElevatorToL1(elevator);
     setHome = new setHome(elevator);
     intake = new intakeCoral(shooter);
-    shoot = new shootCoral(shooter);
+    shootCoral = new shootCoral(shooter);
     climb = new climb(climber);
     deployClimb = new deployClimb(climber);
     shootSideways = new shootCoralSidways(shooter);
@@ -199,6 +203,15 @@ public class RobotContainer {
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
+    // Set Up Commands for PathPlanner
+    NamedCommands.registerCommand("Shoot Coral", shootCoral);
+    NamedCommands.registerCommand("Intake Coral", intake);
+    NamedCommands.registerCommand("Elevator To L4", elevatorL4);
+    NamedCommands.registerCommand("Elevator To Home", setHome);
+
+    // Set Up Autos For PathPlanner
+    autoChooser.addOption("4 Piece Coral Bottom", AutoBuilder.buildAuto("4 Piece Coral Bottom"));
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -248,7 +261,7 @@ public class RobotContainer {
     // controller.povUp().onTrue(elevatorL3);
     // controller.povDown().onTrue(setHome);
     controller.L1().whileTrue(intake);
-    controller.R1().whileTrue(shoot);
+    controller.R1().whileTrue(shootCoral);
     controller.R2().whileTrue(shootSideways);
     controller2.povUp().whileTrue(setElevatorSpeed);
     controller2.povDown().whileTrue(elevatorDown);
