@@ -22,14 +22,19 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 // import frc.robot.Configs.Elevator;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.ElevatorCommands.ElevatorDown;
 import frc.robot.commands.ElevatorCommands.ElevatorToL1;
 import frc.robot.commands.ElevatorCommands.ElevatorToL2;
 import frc.robot.commands.ElevatorCommands.ElevatorToL3;
+import frc.robot.commands.ElevatorCommands.setElevatorSpeed;
 import frc.robot.commands.ElevatorCommands.setHome;
+import frc.robot.commands.VisionCommands.leftAutoAlign;
+import frc.robot.commands.VisionCommands.rightAutoAlign;
 import frc.robot.commands.climb;
 import frc.robot.commands.deployClimb;
 import frc.robot.commands.intakeCoral;
@@ -38,15 +43,13 @@ import frc.robot.commands.shootCoralSidways;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
 // import frc.robot.commands.VisionCommands.leftAutoAlign;
-import frc.robot.commands.VisionCommands.leftAutoAlign;
-import frc.robot.commands.VisionCommands.rightAutoAlign;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIONavX;
 import frc.robot.subsystems.drive.ModuleIOSpark;
-import frc.robot.subsystems.vision.Vision;
-import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.elevator.ElevatorIOSparkMAX;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionIOPhotonVision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -78,10 +81,12 @@ public class RobotContainer {
   // Commands
   private final leftAutoAlign leftAuto;
   private final rightAutoAlign rightAuto;
+  private final setElevatorSpeed setElevatorSpeed;
+  private final ElevatorDown elevatorDown;
 
   // Controller
   private final CommandPS5Controller controller = new CommandPS5Controller(0);
-
+  private final CommandPS5Controller controller2 = new CommandPS5Controller(1);
   // Dashboard inputs
   // private final LoggedDashboardChooser<Command> autoChooser;
 
@@ -102,6 +107,8 @@ public class RobotContainer {
     climb = new climb(climber);
     deployClimb = new deployClimb(climber);
     shootSideways = new shootCoralSidways(shooter);
+    setElevatorSpeed = new setElevatorSpeed(elevator);
+    elevatorDown = new ElevatorDown(elevator);
 
     drive =
         new Drive(
@@ -240,12 +247,14 @@ public class RobotContainer {
     // controller.povDown().onTrue(setHome);
     controller.L1().whileTrue(intake);
     controller.R1().whileTrue(shoot);
-    controller.R3().whileTrue(shootSideways);
+    controller.R2().whileTrue(shootSideways);
+    controller2.povUp().whileTrue(setElevatorSpeed);
+    controller2.povDown().whileTrue(elevatorDown);
     // controller.create().whileTrue(deployClimb);
     // controller.create().whileTrue(climb);
 
-    controller.L1().whileTrue(leftAuto);
-    controller.R1().whileTrue(rightAuto);
+    controller.L3().whileTrue(leftAuto);
+    controller.R3().whileTrue(rightAuto);
   }
 
   /**

@@ -148,6 +148,9 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     return followerMotor.getOutputCurrent();
   }
 
+  public void setMotorVelocity(double velocity) {
+    leadMotor.set(velocity);
+  }
   // public void setGoal(double goal) {
   //   m_controller.setGoal(goal);
   // }

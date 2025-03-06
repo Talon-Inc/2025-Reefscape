@@ -34,6 +34,10 @@ public class Elevator extends SubsystemBase {
     io.goToPosition(position);
   }
 
+  public void setMotorVelocity(double velocity) {
+    io.setMotorVelocity(velocity);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
