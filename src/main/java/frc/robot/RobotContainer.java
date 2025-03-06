@@ -68,31 +68,28 @@ public class RobotContainer {
   private final Elevator elevator;
   private final Shooter shooter;
   private final Climber climber;
-
-  private final ElevatorToL1 elevatorL1;
-  private final ElevatorToL3 elevatorL3;
+  private final Vision vision;
 
   // Commands
-  // private final elevatorToL1 L1;
   private final setHome setHome;
+  private final ElevatorToL1 elevatorL1;
   private final ElevatorToL2 elevatorL2;
+  private final ElevatorToL3 elevatorL3;
   private final ElevatorToL4 elevatorL4;
   private final intakeCoral intake;
   private final shootCoral shootCoral;
   private final climb climb;
   private final deployClimb deployClimb;
   private final shootCoralSidways shootSideways;
-  private final Vision vision;
-
-  // Commands
   private final leftAutoAlign leftAuto;
   private final rightAutoAlign rightAuto;
   private final setElevatorSpeed setElevatorSpeed;
   private final ElevatorDown elevatorDown;
 
   // Controller
-  private final CommandPS5Controller controller = new CommandPS5Controller(0);
-  private final CommandPS5Controller controller2 = new CommandPS5Controller(1);
+  private final CommandPS5Controller driverController = new CommandPS5Controller(0);
+  private final CommandPS5Controller operatorController = new CommandPS5Controller(1);
+
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
@@ -227,25 +224,25 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
-            () -> -controller.getLeftY(),
-            () -> -controller.getLeftX(),
-            () -> -controller.getRightX()));
+            () -> -driverController.getLeftY(),
+            () -> -driverController.getLeftX(),
+            () -> -driverController.getRightX()));
 
     // Lock to 0° when Square button is held
-    controller
+    driverController
         .square()
         .whileTrue(
             DriveCommands.joystickDriveAtAngle(
                 drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
+                () -> -driverController.getLeftY(),
+                () -> -driverController.getLeftX(),
                 () -> new Rotation2d()));
 
     // Switch to X pattern when X button is pressed
-    controller.cross().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    driverController.cross().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Reset gyro to 0° when Circle button is pressed
-    controller
+    driverController
         .circle()
         .onTrue(
             Commands.runOnce(
@@ -256,20 +253,20 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Move Elevator to Level 1
-    // controller.povLeft().onTrue(elevatorL1);
-    // controller.povRight().onTrue(elevatorL2);
-    // controller.povUp().onTrue(elevatorL3);
-    // controller.povDown().onTrue(setHome);
-    controller.L1().whileTrue(intake);
-    controller.R1().whileTrue(shootCoral);
-    controller.R2().whileTrue(shootSideways);
-    controller2.povUp().whileTrue(setElevatorSpeed);
-    controller2.povDown().whileTrue(elevatorDown);
-    // controller.create().whileTrue(deployClimb);
-    // controller.create().whileTrue(climb);
+    // driverController.povLeft().onTrue(elevatorL1);
+    // driverController.povRight().onTrue(elevatorL2);
+    // driverController.povUp().onTrue(elevatorL3);
+    // driverController.povDown().onTrue(setHome);
+    driverController.L1().whileTrue(intake);
+    driverController.R1().whileTrue(shootCoral);
+    driverController.R2().whileTrue(shootSideways);
+    operatorController.povUp().whileTrue(setElevatorSpeed);
+    operatorController.povDown().whileTrue(elevatorDown);
+    // driverController.create().whileTrue(deployClimb);
+    // driverController.create().whileTrue(climb);
 
-    controller.L3().whileTrue(leftAuto);
-    controller.R3().whileTrue(rightAuto);
+    driverController.L3().whileTrue(leftAuto);
+    driverController.R3().whileTrue(rightAuto);
   }
 
   /**
