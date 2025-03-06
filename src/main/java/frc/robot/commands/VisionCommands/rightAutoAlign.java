@@ -19,32 +19,33 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.vision.Vision;
 import java.util.Arrays;
+import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class rightAutoAlign extends Command {
 
   private static final TrapezoidProfile.Constraints X_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(1, 2);
+      new TrapezoidProfile.Constraints(1, 3);
   private static final TrapezoidProfile.Constraints Y_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(1, 2);
+      new TrapezoidProfile.Constraints(1, 1);
   private static final TrapezoidProfile.Constraints OMEGA_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(2.5, 4);
+      new TrapezoidProfile.Constraints(1, 3);
 
   private static final int[] REEF_TAGS = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
   private static final Transform3d TAG_TO_GOAL =
-      new Transform3d(new Translation3d(0, 0.4, 0), new Rotation3d(0, 0, -Math.PI));
+      new Transform3d(new Translation3d(.4328, 0.333, 0), new Rotation3d(0, 0, -Math.PI));
   private static Pose2d robotPose;
 
   private final Drive drive;
   private final Vision vision;
 
   private final ProfiledPIDController xController =
-      new ProfiledPIDController(3, 0, 0, X_CONSTRAINTS);
+      new ProfiledPIDController(2.5, 0, 0, X_CONSTRAINTS);
   private final ProfiledPIDController yController =
-      new ProfiledPIDController(3, 0, 0, Y_CONSTRAINTS);
+      new ProfiledPIDController(2.5, 0, 0, Y_CONSTRAINTS);
   private final ProfiledPIDController omegaController =
-      new ProfiledPIDController(3, 0, 0, OMEGA_CONSTRAINTS);
+      new ProfiledPIDController(2, 0, 0, OMEGA_CONSTRAINTS);
 
   private PhotonTrackedTarget lasTarget;
 
@@ -54,8 +55,8 @@ public class rightAutoAlign extends Command {
     this.drive = drive;
     this.vision = vision;
 
-    xController.setTolerance(.2);
-    yController.setTolerance(.2);
+    xController.setTolerance(.01);
+    yController.setTolerance(.01);
     omegaController.setTolerance(Units.degreesToRadians(3));
     omegaController.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -98,6 +99,16 @@ public class rightAutoAlign extends Command {
         xController.setGoal(goalPose.getX());
         yController.setGoal(goalPose.getY());
         omegaController.setGoal(goalPose.getRotation().getRadians());
+        Logger.recordOutput("Goal Pose", goalPose);
+        Logger.recordOutput("X Error", xController.getPositionError());
+        Logger.recordOutput("Y Error", yController.getPositionError());
+        Logger.recordOutput("Omega Error", omegaController.getPositionError());
+        Logger.recordOutput("Pose X", robotPose.getX());
+        Logger.recordOutput("Pose Y", robotPose.getY());
+        Logger.recordOutput("Pose Omega", robotPose.getRotation().getRadians());
+        Logger.recordOutput("Goal Pose X", xController.getSetpoint().position);
+        Logger.recordOutput("Goal Pose Y", yController.getSetpoint().position);
+        Logger.recordOutput("Goal Pose Omega", omegaController.getSetpoint().position);
       }
     }
 
