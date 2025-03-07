@@ -167,7 +167,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     //     .setReference(position, ControlType.kMAXMotionPositionControl);
     // double linearDistance = m_encoder.getPosition() * 2 * Math.PI;
     m_controller.setGoal(goalPosition);
-    double pidVal = m_controller.calculate(m_encoder.getPosition(), goalPosition);
+    double pidVal = m_controller.calculate(m_encoder.getPosition());
     double acceleration =
         (m_controller.getSetpoint().velocity - lastSpeed) / (Timer.getFPGATimestamp() - lastTime);
     double feedForward = m_feedforward.calculate(m_controller.getSetpoint().velocity, acceleration);
