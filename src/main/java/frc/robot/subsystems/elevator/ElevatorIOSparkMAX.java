@@ -22,15 +22,15 @@ import org.littletonrobotics.junction.Logger;
 /** Add your docs here. */
 public class ElevatorIOSparkMAX implements ElevatorIO {
   private static double kDt = 0.02;
-  private static double kMaxVelocity = 2;
-  private static double kMaxAccerlation = 2;
-  private static double kP = 0.4;
+  private static double kMaxVelocity = 2.2;
+  private static double kMaxAccerlation = 2.2;
+  private static double kP = 0.9;
   private static double kI = 0.0;
   private static double kD = 0.0;
   private static double kS = 0.22;
-  private static double kG = 0.357;
-  private static double kV = 0.09;
-  private static double ka = 0.00001;
+  private static double kG = .357;
+  private static double kV = 5.9;
+  private static double ka = 1;
   private static double lastSpeed = 0;
   private static double lastTime = Timer.getFPGATimestamp();
 
@@ -82,17 +82,24 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
         followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     SparkMaxConfig leadMotorConfig = new SparkMaxConfig();
+    SparkMaxConfig encoderConfig = new SparkMaxConfig();
+
+    encoderConfig.encoder.positionConversionFactor(.0162 * 2 * Math.PI / 5);
     // Set MAX Motion parameters
     leadMotorConfig
         .idleMode(IdleMode.kBrake)
         .smartCurrentLimit(50)
         .voltageCompensation(12)
-        .inverted(true);
+        .inverted(true)
+        .encoder
+        .positionConversionFactor(.0162 * 2 * Math.PI / 5)
+        .velocityConversionFactor(.0162 * 2 * Math.PI / 5 / 60);
 
     leadMotor.configure(
         leadMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // m_encoder.setPosition(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
+
     org.littletonrobotics.junction.Logger.recordOutput("Encoder", m_encoder.getPosition());
     m_controller.setTolerance(.01);
   }
@@ -170,12 +177,13 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     double pidVal = m_controller.calculate(m_encoder.getPosition());
     double acceleration =
         (m_controller.getSetpoint().velocity - lastSpeed) / (Timer.getFPGATimestamp() - lastTime);
-    double feedForward = m_feedforward.calculate(m_controller.getSetpoint().velocity, acceleration);
+    double feedForward = m_feedforward.calculate(m_controller.getSetpoint().velocity);
     // double voltsOut = MathUtil.clamp(pidVal + feedForward, -7, 7);
     Logger.recordOutput("Desired PID Val", pidVal);
     Logger.recordOutput("Desired Acceleration", acceleration);
     Logger.recordOutput("Desired Feedforward", feedForward);
-    // leadMotor.setVoltage(pidVal + feedForward);
+    Logger.recordOutput("Output Volts", (pidVal + feedForward));
+    leadMotor.setVoltage(pidVal + feedForward);
     lastSpeed = m_controller.getSetpoint().velocity;
     lastTime = Timer.getFPGATimestamp();
     SmartDashboard.putNumber("Calculated PID Value", pidVal);

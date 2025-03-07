@@ -253,14 +253,14 @@ public class RobotContainer {
     // Move Elevator to Level 1
     driverController.povLeft().whileTrue(elevatorL2);
     // driverController.povRight().onTrue(elevatorL2);
-    // driverController.povUp().onTrue(elevatorL3);
-    // driverController.povDown().onTrue(setHome);
+    driverController.povUp().whileTrue(elevatorL3);
+    driverController.povRight().whileTrue(setHome);
     driverController.L1().whileTrue(intake);
     driverController.R1().whileTrue(shootCoral);
     driverController.R2().whileTrue(shootSideways);
     driverController.L2().whileTrue(shootReverse);
-    driverController.povUp().whileTrue(setElevatorSpeed);
-    driverController.povDown().whileTrue(elevatorDown);
+    // driverController.povUp().whileTrue(setElevatorSpeed);
+    // driverController.povDown().whileTrue(elevatorDown);
     // driverController.create().whileTrue(deployClimb);
     // driverController.create().whileTrue(climb);
 
