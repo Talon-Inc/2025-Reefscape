@@ -28,7 +28,7 @@ public class leftAutoAlign extends Command {
   private static final TrapezoidProfile.Constraints X_CONSTRAINTS =
       new TrapezoidProfile.Constraints(1, 3);
   private static final TrapezoidProfile.Constraints Y_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(1, 1);
+      new TrapezoidProfile.Constraints(1, 3);
   private static final TrapezoidProfile.Constraints OMEGA_CONSTRAINTS =
       new TrapezoidProfile.Constraints(1, 3);
 

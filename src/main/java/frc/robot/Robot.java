@@ -112,19 +112,19 @@ public class Robot extends LoggedRobot {
   public void disabledPeriodic() {}
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
-  @Override
-  public void autonomousInit() {
-    autonomousCommand = robotContainer.getAutonomousCommand();
+  // @Override
+  // public void autonomousInit() {
+  //   autonomousCommand = robotContainer.getAutonomousCommand();
 
-    // schedule the autonomous command (example)
-    if (autonomousCommand != null) {
-      autonomousCommand.schedule();
-    }
-  }
+  //   // schedule the autonomous command (example)
+  //   if (autonomousCommand != null) {
+  //     autonomousCommand.schedule();
+  //   }
+  // }
 
-  // // /** This function is called periodically during autonomous. */
-  @Override
-  public void autonomousPeriodic() {}
+  // // // /** This function is called periodically during autonomous. */
+  // @Override
+  // public void autonomousPeriodic() {}
 
   /** This function is called once when teleop is enabled. */
   @Override

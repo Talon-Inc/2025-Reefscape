@@ -17,19 +17,20 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ElevatorConstants;
+import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
 public class ElevatorIOSparkMAX implements ElevatorIO {
   private static double kDt = 0.02;
   private static double kMaxVelocity = 2;
-  private static double kMaxAccerlation = 2.25;
-  private static double kP = 0;
+  private static double kMaxAccerlation = 2;
+  private static double kP = 0.4;
   private static double kI = 0.0;
   private static double kD = 0.0;
-  private static double kS = 0.2;
-  private static double kG = 1.25;
-  private static double kV = 0;
-  private static double ka = 0.0;
+  private static double kS = 0.22;
+  private static double kG = 0.357;
+  private static double kV = 0.09;
+  private static double ka = 0.00001;
   private static double lastSpeed = 0;
   private static double lastTime = Timer.getFPGATimestamp();
 
@@ -72,9 +73,9 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     // Invert follower
     SparkMaxConfig followerConfig = new SparkMaxConfig();
     followerConfig
-        .follow(11, true)
+        .follow(11, false)
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(80)
+        .smartCurrentLimit(50)
         .voltageCompensation(12);
 
     followerMotor.configure(
@@ -82,7 +83,11 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
 
     SparkMaxConfig leadMotorConfig = new SparkMaxConfig();
     // Set MAX Motion parameters
-    leadMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(80).voltageCompensation(12);
+    leadMotorConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(50)
+        .voltageCompensation(12)
+        .inverted(true);
 
     leadMotor.configure(
         leadMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -167,7 +172,10 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
         (m_controller.getSetpoint().velocity - lastSpeed) / (Timer.getFPGATimestamp() - lastTime);
     double feedForward = m_feedforward.calculate(m_controller.getSetpoint().velocity, acceleration);
     // double voltsOut = MathUtil.clamp(pidVal + feedForward, -7, 7);
-    leadMotor.setVoltage(pidVal + feedForward);
+    Logger.recordOutput("Desired PID Val", pidVal);
+    Logger.recordOutput("Desired Acceleration", acceleration);
+    Logger.recordOutput("Desired Feedforward", feedForward);
+    // leadMotor.setVoltage(pidVal + feedForward);
     lastSpeed = m_controller.getSetpoint().velocity;
     lastTime = Timer.getFPGATimestamp();
     SmartDashboard.putNumber("Calculated PID Value", pidVal);

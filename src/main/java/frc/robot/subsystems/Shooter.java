@@ -60,6 +60,11 @@ public class Shooter extends SubsystemBase {
     rightShooterMotor.set(.5);
   }
 
+  public void reverseShoot() {
+    leftShooterMotor.set(-.15);
+    rightShooterMotor.set(-.15);
+  }
+
   public void shootSidways() {
     leftShooterMotor.set(.1);
     rightShooterMotor.set(.325);

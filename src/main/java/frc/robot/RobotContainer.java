@@ -18,16 +18,12 @@ import static frc.robot.subsystems.vision.VisionConstants.camera1Name;
 import static frc.robot.subsystems.vision.VisionConstants.robotToCamera0;
 import static frc.robot.subsystems.vision.VisionConstants.robotToCamera1;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 // import frc.robot.Configs.Elevator;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.ElevatorCommands.ElevatorDown;
@@ -42,6 +38,7 @@ import frc.robot.commands.VisionCommands.rightAutoAlign;
 import frc.robot.commands.climb;
 import frc.robot.commands.deployClimb;
 import frc.robot.commands.intakeCoral;
+import frc.robot.commands.reverseShooter;
 import frc.robot.commands.shootCoral;
 import frc.robot.commands.shootCoralSidways;
 import frc.robot.subsystems.Climber;
@@ -54,8 +51,6 @@ import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.elevator.ElevatorIOSparkMAX;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -79,6 +74,7 @@ public class RobotContainer {
   private final ElevatorToL4 elevatorL4;
   private final intakeCoral intake;
   private final shootCoral shootCoral;
+  private final reverseShooter shootReverse;
   private final climb climb;
   private final deployClimb deployClimb;
   private final shootCoralSidways shootSideways;
@@ -92,7 +88,7 @@ public class RobotContainer {
   private final CommandPS5Controller operatorController = new CommandPS5Controller(1);
 
   // Dashboard inputs
-  private final LoggedDashboardChooser<Command> autoChooser;
+  // private final LoggedDashboardChooser<Command> autoChooser;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -109,6 +105,7 @@ public class RobotContainer {
     setHome = new setHome(elevator);
     intake = new intakeCoral(shooter);
     shootCoral = new shootCoral(shooter);
+    shootReverse = new reverseShooter(shooter);
     climb = new climb(climber);
     deployClimb = new deployClimb(climber);
     shootSideways = new shootCoralSidways(shooter);
@@ -183,32 +180,32 @@ public class RobotContainer {
     }
 
     // Set up auto routines
-    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+    // autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
-    // Set up SysId routines
-    autoChooser.addOption(
-        "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
-    autoChooser.addOption(
-        "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
-    autoChooser.addOption(
-        "Drive SysId (Quasistatic Forward)",
-        drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    autoChooser.addOption(
-        "Drive SysId (Quasistatic Reverse)",
-        drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    autoChooser.addOption(
-        "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    autoChooser.addOption(
-        "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    // // Set up SysId routines
+    // autoChooser.addOption(
+    //     "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
+    // autoChooser.addOption(
+    //     "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
+    // autoChooser.addOption(
+    //     "Drive SysId (Quasistatic Forward)",
+    //     drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    // autoChooser.addOption(
+    //     "Drive SysId (Quasistatic Reverse)",
+    //     drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    // autoChooser.addOption(
+    //     "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    // autoChooser.addOption(
+    //     "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Set Up Commands for PathPlanner
-    NamedCommands.registerCommand("Shoot Coral", shootCoral);
-    NamedCommands.registerCommand("Intake Coral", intake);
-    NamedCommands.registerCommand("Elevator To L4", elevatorL4);
-    NamedCommands.registerCommand("Elevator To Home", setHome);
+    // NamedCommands.registerCommand("Shoot Coral", shootCoral);
+    // NamedCommands.registerCommand("Intake Coral", intake);
+    // NamedCommands.registerCommand("Elevator To L4", elevatorL4);
+    // NamedCommands.registerCommand("Elevator To Home", setHome);
 
-    // Set Up Autos For PathPlanner
-    autoChooser.addOption("4 Piece Coral Bottom", AutoBuilder.buildAuto("4 Piece Coral Bottom"));
+    // // Set Up Autos For PathPlanner
+    // autoChooser.addOption("4 Piece Coral Bottom", AutoBuilder.buildAuto("4 Piece Coral Bottom"));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -254,13 +251,14 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Move Elevator to Level 1
-    // driverController.povLeft().onTrue(elevatorL1);
+    driverController.povLeft().whileTrue(elevatorL2);
     // driverController.povRight().onTrue(elevatorL2);
     // driverController.povUp().onTrue(elevatorL3);
     // driverController.povDown().onTrue(setHome);
     driverController.L1().whileTrue(intake);
     driverController.R1().whileTrue(shootCoral);
     driverController.R2().whileTrue(shootSideways);
+    driverController.L2().whileTrue(shootReverse);
     driverController.povUp().whileTrue(setElevatorSpeed);
     driverController.povDown().whileTrue(elevatorDown);
     // driverController.create().whileTrue(deployClimb);
@@ -275,7 +273,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    return autoChooser.get();
-  }
+  // public Command getAutonomousCommand() {
+  //   return autoChooser.get();
+  // }
 }
