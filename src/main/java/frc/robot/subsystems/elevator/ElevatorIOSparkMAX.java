@@ -24,7 +24,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
   private static double kDt = 0.02;
   private static double kMaxVelocity = 2.2;
   private static double kMaxAccerlation = 2.2;
-  private static double kP = 0.9;
+  private static double kP = 1.2;
   private static double kI = 0.0;
   private static double kD = 0.0;
   private static double kS = 0.22;
