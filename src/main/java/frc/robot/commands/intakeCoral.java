@@ -10,6 +10,7 @@ import frc.robot.subsystems.Shooter;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class intakeCoral extends Command {
   private final Shooter shooter;
+  private boolean flag;
 
   /** Creates a new intakeCoral. */
   public intakeCoral(Shooter shooter) {
@@ -19,11 +20,15 @@ public class intakeCoral extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    flag = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (shooter.isCoralLoaded()) flag = true;
+
     shooter.intakeCoral();
   }
 
@@ -36,7 +41,7 @@ public class intakeCoral extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // return shooter.isCoralLoaded();
-    return false;
+    if (flag) return !shooter.isCoralLoaded();
+    else return false;
   }
 }

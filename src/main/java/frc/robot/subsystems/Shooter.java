@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants.ShooterConstants;
+import org.littletonrobotics.junction.Logger;
 
 public class Shooter extends SubsystemBase {
   private final SparkMax leftShooterMotor =
@@ -47,12 +48,12 @@ public class Shooter extends SubsystemBase {
   }
 
   public void intakeCoral() {
-    leftShooterMotor.set(.2);
-    rightShooterMotor.set(.2);
+    leftShooterMotor.set(.1);
+    rightShooterMotor.set(.1);
   }
 
   public boolean isCoralLoaded() {
-    return intakeSensor.getVoltage() > 1;
+    return intakeSensor.getVoltage() < .5;
   }
 
   public void shoot() {
@@ -77,6 +78,7 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // This method will be called once per scheduler run4
+    Logger.recordOutput("Color Sensor Log", intakeSensor.getVoltage());
   }
 }
