@@ -36,6 +36,7 @@ public class setHome extends Command {
   @Override
   public void end(boolean interrupted) {
     SmartDashboard.putBoolean("Set Home Finished", elevator.checkGoal());
+    elevator.stop();
   }
 
   // Returns true when the command should end.

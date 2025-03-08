@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Start To J4"
+                  "pathName": "Start To E4"
                 }
               },
               {
@@ -36,7 +36,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "J4 To Source"
+                  "pathName": "E4 To Source"
                 }
               },
               {
@@ -61,7 +61,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Source To K4"
+                  "pathName": "Source To D4"
                 }
               },
               {

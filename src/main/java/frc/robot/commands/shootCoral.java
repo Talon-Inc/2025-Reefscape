@@ -4,17 +4,22 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class shootCoral extends Command {
   private final Shooter shooter;
+  private Timer timer;
+  private double start;
 
   /** Creates a new shootCoral. */
   public shootCoral(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shooter = shooter;
+    timer = new Timer();
+    start = timer.get();
   }
 
   // Called when the command is initially scheduled.
@@ -41,6 +46,9 @@ public class shootCoral extends Command {
   @Override
   public boolean isFinished() {
     // return !shooter.isCoralLoaded();
+    if (timer.get() - start > 1) {
+      return true;
+    }
     return false;
   }
 }

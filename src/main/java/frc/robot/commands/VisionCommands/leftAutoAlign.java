@@ -34,7 +34,7 @@ public class leftAutoAlign extends Command {
 
   private static final int[] REEF_TAGS = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
   private static final Transform3d TAG_TO_GOAL =
-      new Transform3d(new Translation3d(.4238, 0, 0), new Rotation3d(0, 0, -Math.PI));
+      new Transform3d(new Translation3d(.4238, -0.076, 0), new Rotation3d(0, 0, -Math.PI));
   private static Pose2d robotPose;
 
   private final Drive drive;

@@ -204,13 +204,16 @@ public class RobotContainer {
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Set Up Commands for PathPlanner
-    NamedCommands.registerCommand("Shoot Coral", shootCoral);
-    NamedCommands.registerCommand("Intake Coral", intake);
-    NamedCommands.registerCommand("Elevator To L4", elevatorL4);
-    NamedCommands.registerCommand("Elevator To Home", setHome);
+    NamedCommands.registerCommand("shootCoral", shootCoral);
+    NamedCommands.registerCommand("intakeCoral", intake);
+    NamedCommands.registerCommand("elevatorToL4", elevatorL4);
+    NamedCommands.registerCommand("elevatorHome", setHome);
 
     // // Set Up Autos For PathPlanner
     autoChooser.addOption("4 Piece Coral Bottom", AutoBuilder.buildAuto("4 Piece Coral Bottom"));
+    autoChooser.addOption("1 Piece Coral", AutoBuilder.buildAuto("1 Piece Coral"));
+    autoChooser.addOption("2 Piece Coral Bottom", AutoBuilder.buildAuto("2 Piece Coral Bottom"));
+    autoChooser.addOption("2 Piece Coral Top", AutoBuilder.buildAuto("2 Piece Coral Top"));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -255,12 +258,15 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
+    // Operator
     // Move Elevator to Level 1
-    driverController.povLeft().whileTrue(elevatorL2);
-    // driverController.povRight().onTrue(elevatorL2);
-    driverController.povRight().whileTrue(elevatorL3);
-    driverController.povUp().whileTrue(elevatorL4);
-    driverController.povDown().whileTrue(setHome);
+    operatorController.cross().whileTrue(setHome);
+    operatorController.povDown().whileTrue(elevatorL1);
+    operatorController.povLeft().whileTrue(elevatorL2);
+    operatorController.povRight().whileTrue(elevatorL3);
+    operatorController.povUp().whileTrue(elevatorL4);
+
+    // Driver
     driverController.L1().onTrue(intake);
     driverController.R1().whileTrue(shootCoral);
     driverController.R2().whileTrue(shootSideways);
