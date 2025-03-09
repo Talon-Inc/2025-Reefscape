@@ -26,11 +26,11 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 public class leftAutoAlign extends Command {
 
   private static final TrapezoidProfile.Constraints X_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(1, 3);
+      new TrapezoidProfile.Constraints(1.75, 3);
   private static final TrapezoidProfile.Constraints Y_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(1, 3);
+      new TrapezoidProfile.Constraints(1.75, 3);
   private static final TrapezoidProfile.Constraints OMEGA_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(1, 3);
+      new TrapezoidProfile.Constraints(2, 5);
 
   private static final int[] REEF_TAGS = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
   private static final Transform3d TAG_TO_GOAL =
@@ -57,7 +57,7 @@ public class leftAutoAlign extends Command {
 
     xController.setTolerance(.01);
     yController.setTolerance(.01);
-    omegaController.setTolerance(Units.degreesToRadians(3));
+    omegaController.setTolerance(Units.degreesToRadians(2));
     omegaController.enableContinuousInput(-Math.PI, Math.PI);
 
     addRequirements(drive, vision);

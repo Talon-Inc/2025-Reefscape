@@ -4,6 +4,8 @@
 
 package frc.robot.commands.ElevatorCommands;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.elevator.Elevator;
@@ -24,6 +26,7 @@ public class ElevatorToL4 extends Command {
   public void initialize() {
     elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
     SmartDashboard.putBoolean("L4 Finished", elevator.checkGoal());
+    Logger.recordOutput("L4 Finished", false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,6 +39,7 @@ public class ElevatorToL4 extends Command {
   @Override
   public void end(boolean interrupted) {
     SmartDashboard.putBoolean("L4 Finished", elevator.checkGoal());
+    Logger.recordOutput("L4 Finished", true);
   }
 
   // Returns true when the command should end.

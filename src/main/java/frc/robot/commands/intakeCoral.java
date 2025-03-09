@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
@@ -22,6 +24,8 @@ public class intakeCoral extends Command {
   @Override
   public void initialize() {
     flag = false;
+    Logger.recordOutput("Intake Finished", false);
+    Logger.recordOutput("Intake Started", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,6 +40,8 @@ public class intakeCoral extends Command {
   @Override
   public void end(boolean interrupted) {
     shooter.stop();
+    Logger.recordOutput("Intake Finished", true);
+    Logger.recordOutput("Intake Started", false);
   }
 
   // Returns true when the command should end.
