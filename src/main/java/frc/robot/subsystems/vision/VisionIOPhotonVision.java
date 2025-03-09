@@ -136,22 +136,4 @@ public class VisionIOPhotonVision implements VisionIO {
       inputs.tagIds[i++] = id;
     }
   }
-
-  // public int getTargetInt() {
-  //   PhotonPipelineResult target = new PhotonPipelineResult();
-  //   int bestTarget = target.getBestTarget().getFiducialId();
-  //   return bestTarget;
-  // }
-
-  // public PhotonTrackedTarget getTrackedTarget() {
-  //   PhotonPipelineResult target = new PhotonPipelineResult();
-  //   PhotonTrackedTarget trackedTarget = target.getBestTarget();
-  //   return trackedTarget;
-  // }
-
-  // public boolean hasTargets() {
-  //   PhotonPipelineResult target = new PhotonPipelineResult();
-  //   boolean hasTarget = target.hasTargets();
-  //   return hasTarget;
-  // }
 }

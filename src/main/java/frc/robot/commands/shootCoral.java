@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
+import org.littletonrobotics.junction.Logger;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class shootCoral extends Command {
@@ -28,6 +29,8 @@ public class shootCoral extends Command {
     // if (shooter.isCoralLoaded() == false) {
     //   end(isScheduled());
     // }
+    Logger.recordOutput("Shooter Finished", false);
+    Logger.recordOutput("Shooter Started", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,6 +43,8 @@ public class shootCoral extends Command {
   @Override
   public void end(boolean interrupted) {
     shooter.stop();
+    Logger.recordOutput("Shooter Finished", true);
+    Logger.recordOutput("Shooter Started", false);
   }
 
   // Returns true when the command should end.
