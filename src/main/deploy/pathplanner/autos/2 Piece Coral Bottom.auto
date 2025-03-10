@@ -5,7 +5,7 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
@@ -24,25 +24,38 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "shootCoral"
-          }
-        },
-        {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "E4 To Source"
+                  "waitTime": 2.0
                 }
               },
               {
                 "type": "named",
                 "data": {
+                  "name": "shootCoral"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
                   "name": "elevatorHome"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "E4 To Source"
                 }
               }
             ]
@@ -55,7 +68,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
@@ -74,9 +87,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "shootCoral"
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootCoral"
+                }
+              }
+            ]
           }
         }
       ]

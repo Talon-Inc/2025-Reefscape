@@ -22,14 +22,14 @@ import org.littletonrobotics.junction.Logger;
 /** Add your docs here. */
 public class ElevatorIOSparkMAX implements ElevatorIO {
   private static double kDt = 0.02;
-  private static double kMaxVelocity = 2;
-  private static double kMaxAccerlation = 2;
-  private static double kP = 1.2;
+  private static double kMaxVelocity = 1.5;
+  private static double kMaxAccerlation = 1.5;
+  private static double kP = 1.5;
   private static double kI = 0.0;
   private static double kD = 0.0;
   private static double kS = 0.22;
   private static double kG = .357;
-  private static double kV = 5.9;
+  private static double kV = 5.925;
   private static double ka = 1;
   private static double lastSpeed = 0;
   private static double lastTime = Timer.getFPGATimestamp();
@@ -101,7 +101,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     // m_encoder.setPosition(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
 
     org.littletonrobotics.junction.Logger.recordOutput("Encoder", m_encoder.getPosition());
-    m_controller.setTolerance(.01);
+    m_controller.setTolerance(.03);
   }
 
   @Override

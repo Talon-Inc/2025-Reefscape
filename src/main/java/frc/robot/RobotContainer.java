@@ -208,6 +208,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("intakeCoral", intake);
     NamedCommands.registerCommand("elevatorToL4", elevatorL4);
     NamedCommands.registerCommand("elevatorHome", setHome);
+    NamedCommands.registerCommand("elevatorL1", elevatorL1);
+    NamedCommands.registerCommand("shootSideways", shootSideways);
 
     // // Set Up Autos For PathPlanner
     autoChooser.addOption("4 Piece Coral Bottom", AutoBuilder.buildAuto("4 Piece Coral Bottom"));
@@ -264,7 +266,7 @@ public class RobotContainer {
     operatorController.povDown().whileTrue(elevatorL1);
     operatorController.povLeft().whileTrue(elevatorL2);
     operatorController.povRight().whileTrue(elevatorL3);
-    operatorController.povUp().whileTrue(elevatorL4);
+    operatorController.triangle().whileTrue(elevatorL4);
 
     // Driver
     driverController.L1().onTrue(intake);

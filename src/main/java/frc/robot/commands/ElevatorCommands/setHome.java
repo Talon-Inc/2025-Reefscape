@@ -7,6 +7,7 @@ package frc.robot.commands.ElevatorCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.elevator.Elevator;
+import org.littletonrobotics.junction.Logger;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class setHome extends Command {
@@ -23,6 +24,8 @@ public class setHome extends Command {
   public void initialize() {
     elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
     SmartDashboard.putBoolean("Set Home Finished", elevator.checkGoal());
+    Logger.recordOutput("SetHome Started", true);
+    Logger.recordOutput("SetHome Finished", false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -30,6 +33,8 @@ public class setHome extends Command {
   public void execute() {
     // elevator.resetPosition(elevator.getPosition());
     elevator.setPosition(position);
+    Logger.recordOutput("SetHome Started", false);
+    Logger.recordOutput("SetHome Finished", true);
   }
 
   // Called once the command ends or is interrupted.
