@@ -261,10 +261,10 @@ public class RobotContainer {
     // Operator
     // Move Elevator to Level 1
     operatorController.cross().whileTrue(setHome);
-    operatorController.povDown().whileTrue(elevatorL1);
-    operatorController.povLeft().whileTrue(elevatorL2);
-    operatorController.povRight().whileTrue(elevatorL3);
-    operatorController.triangle().whileTrue(elevatorL4);
+    operatorController.povDown().onTrue(elevatorL1);
+    operatorController.povLeft().onTrue(elevatorL2);
+    operatorController.povRight().onTrue(elevatorL3);
+    operatorController.triangle().onTrue(elevatorL4);
 
     // Driver
     driverController.L1().onTrue(intake);

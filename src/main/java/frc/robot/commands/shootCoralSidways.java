@@ -14,6 +14,7 @@ public class shootCoralSidways extends Command {
   public shootCoralSidways(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shooter = shooter;
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.

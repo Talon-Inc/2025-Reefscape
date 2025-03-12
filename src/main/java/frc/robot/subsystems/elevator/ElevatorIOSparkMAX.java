@@ -25,7 +25,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
   private static double kMaxVelocity = 2.5;
   private static double kMaxAccerlation = 2.5;
   private static double kP = 1.5;
-  private static double kI = 0.0;
+  private static double kI = 1;
   private static double kD = 0.0;
   private static double kS = 0.22;
   private static double kG = .357;
@@ -101,7 +101,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     // m_encoder.setPosition(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
 
     org.littletonrobotics.junction.Logger.recordOutput("Encoder", m_encoder.getPosition());
-    m_controller.setTolerance(.015);
+    m_controller.setTolerance(.0125);
   }
 
   @Override

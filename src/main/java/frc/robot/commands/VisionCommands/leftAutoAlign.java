@@ -84,12 +84,12 @@ public class leftAutoAlign extends Command {
             0,
             new Rotation3d(0, 0, robotPose.getRotation().getRadians()));
     final int cameraIndex;
-    if (vision.hasTargets(0)) {
-      cameraIndex = 0;
-    } else if (vision.hasTargets(1)) {
+    if (vision.hasTargets(1)) {
       cameraIndex = 1;
-    } else {
+    } else if (vision.hasTargets(0)) {
       cameraIndex = 0;
+    } else {
+      cameraIndex = 1;
     }
     if (vision.hasTargets(0) || vision.hasTargets(1)) {
       if (Arrays.stream(REEF_TAGS).anyMatch(n -> n == vision.bestTargetID(cameraIndex))) {

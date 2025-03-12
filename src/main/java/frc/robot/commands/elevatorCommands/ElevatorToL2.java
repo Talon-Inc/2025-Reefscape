@@ -18,6 +18,7 @@ public class ElevatorToL2 extends Command {
   public ElevatorToL2(Elevator elevator) {
     this.elevator = elevator;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(elevator);
   }
 
   // Called when the command is initially scheduled.

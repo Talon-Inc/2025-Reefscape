@@ -17,6 +17,7 @@ public class setHome extends Command {
   public setHome(Elevator elevator) {
     this.elevator = elevator;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(elevator);
   }
 
   // Called when the command is initially scheduled.
@@ -33,8 +34,6 @@ public class setHome extends Command {
   public void execute() {
     // elevator.resetPosition(elevator.getPosition());
     elevator.setPosition(position);
-    Logger.recordOutput("SetHome Started", false);
-    Logger.recordOutput("SetHome Finished", true);
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +41,8 @@ public class setHome extends Command {
   public void end(boolean interrupted) {
     SmartDashboard.putBoolean("Set Home Finished", elevator.checkGoal());
     elevator.stop();
+    Logger.recordOutput("SetHome Started", false);
+    Logger.recordOutput("SetHome Finished", true);
   }
 
   // Returns true when the command should end.

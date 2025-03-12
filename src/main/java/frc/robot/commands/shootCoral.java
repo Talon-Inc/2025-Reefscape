@@ -21,6 +21,7 @@ public class shootCoral extends Command {
     this.shooter = shooter;
     timer = new Timer();
     start = timer.get();
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
