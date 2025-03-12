@@ -264,20 +264,17 @@ public class RobotContainer {
     operatorController.povDown().whileTrue(elevatorL1);
     operatorController.povLeft().whileTrue(elevatorL2);
     operatorController.povRight().whileTrue(elevatorL3);
-    operatorController.povUp().whileTrue(elevatorL4);
+    operatorController.triangle().whileTrue(elevatorL4);
 
     // Driver
     driverController.L1().onTrue(intake);
     driverController.R1().whileTrue(shootCoral);
     driverController.R2().whileTrue(shootSideways);
     driverController.L2().whileTrue(shootReverse);
-    // driverController.povUp().whileTrue(setElevatorSpeed);
-    // driverController.povDown().whileTrue(elevatorDown);
-    // driverController.create().whileTrue(deployClimb);
-    // driverController.create().whileTrue(climb);
-
     driverController.L3().whileTrue(leftAuto);
     driverController.R3().whileTrue(rightAuto);
+    driverController.create().whileTrue(climb);
+    driverController.options().whileTrue(deployClimb);
   }
 
   /**

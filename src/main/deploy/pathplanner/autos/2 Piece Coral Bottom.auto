@@ -30,7 +30,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 2.0
+                  "waitTime": 1.0
                 }
               },
               {
@@ -43,7 +43,7 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -53,12 +53,18 @@
                 }
               },
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "E4 To Source"
+                  "waitTime": 1.5
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "E4 To Source"
           }
         },
         {
