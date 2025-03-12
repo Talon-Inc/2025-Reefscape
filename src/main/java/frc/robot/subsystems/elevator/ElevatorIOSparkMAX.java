@@ -101,7 +101,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     // m_encoder.setPosition(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
 
     org.littletonrobotics.junction.Logger.recordOutput("Encoder", m_encoder.getPosition());
-    m_controller.setTolerance(.03);
+    m_controller.setTolerance(.015);
   }
 
   @Override
