@@ -25,6 +25,7 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.vision.VisionIO.PoseObservation;
 import frc.robot.subsystems.vision.VisionIO.PoseObservationType;
 import java.util.LinkedList;
 import java.util.List;
@@ -75,6 +76,10 @@ public class Vision extends SubsystemBase {
 
   public int bestTargetID(int cameraIndex) {
     return inputs[cameraIndex].bestTargetID;
+  }
+
+  public PoseObservation[] poseObservations(int cameraIndex) {
+    return inputs[cameraIndex].poseObservations;
   }
   // public int bestTarget() {
   //   return photonIO.getTargetInt();

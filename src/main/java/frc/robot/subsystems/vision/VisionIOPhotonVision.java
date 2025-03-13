@@ -23,6 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 /** IO implementation for real PhotonVision hardware. */
 public class VisionIOPhotonVision implements VisionIO {
@@ -58,9 +59,17 @@ public class VisionIOPhotonVision implements VisionIO {
         inputs.latestTargetObservation = new TargetObservation(new Rotation2d(), new Rotation2d());
       }
       if (result.hasTargets()) {
+        PhotonTrackedTarget bestTarget = null;
+        double maxArea = -1;
+        for (var target : result.getTargets()) {
+          if (target.getArea() > maxArea) {
+            maxArea = target.getArea();
+            bestTarget = target;
+          }
+        }
         inputs.hasTargets = true;
-        inputs.bestTrackedTarget = result.getBestTarget();
-        inputs.bestTargetID = result.getBestTarget().getFiducialId();
+        inputs.bestTrackedTarget = bestTarget;
+        inputs.bestTargetID = bestTarget.getFiducialId();
       } else {
         inputs.hasTargets = false;
         inputs.bestTrackedTarget = null;

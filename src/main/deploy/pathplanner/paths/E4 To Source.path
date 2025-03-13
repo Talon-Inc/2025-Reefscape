@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.063139338340756,
-        "y": 2.6494926244502914
+        "x": 5.226639344262295,
+        "y": 1.6574282786885248
       },
       "isLocked": false,
       "linkedName": "E4"
@@ -20,8 +20,8 @@
         "y": 0.757
       },
       "prevControl": {
-        "x": 2.0055289754141654,
-        "y": 0.5954774294451437
+        "x": 2.2177254098360653,
+        "y": 1.9571209016393447
       },
       "nextControl": null,
       "isLocked": false,
@@ -36,7 +36,7 @@
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },

@@ -92,6 +92,7 @@ public class rightAutoAlign extends Command {
     } else {
       cameraIndex = 0;
     }
+
     if (vision.hasTargets(0) || vision.hasTargets(1)) {
       if (Arrays.stream(REEF_TAGS).anyMatch(n -> n == vision.bestTargetID(cameraIndex))) {
         lastTarget = vision.bestTrackedTarget(cameraIndex);
