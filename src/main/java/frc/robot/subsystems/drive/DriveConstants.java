@@ -69,8 +69,8 @@ public class DriveConstants {
   // Drive PID configuration
   public static final double driveKp = 0.0;
   public static final double driveKd = 0.0;
-  public static final double driveKs = 0.17879;
-  public static final double driveKv = 0.10449;
+  public static final double driveKs = 0.17384; // .17879 (For Plastic V2 Wheels)
+  public static final double driveKv = 0.10168; // .10449 (For Plastic V2 Wheels)
   public static final double driveSimP = 0.05;
   public static final double driveSimD = 0.0;
   public static final double driveSimKs = 0.0;
