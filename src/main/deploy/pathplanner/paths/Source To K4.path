@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4601461475848883,
-        "y": 7.203629563245036
+        "x": 2.2569968634709463,
+        "y": 6.479871134462254
       },
       "isLocked": true,
       "linkedName": "Top Source Ending"
     },
     {
       "anchor": {
-        "x": 3.8589590120335644,
-        "y": 5.169292161857816
+        "x": 3.6468400553939815,
+        "y": 5.013981276641164
       },
       "prevControl": {
-        "x": 2.8589590120335644,
-        "y": 5.169292161857816
+        "x": 3.090739355985848,
+        "y": 5.49096917757824
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "K4"
     }
   ],
   "rotationTargets": [],
@@ -33,10 +33,10 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 4.8,
+    "maxAcceleration": 4.8,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 360.0,
+    "maxAngularAcceleration": 480.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },

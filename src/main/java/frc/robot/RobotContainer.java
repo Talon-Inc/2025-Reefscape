@@ -189,6 +189,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("intakeCoral", intake);
     NamedCommands.registerCommand("elevatorToL4", elevatorL4);
     NamedCommands.registerCommand("elevatorHome", setHome);
+    NamedCommands.registerCommand("alignToLeft", leftAuto);
+    NamedCommands.registerCommand("alignToRight", rightAuto);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -214,6 +216,9 @@ public class RobotContainer {
     autoChooser.addOption("1 Piece Coral", AutoBuilder.buildAuto("1 Piece Coral"));
     autoChooser.addOption("2 Piece Coral Bottom", AutoBuilder.buildAuto("2 Piece Coral Bottom"));
     autoChooser.addOption("2 Piece Coral Top", AutoBuilder.buildAuto("2 Piece Coral Top"));
+    autoChooser.addOption(
+        "Copy of 2 Piece Coral Top", AutoBuilder.buildAuto("Copy of 2 Piece Coral Top"));
+    autoChooser.addOption("Anthony's Test", AutoBuilder.buildAuto("Anthony's Test"));
 
     // Configure the button bindings
     configureButtonBindings();

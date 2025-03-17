@@ -21,7 +21,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.5
+                        "waitTime": 1.25
                       }
                     },
                     {
@@ -29,15 +29,15 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "named",
+                            "type": "wait",
                             "data": {
-                              "name": "elevatorToL4"
+                              "waitTime": 1.0
                             }
                           },
                           {
-                            "type": "wait",
+                            "type": "named",
                             "data": {
-                              "waitTime": 1.1
+                              "name": "elevatorToL4"
                             }
                           }
                         ]
@@ -56,7 +56,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.75
+                  "waitTime": 0.3
                 }
               },
               {
@@ -94,21 +94,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "intakeCoral"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Source To K4"
-                }
-              },
               {
                 "type": "sequential",
                 "data": {
@@ -116,29 +104,22 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.5
+                        "waitTime": 0.5
                       }
                     },
                     {
-                      "type": "race",
+                      "type": "path",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "elevatorToL4"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.0
-                            }
-                          }
-                        ]
+                        "pathName": "Source To K4"
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeCoral"
                 }
               }
             ]
@@ -151,7 +132,26 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.75
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "elevatorToL4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.3
                 }
               },
               {
@@ -189,21 +189,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "intakeCoral"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Source To L4"
-                }
-              },
               {
                 "type": "sequential",
                 "data": {
@@ -211,29 +199,22 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.5
+                        "waitTime": 0.5
                       }
                     },
                     {
-                      "type": "race",
+                      "type": "path",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.0
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "elevatorToL4"
-                            }
-                          }
-                        ]
+                        "pathName": "Source To L4"
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeCoral"
                 }
               }
             ]
@@ -246,7 +227,26 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.75
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "elevatorToL4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.3
                 }
               },
               {

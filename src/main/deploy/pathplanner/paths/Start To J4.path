@@ -3,28 +3,28 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.1566598360655735,
-        "y": 5.793186475409836
+        "x": 7.074863605044771,
+        "y": 5.8080162441090515
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.7383098287394,
-        "y": 5.916794448618962
+        "x": 7.533072847156928,
+        "y": 5.963519789757287
       },
       "isLocked": true,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.898491283762072,
-        "y": 5.30572658206989
+        "x": 4.976040477156772,
+        "y": 5.251948846776113
       },
       "prevControl": {
-        "x": 4.329896800303028,
-        "y": 5.215264586467161
+        "x": 5.271111207821635,
+        "y": 5.3371129778701425
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "J4 Ending"
     }
   ],
@@ -33,10 +33,10 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 4.8,
+    "maxAcceleration": 4.8,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 360.0,
+    "maxAngularAcceleration": 480.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -119.99999999999999
   },
   "useDefaultConstraints": true
 }

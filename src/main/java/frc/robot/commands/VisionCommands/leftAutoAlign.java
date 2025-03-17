@@ -26,9 +26,9 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 public class leftAutoAlign extends Command {
 
   private static final TrapezoidProfile.Constraints X_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(1.75, 3);
+      new TrapezoidProfile.Constraints(2.25, 4);
   private static final TrapezoidProfile.Constraints Y_CONSTRAINTS =
-      new TrapezoidProfile.Constraints(1.75, 3);
+      new TrapezoidProfile.Constraints(2.25, 4);
   private static final TrapezoidProfile.Constraints OMEGA_CONSTRAINTS =
       new TrapezoidProfile.Constraints(2, 5);
 
