@@ -40,6 +40,8 @@ import frc.robot.commands.ElevatorCommands.setHome;
 import frc.robot.commands.VisionCommands.leftAutoAlign;
 import frc.robot.commands.VisionCommands.rightAutoAlign;
 import frc.robot.commands.climb;
+import frc.robot.commands.deployClaws;
+import frc.robot.commands.retractClaws;
 import frc.robot.commands.deployClimb;
 import frc.robot.commands.intakeCoral;
 import frc.robot.commands.reverseShooter;
@@ -82,6 +84,8 @@ public class RobotContainer {
   private final reverseShooter shootReverse;
   private final climb climb;
   private final deployClimb deployClimb;
+  private final deployClaws deployClaws;
+  private final retractClaws retractClaws;
   private final shootCoralSidways shootSideways;
   private final leftAutoAlign leftAuto;
   private final rightAutoAlign rightAuto;
@@ -103,19 +107,26 @@ public class RobotContainer {
     climber = new Climber();
 
     // Commands
+    // Elevator Commands
     elevatorL4 = new ElevatorToL4(elevator);
     elevatorL3 = new ElevatorToL3(elevator);
     elevatorL2 = new ElevatorToL2(elevator);
     elevatorL1 = new ElevatorToL1(elevator);
     setHome = new setHome(elevator);
+    setElevatorSpeed = new setElevatorSpeed(elevator);
+    elevatorDown = new ElevatorDown(elevator);
+
+    //Shooter Commands
     intake = new intakeCoral(shooter);
     shootCoral = new shootCoral(shooter);
     shootReverse = new reverseShooter(shooter);
+    shootSideways = new shootCoralSidways(shooter);
+
+    //Climber Commands
     climb = new climb(climber);
     deployClimb = new deployClimb(climber);
-    shootSideways = new shootCoralSidways(shooter);
-    setElevatorSpeed = new setElevatorSpeed(elevator);
-    elevatorDown = new ElevatorDown(elevator);
+    deployClaws = new deployClaws(climber);
+    retractClaws = new retractClaws(climber);
 
     drive =
         new Drive(
@@ -281,6 +292,8 @@ public class RobotContainer {
     driverController.R3().whileTrue(rightAuto);
     driverController.create().whileTrue(climb);
     driverController.options().whileTrue(deployClimb);
+    driverController.povUp().whileTrue(deployClaws);
+    driverController.povDown().whileTrue(retractClaws);
   }
 
   /**
