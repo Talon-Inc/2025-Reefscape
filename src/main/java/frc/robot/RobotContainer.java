@@ -41,9 +41,9 @@ import frc.robot.commands.VisionCommands.leftAutoAlign;
 import frc.robot.commands.VisionCommands.rightAutoAlign;
 import frc.robot.commands.climb;
 import frc.robot.commands.deployClaws;
-import frc.robot.commands.retractClaws;
 import frc.robot.commands.deployClimb;
 import frc.robot.commands.intakeCoral;
+import frc.robot.commands.retractClaws;
 import frc.robot.commands.reverseShooter;
 import frc.robot.commands.shootCoral;
 import frc.robot.commands.shootCoralSidways;
@@ -116,13 +116,13 @@ public class RobotContainer {
     setElevatorSpeed = new setElevatorSpeed(elevator);
     elevatorDown = new ElevatorDown(elevator);
 
-    //Shooter Commands
+    // Shooter Commands
     intake = new intakeCoral(shooter);
     shootCoral = new shootCoral(shooter);
     shootReverse = new reverseShooter(shooter);
     shootSideways = new shootCoralSidways(shooter);
 
-    //Climber Commands
+    // Climber Commands
     climb = new climb(climber);
     deployClimb = new deployClimb(climber);
     deployClaws = new deployClaws(climber);
@@ -292,8 +292,8 @@ public class RobotContainer {
     driverController.R3().whileTrue(rightAuto);
     driverController.create().whileTrue(climb);
     driverController.options().whileTrue(deployClimb);
-    driverController.povUp().whileTrue(deployClaws);
-    driverController.povDown().whileTrue(retractClaws);
+    // driverController.povUp().whileTrue(deployClaws);
+    // driverController.povDown().whileTrue(retractClaws);
   }
 
   /**

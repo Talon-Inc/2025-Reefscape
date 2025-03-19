@@ -4,10 +4,9 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.servohub.ServoHub;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.servohub.ServoHub;
-import com.revrobotics.servohub.config.ServoHubConfig;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
@@ -32,7 +31,7 @@ public class Climber extends SubsystemBase {
 
     servo2.setSpeed(1);
   }
-  
+
   public void deployClaws() {
     servo2.setPosition(1);
   }
