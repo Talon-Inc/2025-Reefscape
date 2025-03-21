@@ -232,6 +232,8 @@ public class RobotContainer {
     autoChooser.addOption("Anthony's Test", AutoBuilder.buildAuto("Anthony's Test"));
     autoChooser.addOption("Elevator Test", AutoBuilder.buildAuto("Elevator Test"));
     autoChooser.addOption("Anthony's Test 2", AutoBuilder.buildAuto("Anthony's Test 2"));
+    autoChooser.addOption(
+        "Slower Anthony's Test 2", AutoBuilder.buildAuto("Slower Anthony's Test 2"));
     // Configure the button bindings
     configureButtonBindings();
   }
