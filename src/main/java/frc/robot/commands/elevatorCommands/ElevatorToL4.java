@@ -12,7 +12,7 @@ import org.littletonrobotics.junction.Logger;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorToL4 extends Command {
   private final Elevator elevator;
-  private final double position = .691;
+  private final double position = .7037;
 
   /** Creates a new elevatorToL4. */
   public ElevatorToL4(Elevator elevator) {
