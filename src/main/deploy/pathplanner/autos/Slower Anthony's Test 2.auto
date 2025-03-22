@@ -56,7 +56,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.185
+                  "waitTime": 0.21
                 }
               },
               {
@@ -79,32 +79,19 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "race",
                 "data": {
                   "commands": [
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "elevatorHome"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.25
-                            }
-                          }
-                        ]
-                      }
-                    },
                     {
                       "type": "named",
                       "data": {
                         "name": "elevatorHome"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.25
                       }
                     }
                   ]
@@ -149,7 +136,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.6
+                        "waitTime": 1.2
                       }
                     },
                     {
@@ -184,7 +171,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.185
+                  "waitTime": 0.21
                 }
               },
               {
@@ -207,32 +194,19 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "race",
                 "data": {
                   "commands": [
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "elevatorHome"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.25
-                            }
-                          }
-                        ]
-                      }
-                    },
                     {
                       "type": "named",
                       "data": {
                         "name": "elevatorHome"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.25
                       }
                     }
                   ]
@@ -277,7 +251,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.6
+                        "waitTime": 1.2
                       }
                     },
                     {
@@ -312,7 +286,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.185
+                  "waitTime": 0.21
                 }
               },
               {
@@ -335,32 +309,19 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "race",
                 "data": {
                   "commands": [
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "elevatorHome"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.25
-                            }
-                          }
-                        ]
-                      }
-                    },
                     {
                       "type": "named",
                       "data": {
                         "name": "elevatorHome"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.25
                       }
                     }
                   ]
@@ -405,7 +366,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.6
+                        "waitTime": 1.2
                       }
                     },
                     {
@@ -440,7 +401,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.185
+                  "waitTime": 0.21
                 }
               },
               {
@@ -463,32 +424,19 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "race",
                 "data": {
                   "commands": [
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "elevatorHome"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.25
-                            }
-                          }
-                        ]
-                      }
-                    },
                     {
                       "type": "named",
                       "data": {
                         "name": "elevatorHome"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.125
                       }
                     }
                   ]
