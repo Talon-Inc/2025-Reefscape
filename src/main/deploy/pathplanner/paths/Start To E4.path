@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 7.1686475409836055,
-        "y": 1.9451331967213106
+        "y": 2.192
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.410069933386603,
-        "y": 1.8004942019745094
+        "x": 6.9332869577131975,
+        "y": 2.27629351008597
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.089740082079344,
-        "y": 2.8786080711354294
+        "x": 5.130737704918032,
+        "y": 2.9281249999999988
       },
       "prevControl": {
-        "x": 4.842614106390469,
-        "y": 2.9164069089458877
+        "x": 5.370254419720381,
+        "y": 2.8564888127041193
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Bottom 4 Piece Coral",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 119.99999999999999
   },
   "useDefaultConstraints": true
 }

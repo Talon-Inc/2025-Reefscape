@@ -11,7 +11,7 @@ import frc.robot.subsystems.elevator.Elevator;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorToL1 extends Command {
   private final Elevator elevator;
-  private final double position = .1019;
+  private final double position = .07125;
 
   /** Creates a new elevatorToL1. */
   public ElevatorToL1(Elevator elevator) {

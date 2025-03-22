@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.383182954088392,
-        "y": 2.854029059272611
+        "x": 3.8183057696530596,
+        "y": 2.549164962791882
       },
       "isLocked": false,
       "linkedName": "D4"
     },
     {
       "anchor": {
-        "x": 1.508,
-        "y": 0.757
+        "x": 1.487199060988461,
+        "y": 0.7465364171020531
       },
       "prevControl": {
-        "x": 1.2408401359805612,
-        "y": 0.5714113889129829
+        "x": 1.6914542316364223,
+        "y": 0.8906885078380958
       },
       "nextControl": null,
-      "isLocked": false,
-      "linkedName": null
+      "isLocked": true,
+      "linkedName": "Bottom Source"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 52.978
+    "rotation": 54.116
   },
   "reversed": false,
   "folder": "Bottom 4 Piece Coral",
