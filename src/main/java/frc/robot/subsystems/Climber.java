@@ -52,6 +52,10 @@ public class Climber extends SubsystemBase {
     climberMotor.stopMotor();
   }
 
+  public void holdClimber() {
+    climberMotor.set(.05);
+  }
+
   public boolean getLimitSwitchTop() {
     return limitSwitchTop.get();
   }
