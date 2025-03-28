@@ -24,6 +24,7 @@ public class ElevatorToL4 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    elevator.getController().setP(3.5);
     elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
     SmartDashboard.putBoolean("L4 Finished", elevator.checkGoal());
     Logger.recordOutput("L4 Finished", false);

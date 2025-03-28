@@ -37,7 +37,7 @@ public final class Constants {
 
   public static final class AlgaeConstants {
     // SPARK MAX CAN IDs
-
+    public static final int kLeftMotorCanId = 18;
   }
 
   public static final class ClimberConstants {

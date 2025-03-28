@@ -48,8 +48,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void intakeCoral() {
-    leftShooterMotor.set(.1);
-    rightShooterMotor.set(.1);
+    leftShooterMotor.set(.3);
+    rightShooterMotor.set(.3);
   }
 
   public boolean isCoralLoaded() {
