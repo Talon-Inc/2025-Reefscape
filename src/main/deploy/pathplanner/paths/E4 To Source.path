@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.142725409836065,
+        "y": 2.8921618852459017
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.279624672019016,
+        "y": 1.6709820927989971
+      },
+      "isLocked": false,
+      "linkedName": "E4"
+    },
+    {
+      "anchor": {
+        "x": 1.487199060988461,
+        "y": 0.7465364171020531
+      },
+      "prevControl": {
+        "x": 2.1969244708245257,
+        "y": 1.9466573187413978
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Bottom Source"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.8,
+    "maxAcceleration": 4.8,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 480.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 54.116
+  },
+  "reversed": false,
+  "folder": "Bottom 4 Piece Coral",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 119.93200000000002
+  },
+  "useDefaultConstraints": true
+}
