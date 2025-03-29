@@ -13,10 +13,7 @@
 
 package frc.robot;
 
-import static frc.robot.subsystems.vision.VisionConstants.camera0Name;
-import static frc.robot.subsystems.vision.VisionConstants.camera1Name;
-import static frc.robot.subsystems.vision.VisionConstants.robotToCamera0;
-import static frc.robot.subsystems.vision.VisionConstants.robotToCamera1;
+import static frc.robot.subsystems.vision.VisionConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -28,28 +25,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-// import frc.robot.Configs.Elevator;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.ElevatorCommands.ElevatorDown;
-import frc.robot.commands.ElevatorCommands.ElevatorToL1;
-import frc.robot.commands.ElevatorCommands.ElevatorToL2;
-import frc.robot.commands.ElevatorCommands.ElevatorToL3;
-import frc.robot.commands.ElevatorCommands.ElevatorToL4;
-import frc.robot.commands.ElevatorCommands.setElevatorSpeed;
-import frc.robot.commands.ElevatorCommands.setHome;
-import frc.robot.commands.VisionCommands.leftAutoAlign;
-import frc.robot.commands.VisionCommands.rightAutoAlign;
+import frc.robot.commands.ElevatorCommands.*;
+import frc.robot.commands.VisionCommands.*;
 import frc.robot.commands.climb;
-import frc.robot.commands.deployClaws;
 import frc.robot.commands.deployClimb;
 import frc.robot.commands.intakeCoral;
-import frc.robot.commands.retractClaws;
 import frc.robot.commands.reverseShooter;
 import frc.robot.commands.shootCoral;
 import frc.robot.commands.shootCoralSidways;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
-// import frc.robot.commands.VisionCommands.leftAutoAlign;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIONavX;
 import frc.robot.subsystems.drive.ModuleIOSpark;
@@ -84,13 +70,11 @@ public class RobotContainer {
   private final reverseShooter shootReverse;
   private final climb climb;
   private final deployClimb deployClimb;
-  private final deployClaws deployClaws;
-  private final retractClaws retractClaws;
   private final shootCoralSidways shootSideways;
   private final leftAutoAlign leftAuto;
   private final rightAutoAlign rightAuto;
-  private final setElevatorSpeed setElevatorSpeed;
-  private final ElevatorDown elevatorDown;
+  // private final setElevatorSpeed setElevatorSpeed;
+  // private final ElevatorDown elevatorDown;
 
   // Controller
   private final CommandPS5Controller driverController = new CommandPS5Controller(0);
@@ -113,8 +97,8 @@ public class RobotContainer {
     elevatorL2 = new ElevatorToL2(elevator);
     elevatorL1 = new ElevatorToL1(elevator);
     setHome = new setHome(elevator);
-    setElevatorSpeed = new setElevatorSpeed(elevator);
-    elevatorDown = new ElevatorDown(elevator);
+    // setElevatorSpeed = new setElevatorSpeed(elevator);
+    // elevatorDown = new ElevatorDown(elevator);
 
     // Shooter Commands
     intake = new intakeCoral(shooter);
@@ -125,8 +109,6 @@ public class RobotContainer {
     // Climber Commands
     climb = new climb(climber);
     deployClimb = new deployClimb(climber);
-    deployClaws = new deployClaws(climber);
-    retractClaws = new retractClaws(climber);
 
     drive =
         new Drive(

@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -20,8 +19,6 @@ public class Shooter extends SubsystemBase {
       new SparkMax(ShooterConstants.kLeftShooterCanId, MotorType.kBrushless);
   private final SparkMax rightShooterMotor =
       new SparkMax(ShooterConstants.kRightShooterCanId, MotorType.kBrushless);
-  private final SparkClosedLoopController leftPIDController =
-      leftShooterMotor.getClosedLoopController();
   private final AnalogInput intakeSensor = new AnalogInput(1);
 
   /** Creates a new Shooter. */
