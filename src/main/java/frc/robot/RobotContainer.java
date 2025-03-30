@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.*;
-import frc.robot.commands.Algae.*;
+import frc.robot.commands.AlgaeCommands.*;
 import frc.robot.commands.ElevatorCommands.*;
 import frc.robot.commands.VisionCommands.*;
 import frc.robot.subsystems.Algae;
