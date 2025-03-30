@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class reverseShooter extends Command {
+public class ReverseShooter extends Command {
   private final Shooter shooter;
 
   /** Creates a new reverseShooter. */
-  public reverseShooter(Shooter shooter) {
+  public ReverseShooter(Shooter shooter) {
     this.shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
