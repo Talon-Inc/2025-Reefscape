@@ -9,12 +9,12 @@ import frc.robot.subsystems.Shooter;
 import org.littletonrobotics.junction.Logger;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class intakeCoral extends Command {
+public class IntakeCoral extends Command {
   private final Shooter shooter;
   private boolean flag;
 
   /** Creates a new intakeCoral. */
-  public intakeCoral(Shooter shooter) {
+  public IntakeCoral(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shooter = shooter;
     addRequirements(shooter);

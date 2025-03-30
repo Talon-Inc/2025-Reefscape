@@ -23,7 +23,7 @@ import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class leftAutoAlign extends Command {
+public class LeftAutoAlign extends Command {
 
   private static final TrapezoidProfile.Constraints X_CONSTRAINTS =
       new TrapezoidProfile.Constraints(2.25, 4);
@@ -50,7 +50,7 @@ public class leftAutoAlign extends Command {
   private PhotonTrackedTarget lastTarget;
 
   /** Creates a new leftAutoAlign. */
-  public leftAutoAlign(Drive drive, Vision vision) {
+  public LeftAutoAlign(Drive drive, Vision vision) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
     this.vision = vision;

@@ -25,21 +25,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.Algae.deployAlgaeArm;
-import frc.robot.commands.Algae.deployAlgaeClaw;
-import frc.robot.commands.Algae.intakeAlgae;
-import frc.robot.commands.Algae.retractAlgaeArm;
-import frc.robot.commands.Algae.retractAlgaeClaw;
-import frc.robot.commands.Algae.shootAlgaeProcessor;
-import frc.robot.commands.DriveCommands;
+import frc.robot.commands.*;
+import frc.robot.commands.Algae.*;
 import frc.robot.commands.ElevatorCommands.*;
 import frc.robot.commands.VisionCommands.*;
-import frc.robot.commands.climb;
-import frc.robot.commands.deployClimb;
-import frc.robot.commands.intakeCoral;
-import frc.robot.commands.reverseShooter;
-import frc.robot.commands.shootCoral;
-import frc.robot.commands.shootCoralSidways;
 import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
@@ -68,27 +57,27 @@ public class RobotContainer {
   private final Algae algae;
 
   // Commands
-  private final setHome setHome;
   private final ElevatorToL1 elevatorL1;
   private final ElevatorToL2 elevatorL2;
   private final ElevatorToL3 elevatorL3;
   private final ElevatorToL4 elevatorL4;
-  private final intakeCoral intake;
-  private final shootCoral shootCoral;
-  private final reverseShooter shootReverse;
-  private final climb climb;
-  private final deployClimb deployClimb;
-  private final shootCoralSidways shootSideways;
-  private final leftAutoAlign leftAuto;
-  private final rightAutoAlign rightAuto;
-  // private final setElevatorSpeed setElevatorSpeed;
+  private final SetHome setHome;
+  private final IntakeCoral intake;
+  private final ShootCoral shootCoral;
+  private final ShootCoralSideways shootSideways;
+  private final ReverseShooter shootReverse;
+  private final Climb climb;
+  private final DeployClimb deployClimb;
+  private final LeftAutoAlign leftAlign;
+  private final RightAutoAlign rightAlign;
+  // private final SetElevatorSpeed setElevatorSpeed;
   // private final ElevatorDown elevatorDown;
-  private final deployAlgaeArm deployAlgaeArm;
-  private final deployAlgaeClaw deployAlgaeClaw;
-  private final intakeAlgae intakeAlgae;
-  private final retractAlgaeArm retractAlgaeArm;
-  private final retractAlgaeClaw retractAlgaeClaw;
-  private final shootAlgaeProcessor shootAlgaeProcessor;
+  // private final deployAlgaeArm deployAlgaeArm;
+  // private final deployAlgaeClaw deployAlgaeClaw;
+  // private final intakeAlgae intakeAlgae;
+  // private final retractAlgaeArm retractAlgaeArm;
+  // private final retractAlgaeClaw retractAlgaeClaw;
+  // private final shootAlgaeProcessor shootAlgaeProcessor;
 
   // Controller
   private final CommandPS5Controller driverController = new CommandPS5Controller(0);
@@ -107,31 +96,23 @@ public class RobotContainer {
 
     // Commands
     // Elevator Commands
-    elevatorL4 = new ElevatorToL4(elevator);
-    elevatorL3 = new ElevatorToL3(elevator);
-    elevatorL2 = new ElevatorToL2(elevator);
     elevatorL1 = new ElevatorToL1(elevator);
-    setHome = new setHome(elevator);
+    elevatorL2 = new ElevatorToL2(elevator);
+    elevatorL3 = new ElevatorToL3(elevator);
+    elevatorL4 = new ElevatorToL4(elevator);
+    setHome = new SetHome(elevator);
     // setElevatorSpeed = new setElevatorSpeed(elevator);
     // elevatorDown = new ElevatorDown(elevator);
 
     // Shooter Commands
-    intake = new intakeCoral(shooter);
-    shootCoral = new shootCoral(shooter);
-    shootReverse = new reverseShooter(shooter);
-    shootSideways = new shootCoralSidways(shooter);
+    intake = new IntakeCoral(shooter);
+    shootCoral = new ShootCoral(shooter);
+    shootReverse = new ReverseShooter(shooter);
+    shootSideways = new ShootCoralSideways(shooter);
 
     // Climber Commands
-    climb = new climb(climber);
-    deployClimb = new deployClimb(climber);
-
-    // Algae Commands
-    deployAlgaeArm = new deployAlgaeArm(algae);
-    deployAlgaeClaw = new deployAlgaeClaw(algae);
-    intakeAlgae = new intakeAlgae(algae);
-    retractAlgaeArm = new retractAlgaeArm(algae);
-    retractAlgaeClaw = new retractAlgaeClaw(algae);
-    shootAlgaeProcessor = new shootAlgaeProcessor(algae);
+    climb = new Climb(climber);
+    deployClimb = new DeployClimb(climber);
 
     drive =
         new Drive(
@@ -160,8 +141,8 @@ public class RobotContainer {
         //     new Vision(
         //         drive::addVisionMeasurement, new VisionIOPhotonVision(camera0Name,
         // robotToCamera0));
-        leftAuto = new leftAutoAlign(drive, vision);
-        rightAuto = new rightAutoAlign(drive, vision);
+        leftAlign = new LeftAutoAlign(drive, vision);
+        rightAlign = new RightAutoAlign(drive, vision);
         break;
 
       case SIM:
@@ -177,8 +158,8 @@ public class RobotContainer {
         //     new Vision(
         //         drive::addVisionMeasurement,
         //         new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose));
-        leftAuto = new leftAutoAlign(drive, vision);
-        rightAuto = new rightAutoAlign(drive, vision);
+        leftAlign = new LeftAutoAlign(drive, vision);
+        rightAlign = new RightAutoAlign(drive, vision);
         break;
 
       default:
@@ -195,18 +176,18 @@ public class RobotContainer {
         //         drive::addVisionMeasurement,
         //         new VisionIOPhotonVision(camera0Name, robotToCamera0) {},
         //         new VisionIO() {}) {};
-        leftAuto = new leftAutoAlign(drive, vision);
-        rightAuto = new rightAutoAlign(drive, vision);
+        leftAlign = new LeftAutoAlign(drive, vision);
+        rightAlign = new RightAutoAlign(drive, vision);
         break;
     }
 
     // Set Up Commands for PathPlanner
-    NamedCommands.registerCommand("shootCoral", shootCoral);
-    NamedCommands.registerCommand("intakeCoral", intake);
     NamedCommands.registerCommand("elevatorToL4", elevatorL4);
     NamedCommands.registerCommand("elevatorHome", setHome);
-    NamedCommands.registerCommand("alignToLeft", leftAuto);
-    NamedCommands.registerCommand("alignToRight", rightAuto);
+    NamedCommands.registerCommand("intakeCoral", intake);
+    NamedCommands.registerCommand("shootCoral", shootCoral);
+    NamedCommands.registerCommand("alignToLeft", leftAlign);
+    NamedCommands.registerCommand("alignToRight", rightAlign);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -284,27 +265,31 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Operator
-    operatorController.cross().onTrue(setHome);
+    // Move Elevator to Level 1
+    operatorController.cross().whileTrue(setHome);
     operatorController.povDown().onTrue(elevatorL1);
     operatorController.povLeft().onTrue(elevatorL2);
     operatorController.povRight().onTrue(elevatorL3);
     operatorController.triangle().onTrue(elevatorL4);
-    operatorController.circle().onTrue(deployAlgaeArm);
-    operatorController.square().onTrue(retractAlgaeArm);
-    operatorController.R1().onTrue(deployAlgaeClaw);
-    operatorController.L1().onTrue(retractAlgaeClaw);
-    operatorController.R2().onTrue(deployClimb);
+
     // Driver
     driverController.L1().onTrue(intake);
     driverController.R1().whileTrue(shootCoral);
     driverController.R2().whileTrue(shootSideways);
     driverController.L2().whileTrue(shootReverse);
-    driverController.L3().whileTrue(leftAuto);
-    driverController.R3().whileTrue(rightAuto);
+    driverController.L3().whileTrue(leftAlign);
+    driverController.R3().whileTrue(rightAlign);
     driverController.create().whileTrue(climb);
     // driverController.options().whileTrue(deployClimb);
     // driverController.povUp().whileTrue(deployClaws);
     // driverController.povDown().whileTrue(retractClaws);
+
+    // Operator
+    operatorController.povDown().onTrue(elevatorL1);
+    operatorController.povLeft().onTrue(elevatorL2);
+    operatorController.povRight().onTrue(elevatorL3);
+    operatorController.triangle().onTrue(elevatorL4);
+    operatorController.cross().whileTrue(setHome);
   }
 
   /**
