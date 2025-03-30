@@ -52,32 +52,39 @@ public class RobotContainer {
   private final Drive drive;
   private final Elevator elevator;
   private final Shooter shooter;
+  private final Algae algae;
   private final Climber climber;
   private final Vision vision;
-  private final Algae algae;
 
   // Commands
+  // ElevatorCommands
   private final ElevatorToL1 elevatorL1;
   private final ElevatorToL2 elevatorL2;
   private final ElevatorToL3 elevatorL3;
   private final ElevatorToL4 elevatorL4;
   private final SetHome setHome;
+
+  // Shooter Commands
   private final IntakeCoral intake;
   private final ShootCoral shootCoral;
   private final ShootCoralSideways shootSideways;
   private final ReverseShooter shootReverse;
+
+  // AlgaeCommands
+  private final DeployAlgaeArm deployAlgaeArm;
+  private final DeployAlgaeClaw deployAlgaeClaw;
+  private final IntakeAlgae intakeAlgae;
+  private final RetractAlgaeArm retractAlgaeArm;
+  private final RetractAlgaeClaw retractAlgaeClaw;
+  private final ShootAlgaeProcessor shootAlgaeProcessor;
+
+  // Climber commands
   private final Climb climb;
   private final DeployClimb deployClimb;
+
+  // VisionCommands
   private final LeftAutoAlign leftAlign;
   private final RightAutoAlign rightAlign;
-  // private final SetElevatorSpeed setElevatorSpeed;
-  // private final ElevatorDown elevatorDown;
-  // private final deployAlgaeArm deployAlgaeArm;
-  // private final deployAlgaeClaw deployAlgaeClaw;
-  // private final intakeAlgae intakeAlgae;
-  // private final retractAlgaeArm retractAlgaeArm;
-  // private final retractAlgaeClaw retractAlgaeClaw;
-  // private final shootAlgaeProcessor shootAlgaeProcessor;
 
   // Controller
   private final CommandPS5Controller driverController = new CommandPS5Controller(0);
@@ -109,6 +116,14 @@ public class RobotContainer {
     shootCoral = new ShootCoral(shooter);
     shootReverse = new ReverseShooter(shooter);
     shootSideways = new ShootCoralSideways(shooter);
+
+    // AlgaeCommands
+    deployAlgaeArm = new DeployAlgaeArm(algae);
+    deployAlgaeClaw = new DeployAlgaeClaw(algae);
+    intakeAlgae = new IntakeAlgae(algae);
+    retractAlgaeArm = new RetractAlgaeArm(algae);
+    retractAlgaeClaw = new RetractAlgaeClaw(algae);
+    shootAlgaeProcessor = new ShootAlgaeProcessor(algae);
 
     // Climber Commands
     climb = new Climb(climber);
@@ -264,14 +279,6 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    // Operator
-    // Move Elevator to Level 1
-    operatorController.cross().whileTrue(setHome);
-    operatorController.povDown().onTrue(elevatorL1);
-    operatorController.povLeft().onTrue(elevatorL2);
-    operatorController.povRight().onTrue(elevatorL3);
-    operatorController.triangle().onTrue(elevatorL4);
-
     // Driver
     driverController.L1().onTrue(intake);
     driverController.R1().whileTrue(shootCoral);
@@ -280,16 +287,14 @@ public class RobotContainer {
     driverController.L3().whileTrue(leftAlign);
     driverController.R3().whileTrue(rightAlign);
     driverController.create().whileTrue(climb);
-    // driverController.options().whileTrue(deployClimb);
-    // driverController.povUp().whileTrue(deployClaws);
-    // driverController.povDown().whileTrue(retractClaws);
+    driverController.options().whileTrue(deployClimb);
 
     // Operator
     operatorController.povDown().onTrue(elevatorL1);
     operatorController.povLeft().onTrue(elevatorL2);
     operatorController.povRight().onTrue(elevatorL3);
     operatorController.triangle().onTrue(elevatorL4);
-    operatorController.cross().whileTrue(setHome);
+    operatorController.cross().onTrue(setHome);
   }
 
   /**
