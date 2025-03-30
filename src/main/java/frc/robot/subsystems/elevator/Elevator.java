@@ -12,6 +12,7 @@ public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
   private final ElevatorIOSparkMAX io;
 
+  @SuppressWarnings("unused")
   private final ElevatorIOInputsAutoLogged inputs = new ElevatorIOInputsAutoLogged();
 
   // Constructor

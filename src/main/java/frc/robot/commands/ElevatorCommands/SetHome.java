@@ -10,11 +10,11 @@ import frc.robot.subsystems.elevator.Elevator;
 import org.littletonrobotics.junction.Logger;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class setHome extends Command {
+public class SetHome extends Command {
   private final Elevator elevator;
   private final double position = 0;
   /** Creates a new setHome. */
-  public setHome(Elevator elevator) {
+  public SetHome(Elevator elevator) {
     this.elevator = elevator;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevator);

@@ -16,14 +16,14 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.drive.*;
+import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.vision.Vision;
 import java.util.Arrays;
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class rightAutoAlign extends Command {
+public class LeftAutoAlign extends Command {
 
   private static final TrapezoidProfile.Constraints X_CONSTRAINTS =
       new TrapezoidProfile.Constraints(2.25, 4);
@@ -34,7 +34,7 @@ public class rightAutoAlign extends Command {
 
   private static final int[] REEF_TAGS = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
   private static final Transform3d TAG_TO_GOAL =
-      new Transform3d(new Translation3d(.4328, 0.2695, 0), new Rotation3d(0, 0, -Math.PI));
+      new Transform3d(new Translation3d(.4238, -0.076, 0), new Rotation3d(0, 0, -Math.PI));
   private static Pose2d robotPose;
 
   private final Drive drive;
@@ -48,10 +48,9 @@ public class rightAutoAlign extends Command {
       new ProfiledPIDController(2, 0, 0, OMEGA_CONSTRAINTS);
 
   private PhotonTrackedTarget lastTarget;
-  private int bestTargetID;
 
-  /** Creates a new rightAutoAlign. */
-  public rightAutoAlign(Drive drive, Vision vision) {
+  /** Creates a new leftAutoAlign. */
+  public LeftAutoAlign(Drive drive, Vision vision) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
     this.vision = vision;
@@ -72,22 +71,6 @@ public class rightAutoAlign extends Command {
     omegaController.reset(robotPose.getRotation().getRadians());
     xController.reset(robotPose.getX());
     yController.reset(robotPose.getY());
-
-    final int cameraIndex;
-    if (vision.hasTargets(0)) {
-      cameraIndex = 0;
-    } else if (vision.hasTargets(1)) {
-      cameraIndex = 1;
-    } else {
-      cameraIndex = 0;
-    }
-
-    if (vision.hasTargets(0) || vision.hasTargets(1)) {
-      if (Arrays.stream(REEF_TAGS).anyMatch(n -> n == vision.bestTargetID(cameraIndex))) {
-        lastTarget = vision.bestTrackedTarget(cameraIndex);
-        bestTargetID = lastTarget.getFiducialId();
-      }
-    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -100,20 +83,18 @@ public class rightAutoAlign extends Command {
             robotPose.getY(),
             0,
             new Rotation3d(0, 0, robotPose.getRotation().getRadians()));
-
     final int cameraIndex;
-    if (vision.hasTargets(0)) {
-      cameraIndex = 0;
-    } else if (vision.hasTargets(1)) {
+    if (vision.hasTargets(1)) {
       cameraIndex = 1;
-    } else {
+    } else if (vision.hasTargets(0)) {
       cameraIndex = 0;
+    } else {
+      cameraIndex = 1;
     }
-
     if (vision.hasTargets(0) || vision.hasTargets(1)) {
       if (Arrays.stream(REEF_TAGS).anyMatch(n -> n == vision.bestTargetID(cameraIndex))) {
         lastTarget = vision.bestTrackedTarget(cameraIndex);
-        var targetPose = aprilTagLayout.getTagPose(bestTargetID);
+        var targetPose = aprilTagLayout.getTagPose(vision.bestTargetID(cameraIndex));
         Pose3d targetPose3D =
             new Pose3d(
                 targetPose.get().getX(),

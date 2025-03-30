@@ -42,7 +42,7 @@ public final class Constants {
 
   public static final class ClimberConstants {
     // SPARK MAX CAN IDs
-    public static final int kLeftMotorCanId = 17;
+    public static final int kClimberMotorCanId = 17;
   }
 
   public static final class ElevatorConstants {
