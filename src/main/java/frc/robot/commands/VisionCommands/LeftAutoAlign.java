@@ -48,6 +48,7 @@ public class LeftAutoAlign extends Command {
       new ProfiledPIDController(2, 0, 0, OMEGA_CONSTRAINTS);
 
   private PhotonTrackedTarget lastTarget;
+  private int bestTargetID;
 
   /** Creates a new leftAutoAlign. */
   public LeftAutoAlign(Drive drive, Vision vision) {
@@ -71,6 +72,22 @@ public class LeftAutoAlign extends Command {
     omegaController.reset(robotPose.getRotation().getRadians());
     xController.reset(robotPose.getX());
     yController.reset(robotPose.getY());
+
+    final int cameraIndex;
+    if (vision.hasTargets(0)) {
+      cameraIndex = 0;
+    } else if (vision.hasTargets(1)) {
+      cameraIndex = 1;
+    } else {
+      cameraIndex = 0;
+    }
+
+    if (vision.hasTargets(0) || vision.hasTargets(1)) {
+      if (Arrays.stream(REEF_TAGS).anyMatch(n -> n == vision.bestTargetID(cameraIndex))) {
+        lastTarget = vision.bestTrackedTarget(cameraIndex);
+        bestTargetID = lastTarget.getFiducialId();
+      }
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -94,7 +111,7 @@ public class LeftAutoAlign extends Command {
     if (vision.hasTargets(0) || vision.hasTargets(1)) {
       if (Arrays.stream(REEF_TAGS).anyMatch(n -> n == vision.bestTargetID(cameraIndex))) {
         lastTarget = vision.bestTrackedTarget(cameraIndex);
-        var targetPose = aprilTagLayout.getTagPose(vision.bestTargetID(cameraIndex));
+        var targetPose = aprilTagLayout.getTagPose(bestTargetID);
         Pose3d targetPose3D =
             new Pose3d(
                 targetPose.get().getX(),
