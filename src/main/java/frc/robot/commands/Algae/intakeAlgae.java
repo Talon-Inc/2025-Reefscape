@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Algae;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class intakeAlgae extends Command {
+public class IntakeAlgae extends Command {
   /** Creates a new intakeAlgae. */
   private final Algae algae;
 
-  public intakeAlgae(Algae algae) {
+  public IntakeAlgae(Algae algae) {
     this.algae = algae;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(algae);
