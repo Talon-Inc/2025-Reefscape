@@ -22,6 +22,7 @@ import org.littletonrobotics.junction.Logger;
 public class Algae extends SubsystemBase {
   /** Creates a new Algae. */
   private static double kDt = 0;
+
   private static double kMaxVelocity = 0;
   private static double kMaxAccerlation = 0;
   private static double kP = 0;

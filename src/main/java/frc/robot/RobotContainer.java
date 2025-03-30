@@ -31,6 +31,7 @@ import frc.robot.commands.ElevatorCommands.*;
 import frc.robot.commands.VisionCommands.*;
 import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIONavX;
@@ -55,6 +56,7 @@ public class RobotContainer {
   private final Algae algae;
   private final Climber climber;
   private final Vision vision;
+  private final LED led;
 
   // Commands
   // ElevatorCommands
@@ -100,6 +102,7 @@ public class RobotContainer {
     shooter = new Shooter();
     climber = new Climber();
     algae = new Algae();
+    led = new LED();
 
     // Commands
     // Elevator Commands
@@ -156,8 +159,8 @@ public class RobotContainer {
         //     new Vision(
         //         drive::addVisionMeasurement, new VisionIOPhotonVision(camera0Name,
         // robotToCamera0));
-        leftAlign = new LeftAutoAlign(drive, vision);
-        rightAlign = new RightAutoAlign(drive, vision);
+        leftAlign = new LeftAutoAlign(drive, vision, led);
+        rightAlign = new RightAutoAlign(drive, vision, led);
         break;
 
       case SIM:
@@ -173,8 +176,8 @@ public class RobotContainer {
         //     new Vision(
         //         drive::addVisionMeasurement,
         //         new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose));
-        leftAlign = new LeftAutoAlign(drive, vision);
-        rightAlign = new RightAutoAlign(drive, vision);
+        leftAlign = new LeftAutoAlign(drive, vision, led);
+        rightAlign = new RightAutoAlign(drive, vision, led);
         break;
 
       default:
@@ -191,8 +194,8 @@ public class RobotContainer {
         //         drive::addVisionMeasurement,
         //         new VisionIOPhotonVision(camera0Name, robotToCamera0) {},
         //         new VisionIO() {}) {};
-        leftAlign = new LeftAutoAlign(drive, vision);
-        rightAlign = new RightAutoAlign(drive, vision);
+        leftAlign = new LeftAutoAlign(drive, vision, led);
+        rightAlign = new RightAutoAlign(drive, vision, led);
         break;
     }
 
@@ -201,8 +204,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("elevatorHome", setHome);
     NamedCommands.registerCommand("intakeCoral", intake);
     NamedCommands.registerCommand("shootCoral", shootCoral);
-    NamedCommands.registerCommand("alignToLeft", leftAlign);
-    NamedCommands.registerCommand("alignToRight", rightAlign);
+    NamedCommands.registerCommand("alignToLeft", leftAlign.withTimeout(1));
+    NamedCommands.registerCommand("alignToRight",rightAlign.withTimeout(1));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -236,6 +239,7 @@ public class RobotContainer {
     autoChooser.addOption(
         "Slower Anthony's Test 2", AutoBuilder.buildAuto("Slower Anthony's Test 2"));
     autoChooser.addOption("Test Gyro", AutoBuilder.buildAuto("Test Gyro"));
+    autoChooser.addOption("Align Command Test", AutoBuilder.buildAuto("Align Command Test"));
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -255,6 +259,7 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
 
+    
     // Lock to 0° when Square button is held
     driverController
         .square()

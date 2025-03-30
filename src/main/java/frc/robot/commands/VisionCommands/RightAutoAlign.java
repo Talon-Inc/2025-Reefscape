@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.vision.Vision;
 import java.util.Arrays;
@@ -39,6 +40,7 @@ public class RightAutoAlign extends Command {
 
   private final Drive drive;
   private final Vision vision;
+  private final LED led;
 
   private final ProfiledPIDController xController =
       new ProfiledPIDController(2.5, 0, 0, X_CONSTRAINTS);
@@ -51,17 +53,18 @@ public class RightAutoAlign extends Command {
   private int bestTargetID;
 
   /** Creates a new rightAutoAlign. */
-  public RightAutoAlign(Drive drive, Vision vision) {
+  public RightAutoAlign(Drive drive, Vision vision, LED led) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
     this.vision = vision;
+    this.led = led;
 
     xController.setTolerance(.01);
     yController.setTolerance(.01);
     omegaController.setTolerance(Units.degreesToRadians(2));
     omegaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    addRequirements(drive, vision);
+    addRequirements(drive, vision, led);
   }
 
   // Called when the command is initially scheduled.
@@ -69,17 +72,17 @@ public class RightAutoAlign extends Command {
   public void initialize() {
     lastTarget = null;
     robotPose = drive.getPose();
-    omegaController.reset(robotPose.getRotation().getRadians());
-    xController.reset(robotPose.getX());
-    yController.reset(robotPose.getY());
+    omegaController.reset(robotPose.getRotation().getRadians(), drive.getChassisSpeed().omegaRadiansPerSecond);
+    xController.reset(robotPose.getX(), drive.getChassisSpeed().vxMetersPerSecond);
+    yController.reset(robotPose.getY(), drive.getChassisSpeed().vyMetersPerSecond);
 
     final int cameraIndex;
-    if (vision.hasTargets(0)) {
-      cameraIndex = 0;
-    } else if (vision.hasTargets(1)) {
+    if (vision.hasTargets(1)) {
       cameraIndex = 1;
-    } else {
+    } else if (vision.hasTargets(0)) {
       cameraIndex = 0;
+    } else {
+      cameraIndex = 1;
     }
 
     if (vision.hasTargets(0) || vision.hasTargets(1)) {
@@ -88,6 +91,8 @@ public class RightAutoAlign extends Command {
         bestTargetID = lastTarget.getFiducialId();
       }
     }
+
+    led.setColorWave();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -167,6 +172,7 @@ public class RightAutoAlign extends Command {
   @Override
   public void end(boolean interrupted) {
     drive.stop();
+    led.setGreen();
   }
 
   // Returns true when the command should end.
