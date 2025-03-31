@@ -11,7 +11,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -24,7 +23,7 @@ import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class LeftAutoAlign extends Command {
+public class AutoAlign extends Command {
 
   private static final TrapezoidProfile.Constraints X_CONSTRAINTS =
       new TrapezoidProfile.Constraints(2.25, 4);
@@ -34,8 +33,7 @@ public class LeftAutoAlign extends Command {
       new TrapezoidProfile.Constraints(2, 5);
 
   private static final int[] REEF_TAGS = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
-  private static final Transform3d TAG_TO_GOAL =
-      new Transform3d(new Translation3d(.4238, -0.076, 0), new Rotation3d(0, 0, -Math.PI));
+  private static Transform3d TAG_TO_GOAL;
   private static Pose2d robotPose;
 
   private final Drive drive;
@@ -53,11 +51,12 @@ public class LeftAutoAlign extends Command {
   private int bestTargetID;
 
   /** Creates a new leftAutoAlign. */
-  public LeftAutoAlign(Drive drive, Vision vision, LED led) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public AutoAlign(Drive drive, Vision vision, LED led, Transform3d transform3d) {
     this.drive = drive;
     this.vision = vision;
     this.led = led;
+
+    TAG_TO_GOAL = transform3d;
 
     xController.setTolerance(.01);
     yController.setTolerance(.01);

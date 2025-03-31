@@ -17,7 +17,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LED;
-import frc.robot.subsystems.drive.*;
+import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.vision.Vision;
 import java.util.Arrays;
 import org.littletonrobotics.junction.Logger;
@@ -71,10 +71,12 @@ public class RightAutoAlign extends Command {
   @Override
   public void initialize() {
     lastTarget = null;
+    bestTargetID = 0;
     robotPose = drive.getPose();
-    omegaController.reset(robotPose.getRotation().getRadians(), drive.getChassisSpeed().omegaRadiansPerSecond);
-    xController.reset(robotPose.getX(), drive.getChassisSpeed().vxMetersPerSecond);
-    yController.reset(robotPose.getY(), drive.getChassisSpeed().vyMetersPerSecond);
+    omegaController.reset(
+        robotPose.getRotation().getRadians(), drive.getChassisSpeeds().omegaRadiansPerSecond);
+    xController.reset(robotPose.getX(), drive.getChassisSpeeds().vxMetersPerSecond);
+    yController.reset(robotPose.getY(), drive.getChassisSpeeds().vyMetersPerSecond);
 
     final int cameraIndex;
     if (vision.hasTargets(1)) {

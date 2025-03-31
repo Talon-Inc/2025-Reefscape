@@ -19,6 +19,9 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -85,8 +88,14 @@ public class RobotContainer {
   private final DeployClimb deployClimb;
 
   // VisionCommands
+  private static final Transform3d leftTransform =
+      new Transform3d(new Translation3d(.4238, -0.076, 0), new Rotation3d(0, 0, -Math.PI));
+  private static final Transform3d rightTransform =
+      new Transform3d(new Translation3d(.4328, 0.2695, 0), new Rotation3d(0, 0, -Math.PI));
   private final LeftAutoAlign leftAlign;
   private final RightAutoAlign rightAlign;
+  private final AutoAlign leftTest;
+  private final AutoAlign rightTest;
 
   // Controller
   private final CommandPS5Controller driverController = new CommandPS5Controller(0);
@@ -104,8 +113,68 @@ public class RobotContainer {
     algae = new Algae();
     led = new LED();
 
+    drive =
+        new Drive(
+            new GyroIONavX(),
+            new ModuleIOSpark(0),
+            new ModuleIOSpark(1),
+            new ModuleIOSpark(2),
+            new ModuleIOSpark(3));
+    vision =
+        new Vision(
+            drive::addVisionMeasurement,
+            new VisionIOPhotonVision(camera0Name, robotToCamera0),
+            new VisionIOPhotonVision(camera1Name, robotToCamera1));
+    switch (Constants.currentMode) {
+      case REAL:
+        // Real robot, instantiate hardware IO implementations
+        // drive =
+        //     new Drive(
+        //         new GyroIONavX(),
+        //         new ModuleIOSpark(0),
+        //         new ModuleIOSpark(1),
+        //         new ModuleIOSpark(2),
+        //         new ModuleIOSpark(3));
+        // vision =
+        //     new Vision(
+        //         drive::addVisionMeasurement, new VisionIOPhotonVision(camera0Name,
+        // robotToCamera0));
+        break;
+
+      case SIM:
+        // Sim robot, instantiate physics sim IO implementations
+        // drive =
+        //     new Drive(
+        //         new GyroIO() {},
+        //         new ModuleIOSim(),
+        //         new ModuleIOSim(),
+        //         new ModuleIOSim(),
+        //         new ModuleIOSim());
+        // vision =
+        //     new Vision(
+        //         drive::addVisionMeasurement,
+        //         new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose));
+        break;
+
+      default:
+        // Replayed robot, disable IO implementations
+        // drive =
+        //     new Drive(
+        //         new GyroIO() {},
+        //         new ModuleIO() {},
+        //         new ModuleIO() {},
+        //         new ModuleIO() {},
+        //         new ModuleIO() {});
+        // vision =
+        //     new Vision(
+        //         drive::addVisionMeasurement,
+        //         new VisionIOPhotonVision(camera0Name, robotToCamera0) {},
+        //         new VisionIO() {}) {};
+        break;
+    }
+
     // Commands
-    // Elevator Commands
+    // ElevatorCommands
     elevatorL1 = new ElevatorToL1(elevator);
     elevatorL2 = new ElevatorToL2(elevator);
     elevatorL3 = new ElevatorToL3(elevator);
@@ -132,72 +201,11 @@ public class RobotContainer {
     climb = new Climb(climber);
     deployClimb = new DeployClimb(climber);
 
-    drive =
-        new Drive(
-            new GyroIONavX(),
-            new ModuleIOSpark(0),
-            new ModuleIOSpark(1),
-            new ModuleIOSpark(2),
-            new ModuleIOSpark(3));
-    vision =
-        new Vision(
-            drive::addVisionMeasurement,
-            new VisionIOPhotonVision(camera0Name, robotToCamera0),
-            new VisionIOPhotonVision(camera1Name, robotToCamera1));
-    // leftAuto = new leftAutoAlign(drive, vision);
-    switch (Constants.currentMode) {
-      case REAL:
-        // Real robot, instantiate hardware IO implementations
-        // drive =
-        //     new Drive(
-        //         new GyroIONavX(),
-        //         new ModuleIOSpark(0),
-        //         new ModuleIOSpark(1),
-        //         new ModuleIOSpark(2),
-        //         new ModuleIOSpark(3));
-        // vision =
-        //     new Vision(
-        //         drive::addVisionMeasurement, new VisionIOPhotonVision(camera0Name,
-        // robotToCamera0));
-        leftAlign = new LeftAutoAlign(drive, vision, led);
-        rightAlign = new RightAutoAlign(drive, vision, led);
-        break;
-
-      case SIM:
-        // Sim robot, instantiate physics sim IO implementations
-        // drive =
-        //     new Drive(
-        //         new GyroIO() {},
-        //         new ModuleIOSim(),
-        //         new ModuleIOSim(),
-        //         new ModuleIOSim(),
-        //         new ModuleIOSim());
-        // vision =
-        //     new Vision(
-        //         drive::addVisionMeasurement,
-        //         new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose));
-        leftAlign = new LeftAutoAlign(drive, vision, led);
-        rightAlign = new RightAutoAlign(drive, vision, led);
-        break;
-
-      default:
-        // Replayed robot, disable IO implementations
-        // drive =
-        //     new Drive(
-        //         new GyroIO() {},
-        //         new ModuleIO() {},
-        //         new ModuleIO() {},
-        //         new ModuleIO() {},
-        //         new ModuleIO() {});
-        // vision =
-        //     new Vision(
-        //         drive::addVisionMeasurement,
-        //         new VisionIOPhotonVision(camera0Name, robotToCamera0) {},
-        //         new VisionIO() {}) {};
-        leftAlign = new LeftAutoAlign(drive, vision, led);
-        rightAlign = new RightAutoAlign(drive, vision, led);
-        break;
-    }
+    // VisionCommands
+    leftAlign = new LeftAutoAlign(drive, vision, led);
+    rightAlign = new RightAutoAlign(drive, vision, led);
+    leftTest = new AutoAlign(drive, vision, led, leftTransform);
+    rightTest = new AutoAlign(drive, vision, led, rightTransform);
 
     // Set Up Commands for PathPlanner
     NamedCommands.registerCommand("elevatorToL4", elevatorL4);
@@ -205,7 +213,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("intakeCoral", intake);
     NamedCommands.registerCommand("shootCoral", shootCoral);
     NamedCommands.registerCommand("alignToLeft", leftAlign.withTimeout(1));
-    NamedCommands.registerCommand("alignToRight",rightAlign.withTimeout(1));
+    NamedCommands.registerCommand("alignToRight", rightAlign.withTimeout(1));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -259,7 +267,6 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
 
-    
     // Lock to 0° when Square button is held
     driverController
         .square()
