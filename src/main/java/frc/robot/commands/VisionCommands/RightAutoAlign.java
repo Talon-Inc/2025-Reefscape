@@ -16,7 +16,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.LED;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.vision.Vision;
 import java.util.Arrays;
@@ -35,17 +34,19 @@ public class RightAutoAlign extends Command {
 
   private static final int[] REEF_TAGS = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
   private static final Transform3d TAG_TO_GOAL =
-      new Transform3d(new Translation3d(.4328, 0.2695, 0), new Rotation3d(0, 0, -Math.PI));
+      new Transform3d(
+          new Translation3d(Units.inchesToMeters(16.685), Units.inchesToMeters(10.610), 0),
+          new Rotation3d(0, 0, -Math.PI));
   private static Pose2d robotPose;
 
   private final Drive drive;
   private final Vision vision;
-  private final LED led;
+  // private final LED led;
 
   private final ProfiledPIDController xController =
-      new ProfiledPIDController(2.5, 0, 0, X_CONSTRAINTS);
+      new ProfiledPIDController(2.75, 0, 0, X_CONSTRAINTS);
   private final ProfiledPIDController yController =
-      new ProfiledPIDController(2.5, 0, 0, Y_CONSTRAINTS);
+      new ProfiledPIDController(2.25, 0, 0, Y_CONSTRAINTS);
   private final ProfiledPIDController omegaController =
       new ProfiledPIDController(2, 0, 0, OMEGA_CONSTRAINTS);
 
@@ -53,18 +54,18 @@ public class RightAutoAlign extends Command {
   private int bestTargetID;
 
   /** Creates a new rightAutoAlign. */
-  public RightAutoAlign(Drive drive, Vision vision, LED led) {
+  public RightAutoAlign(Drive drive, Vision vision) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
     this.vision = vision;
-    this.led = led;
+    // this.led = led;
 
     xController.setTolerance(.01);
     yController.setTolerance(.01);
     omegaController.setTolerance(Units.degreesToRadians(2));
     omegaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    addRequirements(drive, vision, led);
+    addRequirements(drive, vision);
   }
 
   // Called when the command is initially scheduled.
@@ -72,9 +73,10 @@ public class RightAutoAlign extends Command {
   public void initialize() {
     lastTarget = null;
     robotPose = drive.getPose();
-    omegaController.reset(robotPose.getRotation().getRadians(), drive.getChassisSpeed().omegaRadiansPerSecond);
-    xController.reset(robotPose.getX(), drive.getChassisSpeed().vxMetersPerSecond);
-    yController.reset(robotPose.getY(), drive.getChassisSpeed().vyMetersPerSecond);
+    omegaController.reset(
+        robotPose.getRotation().getRadians(), drive.getChassisSpeeds().omegaRadiansPerSecond);
+    xController.reset(robotPose.getX(), drive.getChassisSpeeds().vxMetersPerSecond);
+    yController.reset(robotPose.getY(), drive.getChassisSpeeds().vyMetersPerSecond);
 
     final int cameraIndex;
     if (vision.hasTargets(1)) {
@@ -92,7 +94,7 @@ public class RightAutoAlign extends Command {
       }
     }
 
-    led.setColorWave();
+    // led.setColorWave();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -172,7 +174,7 @@ public class RightAutoAlign extends Command {
   @Override
   public void end(boolean interrupted) {
     drive.stop();
-    led.setGreen();
+    // led.setGreen();
   }
 
   // Returns true when the command should end.

@@ -31,7 +31,6 @@ import frc.robot.commands.ElevatorCommands.*;
 import frc.robot.commands.VisionCommands.*;
 import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIONavX;
@@ -56,7 +55,7 @@ public class RobotContainer {
   private final Algae algae;
   private final Climber climber;
   private final Vision vision;
-  private final LED led;
+  // private final LED led;
 
   // Commands
   // ElevatorCommands
@@ -102,7 +101,7 @@ public class RobotContainer {
     shooter = new Shooter();
     climber = new Climber();
     algae = new Algae();
-    led = new LED();
+    // led = new LED();
 
     // Commands
     // Elevator Commands
@@ -144,6 +143,10 @@ public class RobotContainer {
             drive::addVisionMeasurement,
             new VisionIOPhotonVision(camera0Name, robotToCamera0),
             new VisionIOPhotonVision(camera1Name, robotToCamera1));
+
+    // Vision Commands
+    leftAlign = new LeftAutoAlign(drive, vision);
+    rightAlign = new RightAutoAlign(drive, vision);
     // leftAuto = new leftAutoAlign(drive, vision);
     switch (Constants.currentMode) {
       case REAL:
@@ -159,8 +162,6 @@ public class RobotContainer {
         //     new Vision(
         //         drive::addVisionMeasurement, new VisionIOPhotonVision(camera0Name,
         // robotToCamera0));
-        leftAlign = new LeftAutoAlign(drive, vision, led);
-        rightAlign = new RightAutoAlign(drive, vision, led);
         break;
 
       case SIM:
@@ -176,8 +177,6 @@ public class RobotContainer {
         //     new Vision(
         //         drive::addVisionMeasurement,
         //         new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose));
-        leftAlign = new LeftAutoAlign(drive, vision, led);
-        rightAlign = new RightAutoAlign(drive, vision, led);
         break;
 
       default:
@@ -194,18 +193,16 @@ public class RobotContainer {
         //         drive::addVisionMeasurement,
         //         new VisionIOPhotonVision(camera0Name, robotToCamera0) {},
         //         new VisionIO() {}) {};
-        leftAlign = new LeftAutoAlign(drive, vision, led);
-        rightAlign = new RightAutoAlign(drive, vision, led);
         break;
     }
 
     // Set Up Commands for PathPlanner
-    NamedCommands.registerCommand("elevatorToL4", elevatorL4);
-    NamedCommands.registerCommand("elevatorHome", setHome);
-    NamedCommands.registerCommand("intakeCoral", intake);
-    NamedCommands.registerCommand("shootCoral", shootCoral);
-    NamedCommands.registerCommand("alignToLeft", leftAlign.withTimeout(1));
-    NamedCommands.registerCommand("alignToRight",rightAlign.withTimeout(1));
+    NamedCommands.registerCommand("elevatorToL4", new ElevatorToL4(elevator).withTimeout(1));
+    NamedCommands.registerCommand("elevatorHome", new SetHome(elevator).withTimeout(1));
+    NamedCommands.registerCommand("intakeCoral", new IntakeCoral(shooter).withTimeout(1.5));
+    NamedCommands.registerCommand("shootCoral", new ShootCoral(shooter).withTimeout(.21));
+    NamedCommands.registerCommand("alignToLeft", new LeftAutoAlign(drive, vision));
+    NamedCommands.registerCommand("alignToRight", new RightAutoAlign(drive, vision));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -240,6 +237,7 @@ public class RobotContainer {
         "Slower Anthony's Test 2", AutoBuilder.buildAuto("Slower Anthony's Test 2"));
     autoChooser.addOption("Test Gyro", AutoBuilder.buildAuto("Test Gyro"));
     autoChooser.addOption("Align Command Test", AutoBuilder.buildAuto("Align Command Test"));
+    autoChooser.addOption("Align Far Test", AutoBuilder.buildAuto("Align Far Test"));
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -259,7 +257,6 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
 
-    
     // Lock to 0° when Square button is held
     driverController
         .square()

@@ -11,8 +11,8 @@
         "x": 6.839639416729592,
         "y": 2.27629351008597
       },
-      "isLocked": false,
-      "linkedName": null
+      "isLocked": true,
+      "linkedName": "Bottom Start"
     },
     {
       "anchor": {
