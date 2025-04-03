@@ -125,7 +125,7 @@ public class Algae extends SubsystemBase {
   }
 
   public void moveArmUp() {
-    armMotor.set(.25);
+    armMotor.set(.1);
   }
 
   public void moveArmDown() {
@@ -134,6 +134,10 @@ public class Algae extends SubsystemBase {
 
   public void stopArmMotor() {
     armMotor.stopMotor();
+  }
+
+  public void holdArmMotor() {
+    armMotor.set(.05);
   }
 
   public void resetArmPosition(double newPosition, double newVelocity) {

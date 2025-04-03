@@ -28,7 +28,7 @@ public class RetractAlgaeArm extends Command {
   @Override
   public void execute() {
     // algae.goToPositionArm(position);
-    algae.moveArmDown();
+    algae.moveArmUp();
   }
 
   // Called once the command ends or is interrupted.

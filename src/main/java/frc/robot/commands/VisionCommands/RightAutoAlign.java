@@ -47,7 +47,7 @@ public class RightAutoAlign extends Command {
   private final ProfiledPIDController xController =
       new ProfiledPIDController(2.75, 0, 0, X_CONSTRAINTS);
   private final ProfiledPIDController yController =
-      new ProfiledPIDController(2.25, 0, 0, Y_CONSTRAINTS);
+      new ProfiledPIDController(2.75, 0, 0, Y_CONSTRAINTS);
   private final ProfiledPIDController omegaController =
       new ProfiledPIDController(2, 0, 0, OMEGA_CONSTRAINTS);
 

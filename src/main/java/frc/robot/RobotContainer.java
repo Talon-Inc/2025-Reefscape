@@ -65,6 +65,8 @@ public class RobotContainer {
   private final ElevatorToL3 elevatorL3;
   private final ElevatorToL4 elevatorL4;
   private final SetHome setHome;
+  private final ElevatorToAlgae1 elevatorAlgae1;
+  private final ElevatorToAlgae2 elevatorAlgae2;
 
   // Shooter Commands
   private final IntakeCoral intake;
@@ -111,8 +113,8 @@ public class RobotContainer {
     elevatorL3 = new ElevatorToL3(elevator);
     elevatorL4 = new ElevatorToL4(elevator);
     setHome = new SetHome(elevator);
-    // setElevatorSpeed = new setElevatorSpeed(elevator);
-    // elevatorDown = new ElevatorDown(elevator);
+    elevatorAlgae1 = new ElevatorToAlgae1(elevator);
+    elevatorAlgae2 = new ElevatorToAlgae2(elevator);
 
     // Shooter Commands
     intake = new IntakeCoral(shooter, led);
@@ -238,6 +240,8 @@ public class RobotContainer {
         "Slower Anthony's Test 2", AutoBuilder.buildAuto("Slower Anthony's Test 2"));
     autoChooser.addOption("Test Gyro", AutoBuilder.buildAuto("Test Gyro"));
     autoChooser.addOption("Align Command Test", AutoBuilder.buildAuto("Align Command Test"));
+    autoChooser.addOption(
+        "Top Align Command Test", AutoBuilder.buildAuto("Top Align Command Test"));
     autoChooser.addOption("Align Far Test", AutoBuilder.buildAuto("Align Far Test"));
     // Configure the button bindings
     configureButtonBindings();
@@ -282,6 +286,8 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
+    // algae.setDefaultCommand(retractAlgaeArm);
+
     // Driver
     driverController.L1().onTrue(intake);
     driverController.R1().whileTrue(shootCoral);
@@ -291,8 +297,8 @@ public class RobotContainer {
     driverController.R3().toggleOnTrue(rightAlign);
     driverController.create().whileTrue(climb);
     driverController.options().whileTrue(deployClimb);
-    driverController.povUp().whileTrue(deployAlgaeArm);
-    driverController.povDown().whileTrue(retractAlgaeArm);
+    // driverController.povUp().whileTrue(deployAlgaeArm);
+    // driverController.povDown().whileTrue(retractAlgaeArm);
 
     // Operator
     operatorController.povDown().onTrue(elevatorL1);
@@ -300,6 +306,9 @@ public class RobotContainer {
     operatorController.povRight().onTrue(elevatorL3);
     operatorController.triangle().onTrue(elevatorL4);
     operatorController.cross().onTrue(setHome);
+    operatorController.square().onTrue(elevatorAlgae1);
+    operatorController.circle().onTrue(elevatorAlgae2);
+    operatorController.L1().whileTrue(deployClimb);
   }
 
   /**
