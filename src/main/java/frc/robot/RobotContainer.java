@@ -31,6 +31,7 @@ import frc.robot.commands.ElevatorCommands.*;
 import frc.robot.commands.VisionCommands.*;
 import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIONavX;
@@ -55,7 +56,7 @@ public class RobotContainer {
   private final Algae algae;
   private final Climber climber;
   private final Vision vision;
-  // private final LED led;
+  private final LED led;
 
   // Commands
   // ElevatorCommands
@@ -101,7 +102,7 @@ public class RobotContainer {
     shooter = new Shooter();
     climber = new Climber();
     algae = new Algae();
-    // led = new LED();
+    led = new LED();
 
     // Commands
     // Elevator Commands
@@ -114,7 +115,7 @@ public class RobotContainer {
     // elevatorDown = new ElevatorDown(elevator);
 
     // Shooter Commands
-    intake = new IntakeCoral(shooter);
+    intake = new IntakeCoral(shooter, led);
     shootCoral = new ShootCoral(shooter);
     shootReverse = new ReverseShooter(shooter);
     shootSideways = new ShootCoralSideways(shooter);
@@ -145,8 +146,8 @@ public class RobotContainer {
             new VisionIOPhotonVision(camera1Name, robotToCamera1));
 
     // Vision Commands
-    leftAlign = new LeftAutoAlign(drive, vision);
-    rightAlign = new RightAutoAlign(drive, vision);
+    leftAlign = new LeftAutoAlign(drive, vision, led);
+    rightAlign = new RightAutoAlign(drive, vision, led);
     // leftAuto = new leftAutoAlign(drive, vision);
     switch (Constants.currentMode) {
       case REAL:
@@ -199,10 +200,10 @@ public class RobotContainer {
     // Set Up Commands for PathPlanner
     NamedCommands.registerCommand("elevatorToL4", new ElevatorToL4(elevator).withTimeout(1));
     NamedCommands.registerCommand("elevatorHome", new SetHome(elevator).withTimeout(1));
-    NamedCommands.registerCommand("intakeCoral", new IntakeCoral(shooter).withTimeout(1.5));
+    NamedCommands.registerCommand("intakeCoral", new IntakeCoral(shooter, led).withTimeout(1.5));
     NamedCommands.registerCommand("shootCoral", new ShootCoral(shooter).withTimeout(.21));
-    NamedCommands.registerCommand("alignToLeft", new LeftAutoAlign(drive, vision));
-    NamedCommands.registerCommand("alignToRight", new RightAutoAlign(drive, vision));
+    NamedCommands.registerCommand("alignToLeft", new LeftAutoAlign(drive, vision, led));
+    NamedCommands.registerCommand("alignToRight", new RightAutoAlign(drive, vision, led));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -286,10 +287,12 @@ public class RobotContainer {
     driverController.R1().whileTrue(shootCoral);
     driverController.R2().whileTrue(shootSideways);
     driverController.L2().whileTrue(shootReverse);
-    driverController.L3().whileTrue(leftAlign);
-    driverController.R3().whileTrue(rightAlign);
+    driverController.L3().toggleOnTrue(leftAlign);
+    driverController.R3().toggleOnTrue(rightAlign);
     driverController.create().whileTrue(climb);
     driverController.options().whileTrue(deployClimb);
+    driverController.povUp().whileTrue(deployAlgaeArm);
+    driverController.povDown().whileTrue(retractAlgaeArm);
 
     // Operator
     operatorController.povDown().onTrue(elevatorL1);

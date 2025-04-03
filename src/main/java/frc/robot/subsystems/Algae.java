@@ -60,7 +60,7 @@ public class Algae extends SubsystemBase {
   public Algae() {
 
     SparkMaxConfig armMotorConfig = new SparkMaxConfig();
-    armMotorConfig.smartCurrentLimit(20).voltageCompensation(12).idleMode(IdleMode.kBrake);
+    armMotorConfig.smartCurrentLimit(30).voltageCompensation(12).idleMode(IdleMode.kBrake);
 
     SparkMaxConfig topWheelMotorConfig = new SparkMaxConfig();
     topWheelMotorConfig.smartCurrentLimit(20).voltageCompensation(12).idleMode(IdleMode.kBrake);
@@ -122,6 +122,18 @@ public class Algae extends SubsystemBase {
 
   public void stopAlgaeClaw() {
     deploymentMotor.stopMotor();
+  }
+
+  public void moveArmUp() {
+    armMotor.set(.25);
+  }
+
+  public void moveArmDown() {
+    armMotor.set(-.1);
+  }
+
+  public void stopArmMotor() {
+    armMotor.stopMotor();
   }
 
   public void resetArmPosition(double newPosition, double newVelocity) {

@@ -5,18 +5,21 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Shooter;
 import org.littletonrobotics.junction.Logger;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeCoral extends Command {
   private final Shooter shooter;
+  private final LED led;
   private boolean flag;
 
   /** Creates a new intakeCoral. */
-  public IntakeCoral(Shooter shooter) {
+  public IntakeCoral(Shooter shooter, LED led) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shooter = shooter;
+    this.led = led;
     addRequirements(shooter);
   }
 
@@ -24,6 +27,7 @@ public class IntakeCoral extends Command {
   @Override
   public void initialize() {
     flag = false;
+    led.setFire();
     Logger.recordOutput("Intake Finished", false);
     Logger.recordOutput("Intake Started", true);
   }
@@ -47,7 +51,11 @@ public class IntakeCoral extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (flag) return !shooter.isCoralLoaded();
-    else return false;
+    if (flag) {
+      led.strobeRed();
+      return !shooter.isCoralLoaded();
+    } else {
+      return false;
+    }
   }
 }

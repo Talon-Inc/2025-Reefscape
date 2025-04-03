@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.vision.Vision;
 import java.util.Arrays;
@@ -41,6 +42,7 @@ public class LeftAutoAlign extends Command {
 
   private final Drive drive;
   private final Vision vision;
+  private final LED led;
   // private final LED led;
 
   private final ProfiledPIDController xController =
@@ -54,11 +56,11 @@ public class LeftAutoAlign extends Command {
   private int bestTargetID;
 
   /** Creates a new leftAutoAlign. */
-  public LeftAutoAlign(Drive drive, Vision vision) {
+  public LeftAutoAlign(Drive drive, Vision vision, LED led) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
     this.vision = vision;
-    // this.led = led;
+    this.led = led;
 
     xController.setTolerance(.01);
     yController.setTolerance(.01);
@@ -94,7 +96,7 @@ public class LeftAutoAlign extends Command {
       }
     }
 
-    // led.setColorWave();
+    led.setOceanRainbow();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -178,6 +180,11 @@ public class LeftAutoAlign extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (xController.atGoal() && yController.atGoal() && omegaController.atGoal()) {
+      led.setGreen();
+      return true;
+    } else {
+      return false;
+    }
   }
 }

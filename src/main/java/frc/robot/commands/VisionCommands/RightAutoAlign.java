@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.vision.Vision;
 import java.util.Arrays;
@@ -35,13 +36,13 @@ public class RightAutoAlign extends Command {
   private static final int[] REEF_TAGS = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
   private static final Transform3d TAG_TO_GOAL =
       new Transform3d(
-          new Translation3d(Units.inchesToMeters(16.685), Units.inchesToMeters(10.610), 0),
+          new Translation3d(Units.inchesToMeters(19.185), Units.inchesToMeters(10.610), 0),
           new Rotation3d(0, 0, -Math.PI));
   private static Pose2d robotPose;
 
   private final Drive drive;
   private final Vision vision;
-  // private final LED led;
+  private final LED led;
 
   private final ProfiledPIDController xController =
       new ProfiledPIDController(2.75, 0, 0, X_CONSTRAINTS);
@@ -54,11 +55,11 @@ public class RightAutoAlign extends Command {
   private int bestTargetID;
 
   /** Creates a new rightAutoAlign. */
-  public RightAutoAlign(Drive drive, Vision vision) {
+  public RightAutoAlign(Drive drive, Vision vision, LED led) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
     this.vision = vision;
-    // this.led = led;
+    this.led = led;
 
     xController.setTolerance(.01);
     yController.setTolerance(.01);
@@ -94,7 +95,7 @@ public class RightAutoAlign extends Command {
       }
     }
 
-    // led.setColorWave();
+    led.setOceanRainbow();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -180,6 +181,11 @@ public class RightAutoAlign extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (xController.atGoal() && yController.atGoal() && omegaController.atGoal()) {
+      led.setGreen();
+      return true;
+    } else {
+      return false;
+    }
   }
 }
