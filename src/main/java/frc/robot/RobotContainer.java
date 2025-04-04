@@ -203,7 +203,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("elevatorToL4", new ElevatorToL4(elevator).withTimeout(1));
     NamedCommands.registerCommand("elevatorHome", new SetHome(elevator).withTimeout(1));
     NamedCommands.registerCommand("intakeCoral", new IntakeCoral(shooter, led).withTimeout(3));
-    NamedCommands.registerCommand("shootCoral", new ShootCoral(shooter).withTimeout(.21));
+    NamedCommands.registerCommand("shootCoral", new ShootCoral(shooter).withTimeout(.225));
     NamedCommands.registerCommand("alignToLeft", new LeftAutoAlign(drive, vision, led));
     NamedCommands.registerCommand("alignToRight", new RightAutoAlign(drive, vision, led));
 

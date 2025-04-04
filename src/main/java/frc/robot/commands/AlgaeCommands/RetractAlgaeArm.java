@@ -21,7 +21,7 @@ public class RetractAlgaeArm extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    algae.resetArmPosition(algae.getArmPosition(), algae.getArmVelocity());
+    // algae.resetArmPosition(algae.getArmPosition(), algae.getArmVelocity());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,6 +40,6 @@ public class RetractAlgaeArm extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return algae.checkArmGoal();
+    return algae.getArmPosition() > -1;
   }
 }
