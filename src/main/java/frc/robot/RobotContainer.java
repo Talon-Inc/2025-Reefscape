@@ -202,7 +202,7 @@ public class RobotContainer {
     // Set Up Commands for PathPlanner
     NamedCommands.registerCommand("elevatorToL4", new ElevatorToL4(elevator).withTimeout(1));
     NamedCommands.registerCommand("elevatorHome", new SetHome(elevator).withTimeout(1));
-    NamedCommands.registerCommand("intakeCoral", new IntakeCoral(shooter, led).withTimeout(1.5));
+    NamedCommands.registerCommand("intakeCoral", new IntakeCoral(shooter, led).withTimeout(3));
     NamedCommands.registerCommand("shootCoral", new ShootCoral(shooter).withTimeout(.21));
     NamedCommands.registerCommand("alignToLeft", new LeftAutoAlign(drive, vision, led));
     NamedCommands.registerCommand("alignToRight", new RightAutoAlign(drive, vision, led));
@@ -297,8 +297,16 @@ public class RobotContainer {
     driverController.R3().toggleOnTrue(rightAlign);
     driverController.create().whileTrue(climb);
     driverController.options().whileTrue(deployClimb);
-    // driverController.povUp().whileTrue(deployAlgaeArm);
-    // driverController.povDown().whileTrue(retractAlgaeArm);
+    driverController
+        .povLeft()
+        .toggleOnTrue(
+            DriveCommands.joystickDrive(
+                drive,
+                () -> -driverController.getLeftY() * .5,
+                () -> -driverController.getLeftX() * .5,
+                () -> -driverController.getRightX() * .5));
+    driverController.povUp().whileTrue(deployAlgaeArm);
+    driverController.povDown().whileTrue(retractAlgaeArm);
 
     // Operator
     operatorController.povDown().onTrue(elevatorL1);

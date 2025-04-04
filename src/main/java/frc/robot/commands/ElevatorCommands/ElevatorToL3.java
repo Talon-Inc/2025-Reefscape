@@ -26,7 +26,7 @@ public class ElevatorToL3 extends Command {
     if (elevator.getPosition() > position) {
       elevator.getController().setP(11);
     } else {
-      elevator.getController().setP(3.5);
+      elevator.getController().setP(3.75);
     }
     elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
     System.out.print("Command Has Started");

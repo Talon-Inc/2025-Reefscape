@@ -28,7 +28,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
   private static double kI = 0;
   private static double kD = 0;
   private static double kS = .164;
-  private static double kG = .445;
+  private static double kG = .45;
   private static double kV = 5.8;
   private static double ka = 1;
   private static double lastSpeed = 0;
@@ -75,7 +75,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     followerConfig
         .follow(11, false)
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(50)
+        .smartCurrentLimit(60)
         .voltageCompensation(12);
 
     followerMotor.configure(
@@ -88,7 +88,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     // Set MAX Motion parameters
     leadMotorConfig
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(50)
+        .smartCurrentLimit(60)
         .voltageCompensation(12)
         .inverted(true)
         .encoder
@@ -100,7 +100,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
 
     // m_encoder.setPosition(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
     org.littletonrobotics.junction.Logger.recordOutput("Encoder", m_encoder.getPosition());
-    m_controller.setTolerance(.02);
+    m_controller.setTolerance(.015);
   }
 
   public ProfiledPIDController getController() {

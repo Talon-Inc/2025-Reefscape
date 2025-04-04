@@ -98,25 +98,18 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeCoral"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "elevatorToL4"
-                      }
-                    }
-                  ]
+                  "name": "intakeCoral"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "elevatorToL4"
           }
         },
         {
@@ -181,25 +174,18 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeCoral"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "elevatorToL4"
-                      }
-                    }
-                  ]
+                  "name": "intakeCoral"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "elevatorToL4"
           }
         },
         {

@@ -21,7 +21,7 @@ public class DeployAlgaeArm extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    algae.resetArmPosition(algae.getArmPosition(), algae.getArmVelocity());
+    // algae.resetArmPosition(algae.getArmPosition(), algae.getArmVelocity());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
