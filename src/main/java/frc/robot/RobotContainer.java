@@ -92,7 +92,7 @@ public class RobotContainer {
 
   // Controller
   private final CommandPS5Controller driverController = new CommandPS5Controller(0);
-  private final CommandPS5Controller operatorController = new CommandPS5Controller(1);
+  // private final CommandPS5Controller operatorController = new CommandPS5Controller(1);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -263,6 +263,7 @@ public class RobotContainer {
             () -> -driverController.getRightX()));
 
     // Lock to 0° when Square button is held
+    /*
     driverController
         .square()
         .whileTrue(
@@ -271,13 +272,14 @@ public class RobotContainer {
                 () -> -driverController.getLeftY(),
                 () -> -driverController.getLeftX(),
                 () -> new Rotation2d()));
+    */
 
     // Switch to X pattern when X button is pressed
-    driverController.cross().onTrue(Commands.runOnce(drive::stopWithX, drive));
+   //  driverController.cross().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Reset gyro to 0° when Circle button is pressed
     driverController
-        .circle()
+        .touchpad()
         .onTrue(
             Commands.runOnce(
                     () ->
@@ -289,14 +291,20 @@ public class RobotContainer {
     // algae.setDefaultCommand(retractAlgaeArm);
 
     // Driver
+    // Shooter Buttons
     driverController.L1().onTrue(intake);
     driverController.R1().whileTrue(shootCoral);
     driverController.R2().whileTrue(shootSideways);
     driverController.L2().whileTrue(shootReverse);
+
+    //Align Buttons
     driverController.L3().toggleOnTrue(leftAlign);
     driverController.R3().toggleOnTrue(rightAlign);
+
+    // Climber Buttons
     driverController.create().whileTrue(climb);
     driverController.options().whileTrue(deployClimb);
+
     driverController
         .povLeft()
         .toggleOnTrue(
@@ -305,10 +313,20 @@ public class RobotContainer {
                 () -> -driverController.getLeftY() * .5,
                 () -> -driverController.getLeftX() * .5,
                 () -> -driverController.getRightX() * .5));
+
+    //Algae Arm Buttons
     driverController.povUp().whileTrue(deployAlgaeArm);
     driverController.povDown().whileTrue(retractAlgaeArm);
 
+    //Elevator Buttons
+    driverController.cross().onTrue(elevatorL1);
+    driverController.square().onTrue(elevatorL2);
+    driverController.circle().onTrue(elevatorL3);
+    driverController.triangle().onTrue(elevatorL4);
+    driverController.PS().onTrue(setHome);
+
     // Operator
+    /*
     operatorController.povDown().onTrue(elevatorL1);
     operatorController.povLeft().onTrue(elevatorL2);
     operatorController.povRight().onTrue(elevatorL3);
@@ -317,6 +335,7 @@ public class RobotContainer {
     operatorController.square().onTrue(elevatorAlgae1);
     operatorController.circle().onTrue(elevatorAlgae2);
     operatorController.L1().whileTrue(deployClimb);
+    */
   }
 
   /**
