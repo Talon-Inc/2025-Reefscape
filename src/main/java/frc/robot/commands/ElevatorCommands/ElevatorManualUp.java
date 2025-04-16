@@ -4,17 +4,21 @@
 
 package frc.robot.commands.ElevatorCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.elevator.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ElevatorToL3 extends Command {
+<<<<<<<< HEAD:src/main/java/frc/robot/commands/ElevatorCommands/SetElevatorSpeed.java
+public class SetElevatorSpeed extends Command {
   private final Elevator elevator;
-  private final double position = .3965;
-
-  /** Creates a new elevatorToL3. */
-  public ElevatorToL3(Elevator elevator) {
+  /** Creates a new setElevatorSpeed. */
+  public SetElevatorSpeed(Elevator elevator) {
+========
+public class ElevatorManualUp extends Command {
+  private final Elevator elevator;
+  /** Creates a new setElevatorSpeed. */
+  public ElevatorManualUp(Elevator elevator) {
+>>>>>>>> AlgaeArm:src/main/java/frc/robot/commands/ElevatorCommands/ElevatorManualUp.java
     this.elevator = elevator;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevator);
@@ -22,37 +26,24 @@ public class ElevatorToL3 extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    if (elevator.getPosition() > position) {
-      elevator.getController().setP(11);
-    } else {
-      elevator.getController().setP(3.75);
-    }
-    elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
-    System.out.print("Command Has Started");
-    SmartDashboard.putBoolean("L3 Finished", elevator.checkGoal());
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // elevator.resetPosition(elevator.getPosition());
-    elevator.setPosition(position);
+    elevator.setMotorVelocity(.15);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // elevator.stop();
-    System.out.print("Command Has Finished");
-    SmartDashboard.putString("Title", "Command Has Ended");
-    SmartDashboard.putBoolean("L3 Finished", elevator.checkGoal());
-    // elevator.resetPosition();
+    // Hold elevator in place
+    elevator.setMotorVelocity(0.05);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return elevator.checkGoal();
+    return false;
   }
 }

@@ -4,17 +4,16 @@
 
 package frc.robot.commands.ElevatorCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.elevator.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ElevatorToL3 extends Command {
+public class ElevatorToAlgae2 extends Command {
   private final Elevator elevator;
-  private final double position = .3965;
+  private final double position = 0.3048;
 
-  /** Creates a new elevatorToL3. */
-  public ElevatorToL3(Elevator elevator) {
+  /** Creates a new ElevatorToAlgae2. */
+  public ElevatorToAlgae2(Elevator elevator) {
     this.elevator = elevator;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevator);
@@ -26,29 +25,20 @@ public class ElevatorToL3 extends Command {
     if (elevator.getPosition() > position) {
       elevator.getController().setP(11);
     } else {
-      elevator.getController().setP(3.75);
+      elevator.getController().setP(3.5);
     }
     elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
-    System.out.print("Command Has Started");
-    SmartDashboard.putBoolean("L3 Finished", elevator.checkGoal());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // elevator.resetPosition(elevator.getPosition());
     elevator.setPosition(position);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    // elevator.stop();
-    System.out.print("Command Has Finished");
-    SmartDashboard.putString("Title", "Command Has Ended");
-    SmartDashboard.putBoolean("L3 Finished", elevator.checkGoal());
-    // elevator.resetPosition();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

@@ -12,7 +12,7 @@ import org.littletonrobotics.junction.Logger;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorToL4 extends Command {
   private final Elevator elevator;
-  private final double position = .701;
+  private final double position = .709;
 
   /** Creates a new elevatorToL4. */
   public ElevatorToL4(Elevator elevator) {
@@ -24,6 +24,7 @@ public class ElevatorToL4 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    elevator.getController().setP(4);
     elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
     SmartDashboard.putBoolean("L4 Finished", elevator.checkGoal());
     Logger.recordOutput("L4 Finished", false);

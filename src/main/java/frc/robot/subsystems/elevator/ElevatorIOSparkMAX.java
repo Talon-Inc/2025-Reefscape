@@ -22,15 +22,15 @@ import org.littletonrobotics.junction.Logger;
 /** Add your docs here. */
 public class ElevatorIOSparkMAX implements ElevatorIO {
   private static double kDt = 0.02;
-  private static double kMaxVelocity = 2.5;
-  private static double kMaxAccerlation = 2.5;
-  private static double kP = 1.5;
+  private static double kMaxVelocity = 3;
+  private static double kMaxAccerlation = 4;
+  private static double kP = 3.5;
   private static double kI = 0;
-  private static double kD = 0.0;
-  private static double kS = 0.197;
-  private static double kG = .47125;
+  private static double kD = 0;
+  private static double kS = .164;
+  private static double kG = .45;
   private static double kV = 5.8;
-  private static double ka = 1.5;
+  private static double ka = 1;
   private static double lastSpeed = 0;
   private static double lastTime = Timer.getFPGATimestamp();
 
@@ -75,7 +75,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     followerConfig
         .follow(11, false)
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(50)
+        .smartCurrentLimit(60)
         .voltageCompensation(12);
 
     followerMotor.configure(
@@ -88,7 +88,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     // Set MAX Motion parameters
     leadMotorConfig
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(50)
+        .smartCurrentLimit(60)
         .voltageCompensation(12)
         .inverted(true)
         .encoder
@@ -99,9 +99,12 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
         leadMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // m_encoder.setPosition(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
-
     org.littletonrobotics.junction.Logger.recordOutput("Encoder", m_encoder.getPosition());
-    m_controller.setTolerance(.02);
+    m_controller.setTolerance(.015);
+  }
+
+  public ProfiledPIDController getController() {
+    return m_controller;
   }
 
   @Override
@@ -183,6 +186,7 @@ public class ElevatorIOSparkMAX implements ElevatorIO {
     Logger.recordOutput("Desired Acceleration", acceleration);
     Logger.recordOutput("Desired Feedforward", feedForward);
     Logger.recordOutput("Output Volts", (pidVal + feedForward));
+    Logger.recordOutput("P value", m_controller.getP());
     leadMotor.setVoltage(pidVal + feedForward);
     lastSpeed = m_controller.getSetpoint().velocity;
     lastTime = Timer.getFPGATimestamp();

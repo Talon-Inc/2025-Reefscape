@@ -23,11 +23,11 @@ public class Climber extends SubsystemBase {
   }
 
   public void deployClimb() {
-    climberMotor.set(-.6);
+    climberMotor.set(-1);
   }
 
   public void climb() {
-    climberMotor.set(.6);
+    climberMotor.set(.85);
   }
 
   public void stopClimber() {

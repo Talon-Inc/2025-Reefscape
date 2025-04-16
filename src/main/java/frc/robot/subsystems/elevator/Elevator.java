@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.elevator;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -80,6 +81,10 @@ public class Elevator extends SubsystemBase {
 
   public double getPositionError() {
     return io.getPositionError();
+  }
+
+  public ProfiledPIDController getController() {
+    return io.getController();
   }
 
   // public void setGoal(double goal) {

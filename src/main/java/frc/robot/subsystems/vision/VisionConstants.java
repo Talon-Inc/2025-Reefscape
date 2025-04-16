@@ -24,8 +24,8 @@ public class VisionConstants {
       AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
   // Camera names, must match names configured on coprocessor
-  public static String camera0Name = "Arducam_OV9281_USB_Camera";
-  public static String camera1Name = "Arducam_OV9281_USB_Camera (1)";
+  public static String camera0Name = "LeftCamera";
+  public static String camera1Name = "CenterCamera";
 
   // Robot to camera transforms
   // (Not used by Limelight, configure in web UI instead)
@@ -37,7 +37,7 @@ public class VisionConstants {
   // Basic filtering thresholds
   public static double maxAmbiguity = 0.3;
   public static double maxZError = 0.75;
-  public static double maxDistance = 2;
+  public static double maxDistance = 3.5;
 
   // Standard deviation baselines, for 1 meter distance and 1 tag
   // (Adjusted automatically based on distance and # of tags)

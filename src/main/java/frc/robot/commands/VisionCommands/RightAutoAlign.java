@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.vision.Vision;
 import java.util.Arrays;
@@ -34,26 +35,31 @@ public class RightAutoAlign extends Command {
 
   private static final int[] REEF_TAGS = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
   private static final Transform3d TAG_TO_GOAL =
-      new Transform3d(new Translation3d(.4328, 0.2695, 0), new Rotation3d(0, 0, -Math.PI));
+      new Transform3d(
+          new Translation3d(Units.inchesToMeters(19.185), Units.inchesToMeters(10.610), 0),
+          new Rotation3d(0, 0, -Math.PI));
   private static Pose2d robotPose;
 
   private final Drive drive;
   private final Vision vision;
+  private final LED led;
 
   private final ProfiledPIDController xController =
-      new ProfiledPIDController(2.5, 0, 0, X_CONSTRAINTS);
+      new ProfiledPIDController(2.75, 0, 0, X_CONSTRAINTS);
   private final ProfiledPIDController yController =
-      new ProfiledPIDController(2.5, 0, 0, Y_CONSTRAINTS);
+      new ProfiledPIDController(2.75, 0, 0, Y_CONSTRAINTS);
   private final ProfiledPIDController omegaController =
       new ProfiledPIDController(2, 0, 0, OMEGA_CONSTRAINTS);
 
   private PhotonTrackedTarget lastTarget;
+  private int bestTargetID;
 
   /** Creates a new rightAutoAlign. */
-  public RightAutoAlign(Drive drive, Vision vision) {
+  public RightAutoAlign(Drive drive, Vision vision, LED led) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
     this.vision = vision;
+    this.led = led;
 
     xController.setTolerance(.01);
     yController.setTolerance(.01);
@@ -68,9 +74,28 @@ public class RightAutoAlign extends Command {
   public void initialize() {
     lastTarget = null;
     robotPose = drive.getPose();
-    omegaController.reset(robotPose.getRotation().getRadians());
-    xController.reset(robotPose.getX());
-    yController.reset(robotPose.getY());
+    omegaController.reset(
+        robotPose.getRotation().getRadians(), drive.getChassisSpeeds().omegaRadiansPerSecond);
+    xController.reset(robotPose.getX(), drive.getChassisSpeeds().vxMetersPerSecond);
+    yController.reset(robotPose.getY(), drive.getChassisSpeeds().vyMetersPerSecond);
+
+    final int cameraIndex;
+    if (vision.hasTargets(1)) {
+      cameraIndex = 1;
+    } else if (vision.hasTargets(0)) {
+      cameraIndex = 0;
+    } else {
+      cameraIndex = 1;
+    }
+
+    if (vision.hasTargets(0) || vision.hasTargets(1)) {
+      if (Arrays.stream(REEF_TAGS).anyMatch(n -> n == vision.bestTargetID(cameraIndex))) {
+        lastTarget = vision.bestTrackedTarget(cameraIndex);
+        bestTargetID = lastTarget.getFiducialId();
+      }
+    }
+
+    led.setOceanRainbow();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -96,7 +121,7 @@ public class RightAutoAlign extends Command {
     if (vision.hasTargets(0) || vision.hasTargets(1)) {
       if (Arrays.stream(REEF_TAGS).anyMatch(n -> n == vision.bestTargetID(cameraIndex))) {
         lastTarget = vision.bestTrackedTarget(cameraIndex);
-        var targetPose = aprilTagLayout.getTagPose(vision.bestTargetID(cameraIndex));
+        var targetPose = aprilTagLayout.getTagPose(bestTargetID);
         Pose3d targetPose3D =
             new Pose3d(
                 targetPose.get().getX(),
@@ -150,11 +175,17 @@ public class RightAutoAlign extends Command {
   @Override
   public void end(boolean interrupted) {
     drive.stop();
+    // led.setGreen();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (xController.atGoal() && yController.atGoal() && omegaController.atGoal()) {
+      led.setGreen();
+      return true;
+    } else {
+      return false;
+    }
   }
 }
