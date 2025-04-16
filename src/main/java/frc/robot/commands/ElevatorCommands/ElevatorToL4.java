@@ -24,25 +24,23 @@ public class ElevatorToL4 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Changes kP Value to Go Up (L4 Always Goes Up)
     elevator.getController().setP(4);
+
+    // Resets Elevator Profiled PID Controller (Stops Elevator from going Crazy)
     elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
-    SmartDashboard.putBoolean("L4 Finished", elevator.checkGoal());
-    Logger.recordOutput("L4 Finished", false);
-    Logger.recordOutput("L4 Started", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // Runs Elevator ProfiledPIDController
     elevator.setPosition(position);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SmartDashboard.putBoolean("L4 Finished", elevator.checkGoal());
-    Logger.recordOutput("L4 Finished", true);
-    Logger.recordOutput("L4 Started", false);
   }
 
   // Returns true when the command should end.

@@ -4,10 +4,8 @@
 
 package frc.robot.commands.ElevatorCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.elevator.Elevator;
-import org.littletonrobotics.junction.Logger;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class SetHome extends Command {
@@ -23,32 +21,31 @@ public class SetHome extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Changes kP Value to Go Down (Set Home Always Goes Down)
     elevator.getController().setP(11);
+
+    // Resets Elevator Profiled PID Controller (Stops Elevator from going Crazy)
     elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
-    SmartDashboard.putBoolean("Set Home Finished", elevator.checkGoal());
-    Logger.recordOutput("SetHome Started", true);
-    Logger.recordOutput("SetHome Finished", false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // elevator.resetPosition(elevator.getPosition());
+    // Runs Elevator ProfiledPIDController
     elevator.setPosition(position);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SmartDashboard.putBoolean("Set Home Finished", elevator.checkGoal());
+    // Stops the Elevator since it doesn't need to hold its position
     elevator.stop();
-    Logger.recordOutput("SetHome Started", false);
-    Logger.recordOutput("SetHome Finished", true);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Checks if Elevator ProfiledPIDController has reached it's goal position
     return elevator.checkGoal();
   }
 }

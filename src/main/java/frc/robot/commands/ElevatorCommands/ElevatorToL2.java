@@ -24,25 +24,27 @@ public class ElevatorToL2 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Changes kP Values depending on if the Elevator is moving Up or Down
     if (elevator.getPosition() > position) {
       elevator.getController().setP(11);
     } else {
       elevator.getController().setP(3.5);
     }
+
+    // Resets Elevator Profiled PID Controller (Stops Elevator from going Crazy)
     elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
-    SmartDashboard.putBoolean("L2 Finished", elevator.checkGoal());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // Runs Elevator ProfiledPIDController
     elevator.setPosition(position);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SmartDashboard.putBoolean("L2 Finished", elevator.checkGoal());
   }
 
   // Returns true when the command should end.

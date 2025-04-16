@@ -26,6 +26,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class LeftAutoAlign extends Command {
 
+  // Creates Trapezoidal Constraints for ProfiledPIDControllers
   private static final TrapezoidProfile.Constraints X_CONSTRAINTS =
       new TrapezoidProfile.Constraints(2.25, 4);
   private static final TrapezoidProfile.Constraints Y_CONSTRAINTS =
@@ -33,18 +34,24 @@ public class LeftAutoAlign extends Command {
   private static final TrapezoidProfile.Constraints OMEGA_CONSTRAINTS =
       new TrapezoidProfile.Constraints(2, 5);
 
+  // Lists an Array of Every Tag on the Reef (From both Sides), this stops it from trying to align to the deposit
   private static final int[] REEF_TAGS = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
+
+  // Creates a Desired Pose of the robot in relation to the April Tag
   private static final Transform3d TAG_TO_GOAL =
       new Transform3d(
           new Translation3d(Units.inchesToMeters(16.685), Units.inchesToMeters(-3), 0),
           new Rotation3d(0, 0, -Math.PI));
+  
+  // Pulls Current Robot Pose
   private static Pose2d robotPose;
 
+  // Subsystems
   private final Drive drive;
   private final Vision vision;
   private final LED led;
-  // private final LED led;
 
+  // Creates ProfiledPID Controllers for the X-Axis, Y-Axis, and Rotation
   private final ProfiledPIDController xController =
       new ProfiledPIDController(2.75, 0, 0, X_CONSTRAINTS);
   private final ProfiledPIDController yController =
@@ -52,6 +59,7 @@ public class LeftAutoAlign extends Command {
   private final ProfiledPIDController omegaController =
       new ProfiledPIDController(2, 0, 0, OMEGA_CONSTRAINTS);
 
+  // Pulls Data from Photon Vision
   private PhotonTrackedTarget lastTarget;
   private int bestTargetID;
 

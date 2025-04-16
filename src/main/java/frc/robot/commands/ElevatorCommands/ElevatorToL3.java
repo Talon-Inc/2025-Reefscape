@@ -23,31 +23,27 @@ public class ElevatorToL3 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Changes kP Values depending on if the Elevator is moving Up or Down
     if (elevator.getPosition() > position) {
       elevator.getController().setP(11);
     } else {
       elevator.getController().setP(3.75);
     }
+
+    // Resets Elevator Profiled PID Controller (Stops Elevator from going Crazy)
     elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
-    System.out.print("Command Has Started");
-    SmartDashboard.putBoolean("L3 Finished", elevator.checkGoal());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // elevator.resetPosition(elevator.getPosition());
+    // Runs Elevator ProfiledPIDController
     elevator.setPosition(position);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // elevator.stop();
-    System.out.print("Command Has Finished");
-    SmartDashboard.putString("Title", "Command Has Ended");
-    SmartDashboard.putBoolean("L3 Finished", elevator.checkGoal());
-    // elevator.resetPosition();
   }
 
   // Returns true when the command should end.

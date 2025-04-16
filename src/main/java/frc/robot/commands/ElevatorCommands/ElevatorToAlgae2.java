@@ -22,11 +22,13 @@ public class ElevatorToAlgae2 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Changes kP Values depending on if the Elevator is moving Up or Down
     if (elevator.getPosition() > position) {
       elevator.getController().setP(11);
     } else {
       elevator.getController().setP(3.5);
     }
+    // Resets Elevator Profiled PID Controller (Stops Elevator from going Crazy)
     elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
   }
 
