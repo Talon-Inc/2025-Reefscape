@@ -4,7 +4,6 @@
 
 package frc.robot.commands.ElevatorCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.elevator.Elevator;
 
@@ -23,31 +22,35 @@ public class ElevatorToL1 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Changes kP Values depending on if the Elevator is moving Up or Down
     if (elevator.getPosition() > position) {
       elevator.getController().setP(11);
     } else {
       elevator.getController().setP(3.5);
     }
+
+    // Resets Elevator Profiled PID Controller (Stops Elevator from going Crazy)
     elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
-    SmartDashboard.putBoolean("L1 Finished", elevator.checkGoal());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // elevator.resetPosition(elevator.getPosition());
+    // Runs Elevator ProfiledPIDController
     elevator.setPosition(position);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SmartDashboard.putBoolean("L1 Finished", elevator.checkGoal());
+    // Having a isFinished is mandatory to keep the Elevator ProfiledPIDController from being set a
+    // position constantly
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Checks if Elevator ProfiledPIDController has reached it's goal position
     return elevator.checkGoal();
   }
 }

@@ -275,7 +275,7 @@ public class RobotContainer {
     */
 
     // Switch to X pattern when X button is pressed
-   //  driverController.cross().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    //  driverController.cross().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Reset gyro to 0° when Circle button is pressed
     driverController
@@ -297,7 +297,7 @@ public class RobotContainer {
     driverController.R2().whileTrue(shootSideways);
     driverController.L2().whileTrue(shootReverse);
 
-    //Align Buttons
+    // Align Buttons
     driverController.L3().toggleOnTrue(leftAlign);
     driverController.R3().toggleOnTrue(rightAlign);
 
@@ -314,18 +314,18 @@ public class RobotContainer {
                 () -> -driverController.getLeftX() * .5,
                 () -> -driverController.getRightX() * .5));
 
-    //Algae Arm Buttons
+    // Algae Arm Buttons
     driverController.povUp().whileTrue(deployAlgaeArm);
     driverController.povDown().whileTrue(retractAlgaeArm);
 
-    //Elevator Buttons
+    // Elevator Buttons
     driverController.cross().onTrue(elevatorL1);
     driverController.square().onTrue(elevatorL2);
     driverController.circle().onTrue(elevatorL3);
     driverController.triangle().onTrue(elevatorL4);
     driverController.PS().onTrue(setHome);
 
-    // Operator
+    // **** Operator Controller *** \\
     /*
     operatorController.povDown().onTrue(elevatorL1);
     operatorController.povLeft().onTrue(elevatorL2);

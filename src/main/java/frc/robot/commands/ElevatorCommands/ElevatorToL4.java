@@ -4,10 +4,8 @@
 
 package frc.robot.commands.ElevatorCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.elevator.Elevator;
-import org.littletonrobotics.junction.Logger;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorToL4 extends Command {
@@ -41,11 +39,14 @@ public class ElevatorToL4 extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // Having a isFinished is mandatory to keep the Elevator ProfiledPIDController from being set a
+    // position constantly
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Checks if Elevator ProfiledPIDController has reached it's goal position
     return elevator.checkGoal();
   }
 }

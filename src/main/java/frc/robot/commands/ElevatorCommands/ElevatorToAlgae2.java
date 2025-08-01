@@ -28,6 +28,7 @@ public class ElevatorToAlgae2 extends Command {
     } else {
       elevator.getController().setP(3.5);
     }
+
     // Resets Elevator Profiled PID Controller (Stops Elevator from going Crazy)
     elevator.resetPosition(elevator.getPosition(), elevator.getVelocity());
   }
@@ -35,16 +36,21 @@ public class ElevatorToAlgae2 extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // Runs Elevator ProfiledPIDController
     elevator.setPosition(position);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    // Having a isFinished is mandatory to keep the Elevator ProfiledPIDController from being set a
+    // position constantly
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Checks if Elevator ProfiledPIDController has reached it's goal position
     return elevator.checkGoal();
   }
 }

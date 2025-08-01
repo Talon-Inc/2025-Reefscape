@@ -34,7 +34,8 @@ public class LeftAutoAlign extends Command {
   private static final TrapezoidProfile.Constraints OMEGA_CONSTRAINTS =
       new TrapezoidProfile.Constraints(2, 5);
 
-  // Lists an Array of Every Tag on the Reef (From both Sides), this stops it from trying to align to the deposit
+  // Lists an Array of Every Tag on the Reef (From both Sides), this stops it from trying to align
+  // to the deposit
   private static final int[] REEF_TAGS = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
 
   // Creates a Desired Pose of the robot in relation to the April Tag
@@ -42,7 +43,7 @@ public class LeftAutoAlign extends Command {
       new Transform3d(
           new Translation3d(Units.inchesToMeters(16.685), Units.inchesToMeters(-3), 0),
           new Rotation3d(0, 0, -Math.PI));
-  
+
   // Pulls Current Robot Pose
   private static Pose2d robotPose;
 
