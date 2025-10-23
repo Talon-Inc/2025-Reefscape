@@ -38,9 +38,9 @@ public class Algae extends SubsystemBase {
   private final SparkMax armMotor =
       new SparkMax(AlgaeConstants.kLeftMotorCanId, MotorType.kBrushless);
 
-  private final SparkMax topWheelMotor = new SparkMax(19, MotorType.kBrushless);
+  // private final SparkMax topWheelMotor = new SparkMax(19, MotorType.kBrushless);
 
-  private final SparkMax bottomWheelMotor = new SparkMax(20, MotorType.kBrushless);
+  // private final SparkMax bottomWheelMotor = new SparkMax(20, MotorType.kBrushless);
 
   private final SparkMax deploymentMotor = new SparkMax(21, MotorType.kBrushless);
 
@@ -73,10 +73,10 @@ public class Algae extends SubsystemBase {
 
     armMotor.configure(
         armMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    topWheelMotor.configure(
-        topWheelMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    bottomWheelMotor.configure(
-        bottomWheelMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // topWheelMotor.configure(
+    //     topWheelMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // bottomWheelMotor.configure(
+    //     bottomWheelMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     deploymentMotor.configure(
         deploymentMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -88,23 +88,23 @@ public class Algae extends SubsystemBase {
   }
 
   public void intakeAlgae() {
-    topWheelMotor.set(-.1);
-    bottomWheelMotor.set(-.1);
+    // topWheelMotor.set(-.1);
+    // bottomWheelMotor.set(-.1);
   }
 
   public void holdAlgae() {
-    topWheelMotor.set(0);
-    bottomWheelMotor.set(0);
+    // topWheelMotor.set(0);
+    // bottomWheelMotor.set(0);
   }
 
   public void shootAlgaeProcessor() {
-    topWheelMotor.set(.1);
-    bottomWheelMotor.set(.1);
+    // topWheelMotor.set(.1);
+    // bottomWheelMotor.set(.1);
   }
 
   public void shootAlgaeBarge() {
-    topWheelMotor.set(.25);
-    bottomWheelMotor.set(.25);
+    // topWheelMotor.set(.25);
+    // bottomWheelMotor.set(.25);
   }
 
   public void deployAlgaeClaw() {
@@ -116,8 +116,8 @@ public class Algae extends SubsystemBase {
   }
 
   public void stopAlgaeShooter() {
-    topWheelMotor.stopMotor();
-    bottomWheelMotor.stopMotor();
+    // topWheelMotor.stopMotor();
+    // bottomWheelMotor.stopMotor();
   }
 
   public void stopAlgaeClaw() {
@@ -153,11 +153,12 @@ public class Algae extends SubsystemBase {
   }
 
   public boolean checkIntakeAlgae() {
-    if (topWheelMotor.getOutputCurrent() > 20 && bottomWheelMotor.getOutputCurrent() > 20) {
-      return true;
-    } else {
-      return false;
-    }
+    // if (topWheelMotor.getOutputCurrent() > 20 && bottomWheelMotor.getOutputCurrent() > 20) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+    return false;
   }
 
   public void goToPositionArm(double goalPosition) {
@@ -179,7 +180,7 @@ public class Algae extends SubsystemBase {
     Logger.recordOutput("Arm Motor Current", armMotor.getOutputCurrent());
     Logger.recordOutput("Arm Motor", m_controller.atGoal());
 
-    Logger.recordOutput("Top Motor Current", topWheelMotor.getOutputCurrent());
-    Logger.recordOutput("Bottom Motor Current", bottomWheelMotor.getOutputCurrent());
+    // Logger.recordOutput("Top Motor Current", topWheelMotor.getOutputCurrent());
+    // Logger.recordOutput("Bottom Motor Current", bottomWheelMotor.getOutputCurrent());
   }
 }
